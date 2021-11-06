@@ -1,14 +1,28 @@
+import java.util.ArrayList;
+import java.util.List;
 
-public class PromoPackage extends MenuItem{
-	private AlaCarte[] alaCarteItem;
+public class PromoPackage{
+	private String promoname;
+	private List<MenuItem> menu;
 	
-	public AlaCarte[] getAlaCarteItem()
+	public PromoPackage(String name)
 	{
-		return alaCarteItem;
+		menu = new ArrayList<>();
+		promoname = name;
 	}
 	
-	public void setAlaCarteItem(AlaCarte[] alaCarteItem)
+	public String getPromoName()
 	{
-		this.alaCarteItem = alaCarteItem;
+		return promoname;
+	}
+	
+	public List<MenuItem> getMenuItem()
+	{
+		return menu;
+	}
+	
+	public void addMenuItem(MenuItem item)
+	{
+		menu.add(item);
 	}
 }
