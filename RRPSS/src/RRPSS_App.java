@@ -4,8 +4,17 @@ import java.util.*;
 import java.util.Scanner;
 
 public class RRPSS_App {
+	
+	static OrderController orderController;
+	static StaffController staffController;
+	static TableController tableController;
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		orderController = new OrderController();
+		staffController = new StaffController();
+		tableController = new TableController();
+		
 		int choice;
 		Scanner sc = new Scanner(System.in);
 
@@ -66,12 +75,9 @@ public class RRPSS_App {
 			case 2:
 				break;
 			case 3:	
-				orderlist.add(new Order(ordernum));
-				ordernum++;
-				System.out.println();
 				break;
 			case 4:
-				viewOrder(orderlist);
+				orderController.ViewOrder();
 				break;
 			case 5:
 				break;
@@ -80,7 +86,7 @@ public class RRPSS_App {
 			case 7:
 				break;
 			case 8:
-				showTableAvail(tables);
+				tableController.ViewTable();
 				break;
 			case 9:
 				printInvoice();
@@ -137,24 +143,6 @@ public class RRPSS_App {
 		
 	}
 	
-	public static void viewOrder(ArrayList<Order> orderlist)
-	{
-		System.out.println("Order List: ");
-		for(Order o : orderlist)
-			System.out.println("OrderID("+ o.getOrderID() + "): " + o.getTimeStamp());
-		System.out.println();
-		
-		//add items in order
-	}
 
-	public static void showTableAvail(Table[] tables)
-	{
-		System.out.println("Tables Available:");
-		for(Table t: tables)
-		{
-			if(!t.getReserved())
-				System.out.println("TableID " + t.getTableID());
-		}
-		System.out.println();
-	}
+
 }

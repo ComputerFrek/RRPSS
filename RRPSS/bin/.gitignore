@@ -12,3 +12,6 @@
 /Staff.class
 /Table.class
 /OrderController.class
+/StaffController.class
+/TableController.class
+/OrderItems.class

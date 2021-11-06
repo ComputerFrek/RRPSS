@@ -1,23 +1,37 @@
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 public class Order {
 	private int orderID;
 	private LocalDateTime timeStamp = LocalDateTime.now();
 	private double subtotal;
 	private double total;
+	private int noOfPax;
 	private Table table;
 	private Staff staff;
-	private Customer customer;
+	private static Map<MenuItem, Integer> menuQuantity;
 	
-	public Order(int orderID)
+	public Order(int orderID, int noOfPax, Table table, Staff staff)
 	{
 		this.orderID = orderID;
+		this.noOfPax = noOfPax;
+		this.table = table;
+		this.staff = staff;
 	}
 	
 	public int getOrderID()
 	{
 		return orderID;
+	}
+	
+	public void setNoOfPax(int noOfPax)
+	{
+		this.noOfPax = noOfPax;
+	}
+	public int getNoOfPax()
+	{
+		return noOfPax;
 	}
 	
 	public void setOrderID(int orderID)
@@ -79,13 +93,4 @@ public class Order {
 		this.staff = staff;
 	}
 	
-	public Customer getCustomer()
-	{
-		return customer;
-	}
-	
-	public void setCustomer(Customer customer)
-	{
-		this.customer = customer;
-	}
 }
