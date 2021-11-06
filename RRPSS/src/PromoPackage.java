@@ -1,28 +1,57 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class PromoPackage{
+public class PromoPackage implements MenuItem{
 	private String promoname;
-	private List<MenuItem> menu;
+	private String promodesc;
+	private double promoprice;
+	private List<MenuItem> menuitems;
 	
-	public PromoPackage(String name)
+	public PromoPackage(String name, String description, String price)
 	{
-		menu = new ArrayList<>();
-		promoname = name;
+		menuitems = new ArrayList<>();
+		this.promodesc = description;
+		this.promoname = name;
+		this.promoprice = Double.parseDouble(price);
 	}
 	
-	public String getPromoName()
+	public String getItemName()
 	{
 		return promoname;
 	}
 	
+	public void setItemName(String name)
+	{
+		this.promoname = name;
+	}
+	
+	public String getDescription()
+	{
+		return promodesc;
+	}
+	
+	public void setDescription(String description)
+	{
+		this.promodesc = description;
+	}
+	
+	public double getPrice()
+	{
+		return promoprice;
+	}
+	
+	public void setPrice(String price)
+	{
+		this.promoprice = Double.parseDouble(price);
+	}
+	
 	public List<MenuItem> getMenuItem()
 	{
-		return menu;
+		return menuitems;
 	}
 	
 	public void addMenuItem(MenuItem item)
 	{
-		menu.add(item);
+		menuitems.add(item);
 	}
 }

@@ -37,9 +37,10 @@ public class RRPSS_App {
 			switch(choice)
 			{
 			case 1:
-				runCreateUpdateRemoveMenu();
+				runCreateUpdateRemoveAlacarte();
 				break;
 			case 2:
+				runCreateUpdateRemovePromo();
 				break;
 			case 3:	
 				orderlist.add(new Order(ordernum));
@@ -72,14 +73,14 @@ public class RRPSS_App {
 		}while(choice!=0);
 	}
 	
-	public static void runCreateUpdateRemoveMenu() {
+	public static void runCreateUpdateRemoveAlacarte() {
 		int choice;
 		Scanner sc = new Scanner(System.in);
-		MenuItemController menuitemcontroller = new MenuItemController();
+		AlacarteController alacartecontroller = new AlacarteController();
 		
 		do {
 			//call menuitem controller display
-			menuitemcontroller.printMenu();
+			alacartecontroller.printAlacarteMenu();
 			System.out.println("(1) Create Menu Item");
 			System.out.println("(2) Update Menu Item");
 			System.out.println("(3) Remove Menu Item");
@@ -97,7 +98,7 @@ public class RRPSS_App {
 					System.out.print("Enter Price: ");
 					String dishprice = sc.next();
 					
-					menuitemcontroller.createMenuItem(dishname, dishdesc, dishprice);
+					alacartecontroller.createAlacarteItem(dishname, dishdesc, dishprice);
 					break;
 				case 2:
 					System.out.print("Enter Old Dish Name: ");
@@ -109,11 +110,11 @@ public class RRPSS_App {
 					System.out.print("Enter New Price: ");
 					String newdishprice = sc.next();
 					
-					menuitemcontroller.updateMenuItem(olddishname, newdishname, newdishdesc, newdishprice);
+					alacartecontroller.updateAlacarteItem(olddishname, newdishname, newdishdesc, newdishprice);
 					break;
 				case 3:
 					System.out.print("Enter Dish Name: ");
-					menuitemcontroller.deleteMenuItem(sc.next());
+					alacartecontroller.deleteAlacarteItem(sc.next());
 					break;
 				default:
 					break;
@@ -121,31 +122,66 @@ public class RRPSS_App {
 			
 			System.out.println();
 		}while(choice != 0);
+		
+		sc.close();
 	}
 	
-	public static void generateMenu() throws IOException
-	{
-		Path file = Paths.get("menuItem.txt");
-		List<String> lines = Files.readAllLines(file);
-		List<MenuItem> menu = new ArrayList<>();
+	public static void runCreateUpdateRemovePromo() {
+		int choice;
+		Scanner sc = new Scanner(System.in);
+		PromoPackageController promopackagecontroller = new PromoPackageController();
 		
-		for(int i = 0;i<lines.size();i++)
-		{
-			String[] fields = lines.get(i).split("\\|");
-			MenuItem m = new MenuItem(fields[0].trim(),fields[1].trim(),fields[2].trim());
-			menu.add(m);
-		}
-		
-		System.out.println("Name,Category,Price");
-		for(MenuItem me : menu)
-		{
-			System.out.printf("%s,%s,%.2f",me.getItemName(),me.getDescription(),me.getPrice());
+		do {
+			System.out.println("(1) Create Promo Item");
+			System.out.println("(2) Update Promo Item");
+			System.out.println("(3) Remove Promo Item");
+			System.out.println("(0) Back");
+			System.out.print("Enter Choice: ");
+			choice = sc.nextInt();
+			
+			switch(choice)
+			{
+				case 1:
+					System.out.print("Enter Promo Name: ");
+					String dishname = sc.next();
+					System.out.print("Enter Description: ");
+					String dishdesc = sc.next();
+					System.out.print("Enter Price: ");
+					String dishprice = sc.next();
+					System.out.println("=======================");
+					
+					//call menuitem controller display
+					promopackagecontroller.printAlacarteMenu();
+					
+					
+					alacartecontroller.createAlacarteItem(dishname, dishdesc, dishprice);
+					break;
+				case 2:
+					System.out.print("Enter Old Dish Name: ");
+					String olddishname = sc.next();
+					System.out.print("Enter New Dish Name: ");
+					String newdishname = sc.next();
+					System.out.print("Enter New Description: ");
+					String newdishdesc = sc.next();
+					System.out.print("Enter New Price: ");
+					String newdishprice = sc.next();
+					
+					alacartecontroller.updateAlacarteItem(olddishname, newdishname, newdishdesc, newdishprice);
+					break;
+				case 3:
+					System.out.print("Enter Dish Name: ");
+					alacartecontroller.deleteAlacarteItem(sc.next());
+					break;
+				default:
+					break;
+			}
+			
 			System.out.println();
-		}
-		System.out.println();
+		}while(choice != 0);
+		
+		sc.close();
 	}
 
-	
 	public static void printInvoice()
 	{
 		System.out.println("Server: Test\t\t Date:12/06/2011");

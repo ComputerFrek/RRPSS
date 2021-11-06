@@ -1,17 +1,20 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class PromoPackageController {
-	private String promopackagename = "promo.txt";
+	private String promopackagefilename = "promo.txt";
 	private File promofile;
-	private List<MenuItem> promoitems;
+	private List<Alacarte> promoitems;
+	private AlacarteController alacartecontroller;
 	
-	public PromoPackageController(List<MenuItem> menuitems) {
-		promofile = new File(promopackagename);
+	public PromoPackageController() {
+		alacartecontroller = new AlacarteController();
+		promofile = new File(promopackagefilename);
 		
 		try {
 			//if exists load menu in file into menu item arraylist
@@ -23,7 +26,7 @@ public class PromoPackageController {
 				promoitems = new ArrayList<>();
 				for(String stringname: stringitems)
 				{
-					promoitems.add(getMenuItem(menuitems, stringname));
+					promoitems.add(alacartecontroller.getAlacarteItem(stringname));
 				}
 			}
 			sc.close();
@@ -37,18 +40,42 @@ public class PromoPackageController {
 		}
 	}
 	
-	public static MenuItem getMenuItem(List<MenuItem> menuitems, String name)
+	public List<Alacarte> getAllPromoItems()
 	{
-		for(MenuItem mi: menuitems)
-		{
-			if(mi.getItemName().equalsIgnoreCase(name))
-			{
-				return mi;
-			}
-		}
-		
-		return null;
+		return promoitems;
 	}
 	
+	public void printAlacarteMenu()
+	{
+		alacartecontroller.printAlacarteMenu();
+	}
 
+	public boolean createPromoPackage(String name, String desc, String price, List<Alacarte> itemstoadd)
+	{
+		PromoPackage pp = new PromoPackage(name, desc, price);
+		for(Alacarte ai: itemstoadd)
+		{
+			pp.addMenuItem(ai);
+		}
+		return writeToFile(name, desc, price);
+	}
+	
+	private boolean writeToFile(String name, String desc, String price) {
+		FileWriter fw;
+		try {
+			fw = new FileWriter(promopackagefilename, true);
+			fw.write(name + "|" + desc + "|" + price + "|");
+			for(Alacarte mi: promoitems)
+			{
+				fw.write(mi.getItemName() + ",");
+			}
+			fw.write("\n");
+			fw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return true;
+		}
+		return false;
+	}
 }
