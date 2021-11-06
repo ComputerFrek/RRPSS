@@ -37,31 +37,7 @@ public class RRPSS_App {
 			switch(choice)
 			{
 			case 1:
-				MenuItemController menuitemcontroller = new MenuItemController();
-				//call menuitem controller display
-				menuitemcontroller.printMenu();
-				System.out.println("(1) Create Menu Item");
-				System.out.println("(2) Update Menu Item");
-				System.out.println("(3) Remove Menu Item");
-				System.out.println("(0) Back");
-				System.out.print("Enter Choice: ");
-				choice = sc.nextInt();
-				
-				switch(choice)
-				{
-					case 1:
-						System.out.println("Enter Dish Name");
-						String dishname = sc.next();
-						System.out.println("Enter Description");
-						String dishdesc = sc.next();
-						System.out.println("Enter Price");
-						String dishprice = sc.next();
-						
-						menuitemcontroller.createMenuItem(dishname, dishdesc, dishprice);
-						
-				}
-				
-				
+				runCreateUpdateRemoveMenu();
 				break;
 			case 2:
 				break;
@@ -94,6 +70,57 @@ public class RRPSS_App {
 				break;	
 			}
 		}while(choice!=0);
+	}
+	
+	public static void runCreateUpdateRemoveMenu() {
+		int choice;
+		Scanner sc = new Scanner(System.in);
+		MenuItemController menuitemcontroller = new MenuItemController();
+		
+		do {
+			//call menuitem controller display
+			menuitemcontroller.printMenu();
+			System.out.println("(1) Create Menu Item");
+			System.out.println("(2) Update Menu Item");
+			System.out.println("(3) Remove Menu Item");
+			System.out.println("(0) Back");
+			System.out.print("Enter Choice: ");
+			choice = sc.nextInt();
+			
+			switch(choice)
+			{
+				case 1:
+					System.out.print("Enter Dish Name: ");
+					String dishname = sc.next();
+					System.out.print("Enter Description: ");
+					String dishdesc = sc.next();
+					System.out.print("Enter Price: ");
+					String dishprice = sc.next();
+					
+					menuitemcontroller.createMenuItem(dishname, dishdesc, dishprice);
+					break;
+				case 2:
+					System.out.print("Enter Old Dish Name: ");
+					String olddishname = sc.next();
+					System.out.print("Enter New Dish Name: ");
+					String newdishname = sc.next();
+					System.out.print("Enter New Description: ");
+					String newdishdesc = sc.next();
+					System.out.print("Enter New Price: ");
+					String newdishprice = sc.next();
+					
+					menuitemcontroller.updateMenuItem(olddishname, newdishname, newdishdesc, newdishprice);
+					break;
+				case 3:
+					System.out.print("Enter Dish Name: ");
+					menuitemcontroller.deleteMenuItem(sc.next());
+					break;
+				default:
+					break;
+			}
+			
+			System.out.println();
+		}while(choice != 0);
 	}
 	
 	public static void generateMenu() throws IOException

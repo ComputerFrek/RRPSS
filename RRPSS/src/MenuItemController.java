@@ -11,7 +11,6 @@ public class MenuItemController {
 	private File menufile;
 	private List<MenuItem> menu;
 	
-	
 	public MenuItemController() {
 		menu = new ArrayList<>();
 		menufile = new File(menufilename);
@@ -48,7 +47,6 @@ public class MenuItemController {
 		{
 			System.out.printf("%s,%s,%.2f\n",me.getItemName(),me.getDescription(),me.getPrice());
 		}
-		System.out.println();
 	}
 	
 	//create
@@ -60,7 +58,7 @@ public class MenuItemController {
 	}
 	
 	//update
-	public boolean updateMenuItem(String oldname, String newname, String olddesc, String newdesc, String oldprice, String newprice) {
+	public boolean updateMenuItem(String oldname, String newname, String newdesc, String newprice) {
 		for(MenuItem me: menu)
 		{
 			if(me.getItemName().equalsIgnoreCase(oldname))
@@ -99,13 +97,17 @@ public class MenuItemController {
 	
 	//delete
 	public boolean deleteMenuItem(String name) {
+		List<MenuItem> menutoremove = new ArrayList<>();
+		
 		for(MenuItem me: menu)
 		{
 			if(me.getItemName().equalsIgnoreCase(name))
 			{
-				menu.remove(me);
+				menutoremove.add(me);
 			}
 		}
+		
+		menu.removeAll(menutoremove);
 		
 		menufile.delete();
 		
@@ -124,8 +126,8 @@ public class MenuItemController {
 	private boolean writeToFile(String name, String desc, String price) {
 		FileWriter fw;
 		try {
-			fw = new FileWriter(menufilename);
-			fw.write(name + "|" + desc + "|" + price);
+			fw = new FileWriter(menufilename, true);
+			fw.write(name + "|" + desc + "|" + price + "\n");
 			fw.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
