@@ -8,12 +8,14 @@ public class RRPSS_App {
 	static OrderController orderController;
 	static StaffController staffController;
 	static TableController tableController;
+	static CategoryController categoryController;
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		orderController = new OrderController();
 		staffController = new StaffController();
 		tableController = new TableController();
+		categoryController = new CategoryController();
 		
 		int choice;
 		Scanner sc = new Scanner(System.in);

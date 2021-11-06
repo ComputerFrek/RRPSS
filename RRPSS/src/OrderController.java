@@ -3,7 +3,7 @@ import java.util.*;
 import java.util.Scanner;
 
 public class OrderController {
-	static Map<Integer, Order> orderMap;
+	static Map<Integer, Order> orderMap = new HashMap<Integer, Order>();
 	public OrderController() 
 	{
 		
@@ -45,8 +45,47 @@ public class OrderController {
 		}
 	}
 	
-	public static void AddOrderItem() {
+	public static void AddOrderItem(Order order) {
+		Scanner sc = new Scanner(System.in);
+		String categoryInput = "";
+		String menuInput = "";
+		MenuItem menuItem;
+		int quantity = 0;
+		while(CategoryController.GetCategory(categoryInput) == null)
+		{
+			System.out.println("Choose a Category: ");
+			RRPSS_App.categoryController.ViewCategory();
+			System.out.println("Select a Category: ");
+			categoryInput = sc.nextLine();
+			if(categoryInput == "exit")
+				return;
+		}
+		while((menuItem = CategoryController.GetMenuItems(menuInput)) == null)
+		{
+			System.out.printf("%s:Menu Item: ", categoryInput);
+			CategoryController.ViewMenuList(categoryInput);
+			System.out.println("Select an Item: ");
+			menuInput = sc.nextLine();
+			if(menuInput == "exit")
+				return;
+		}
+		// Show Menu Item Description and Price
+		System.out.printf("Menu Item Selected:\n"
+				+ "%s \n"
+				+ "%s \n"
+				+ "%.2f", 
+				menuItem.getItemName(), menuItem.getDescription(), menuItem.getPrice());
+
+		if((quantity = order.getMenuQuantity(menuItem)) > 0)
+			System.out.printf("Existing Quantity: %d", quantity);
+		System.out.println("Enter Desired Quantity: ");	// Do You want do it by addition or replace the value
+		quantity = sc.nextInt();
 		
+		order.setMenuQuantity(menuItem, quantity);
+		if(order.getMenuQuantity(menuItem) == quantity)
+			System.out.printf("Item: %s was added into Order List - QTY: %d", menuItem.getItemName(), order.getMenuQuantity(menuItem));	
+		else
+			System.out.println("Item was not added into Order List");	
 	}
 	public static void RemoveOrderItem() {
 		

@@ -1,6 +1,6 @@
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
+import java.util.*;
 
 public class Order {
 	private int orderID;
@@ -10,7 +10,7 @@ public class Order {
 	private int noOfPax;
 	private Table table;
 	private Staff staff;
-	private static Map<MenuItem, Integer> menuQuantity;
+	private static Map<MenuItem, Integer> menuQuantity = new HashMap<MenuItem, Integer>();
 	
 	public Order(int orderID, int noOfPax, Table table, Staff staff)
 	{
@@ -91,6 +91,18 @@ public class Order {
 	public void setStaff(Staff staff)
 	{
 		this.staff = staff;
+	}
+	
+	public int getMenuQuantity(MenuItem menuItem) {
+		if(this.menuQuantity.containsKey(menuItem))
+			return this.menuQuantity.get(menuItem);
+		return 0;
+	}
+	public int setMenuQuantity(MenuItem menuItem, int quantity)
+	{
+		if(this.menuQuantity.containsKey(menuItem))
+			return this.menuQuantity.replace(menuItem, quantity);
+		return this.menuQuantity.put(menuItem, quantity);
 	}
 	
 }
