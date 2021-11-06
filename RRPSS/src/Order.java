@@ -4,12 +4,15 @@ import java.util.*;
 
 public class Order {
 	private int orderID;
-	private LocalDateTime timeStamp = LocalDateTime.now();
+	private LocalDateTime startTimeStamp;
+	private LocalDateTime endTimeStamp;
 	private double subtotal;
 	private double total;
 	private int noOfPax;
 	private Table table;
 	private Staff staff;
+	private DiscountOrder discountOrder;
+	private ArrayList<TaxOrder> taxOrderArray;
 	private Map<String, OrderItems> orderItems;
 	
 	public Order(int orderID, int noOfPax, Table table, Staff staff)
@@ -19,6 +22,8 @@ public class Order {
 		this.table = table;
 		this.staff = staff;
 		orderItems = new HashMap<String, OrderItems>();
+		startTimeStamp = LocalDateTime.now();
+		taxOrderArray = new ArrayList<TaxOrder>();
 	}
 	
 	public int getOrderID()
@@ -40,18 +45,23 @@ public class Order {
 		this.orderID = orderID;
 	}
 	
-	public String getTimeStamp()
+	public LocalDateTime getStartTimeStamp()
 	{
-		DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyy HH:mm:ss");
+		return this.startTimeStamp;
+	}
+	public LocalDateTime getEndTimeStamp()
+	{
+		return this.endTimeStamp;
+
+		//DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyy HH:mm:ss");
 		//System.out.print(timeStamp.format(formatDate));
 		//return timeStamp;
-		return timeStamp.format(formatDate);
+		//return timeStamp.format(formatDate);
 	}
 	
-	public void setTimeStamp(LocalDateTime timeStamp)
+	public void setEndTimeStamp(LocalDateTime dateTime)
 	{
-		timeStamp = LocalDateTime.now();
-		this.timeStamp = timeStamp;
+		this.endTimeStamp = dateTime;
 	}
 	
 	public double getSubtotal()
@@ -98,14 +108,40 @@ public class Order {
 		if(this.orderItems.containsKey(item))
 			return this.orderItems.get(item);
 		return null;
-		
-		
 	}
 	public Map<String, OrderItems> getOrderItems() {
 		return this.orderItems;
 	}
 	public void removeOrderItems(String item) {
 		this.orderItems.remove(item);
+	}
+	public DiscountOrder getDiscount() {
+		return this.discountOrder;
+	}
+	public void setDiscount(DiscountOrder discountOrder) {
+		this.discountOrder = discountOrder;;
+	}
+	public ArrayList<TaxOrder> getTaxOrders() {
+		return taxOrderArray;
+	}
+	public TaxOrder getTaxOrder(String taxName) {
+		for(int i = 0; i < this.taxOrderArray.size(); i++)
+		{
+			if(taxOrderArray.get(i).getTax().taxName == taxName)
+				return taxOrderArray.get(i);
+		}
+		return null;
+	}
+	public void addTaxOrder(Tax tax)
+	{
+		for(int i = 0; i < this.taxOrderArray.size(); i++)
+		{
+			if(taxOrderArray.get(i).getTax().taxName == tax.taxName)
+				return;
+		}
+		TaxOrder newTaxOrder = new TaxOrder();
+		newTaxOrder.setTax(tax);
+		taxOrderArray.add(newTaxOrder);
 	}
 	
 	private boolean isNumeric(String str){

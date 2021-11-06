@@ -10,5 +10,11 @@ public class Membership extends Discount {
 		this.membershipID = membershipID;
 		this.membershipName = membershipName;
 	}
+
+	@Override
+	public double CalulcateDiscount(double subTotal) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 }

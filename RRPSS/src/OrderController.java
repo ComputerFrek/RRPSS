@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.Scanner;
 
@@ -13,7 +14,7 @@ public class OrderController {
 	{
 		System.out.println("Order List: ");
 		for(Order o : new ArrayList<Order>(orderMap.values()))
-			System.out.println("OrderID("+ o.getOrderID() + "): " + o.getTimeStamp());
+			System.out.println("OrderID("+ o.getOrderID() + "): " + o.getStartTimeStamp());
 		System.out.println();
 		//add items in order
 	}
@@ -133,26 +134,62 @@ public class OrderController {
         }
 	}
 	
+	public void CloseOrder(Order order) {
+		order.setEndTimeStamp(LocalDateTime.now()); // Closed Order with DateTime
+		order.setSubTotal(CalculateSubTotal(order)); // Update Order Bill SubTotal
+		double discountTotal = DiscountTotal(order);
+		double taxTotal = CalculateTax(order);
+		
+		double total = order.getSubtotal() - discountTotal + taxTotal;
+		order.setTotal(total);
+		
+	}
+	private double CalculateTax(Order order) {
+		return 0;
+	}
+	private double DiscountTotal(Order order) {
+		Scanner sc = new Scanner(System.in);
+		Discount discount = null;
+		System.out.println("Apply Discount?(Y/N): ");
+		String isApply = sc.nextLine();
+		if(isApply == "N")
+			return 0;
+		PrintDiscountOption();
+		
+		// Retrieve the Discount Details(Membership and Coupon)
+		
+		
+		DiscountOrder discountOrder = new DiscountOrder();
+		discountOrder.setDiscount(discount);
+		discountOrder.setDiscountPrice(discount.CalulcateDiscount(order.getSubtotal()));
+		order.setDiscount(discountOrder);
+		
+		return discountOrder.getDiscountPrice();
+	}
+	private void PrintDiscountOption() {
+		System.out.println("Select Discount Type: ");
+		System.out.println("1) Membership: ");
+		System.out.println("2) Coupon: ");
+	}
+	private double CalculateSubTotal(Order order) {
+		double subTotalBill = 0;
+		// Calculate Items SubTotal
+		for (String item : order.getOrderItems().keySet())
+        {
+			String keyItem = item;
+			MenuItem menuItem = order.getOrderItem(keyItem).getMenuItem();
+			int qty = order.getOrderItem(keyItem).getQuantity();
+			
+            double subTotalItem = menuItem.getPrice() * qty;
+            order.getOrderItem(keyItem).setSubTotal(subTotalItem);
+            subTotalBill += subTotalItem;
+        }
+		return subTotalBill;
+	}
+	
 	public static void printInvoice(Order order)
 	{
-		
-		
-		
-		
-		
-		System.out.println("Server: Test\t\t Date:12/06/2011");
-		System.out.println("Table: 11\t\t Time:21:26");
-		System.out.println("\t     Client: 2");
-		System.out.println("----------------------------------------");
-		System.out.println();
-		System.out.println("  1  Oysters\t\t\t6.00");
-		System.out.println("  1  Stuffs\t\t\t6.00");
-		System.out.println("----------------------------------------");
-		System.out.println("\t\tSUB-TOTAL:\t6.00");
-		System.out.println("\t\t    Taxes:\t2.00");
-		System.out.println("----------------------------------------");
-		System.out.println("\t\t    TOTAL:\t8.00");
-		System.out.println();
+		Invoice invoice = new Invoice(order);
 		
 	}
 	
