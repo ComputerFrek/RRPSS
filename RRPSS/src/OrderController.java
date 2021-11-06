@@ -44,14 +44,19 @@ public class OrderController {
 			// Show Message
 		}
 	}
+	public static Order addOrder(int orderID, int noOfPax, Table selectedTable, Staff createdStaff) {
+		Order newOrder = new Order(orderID, noOfPax, selectedTable, createdStaff);
+		return orderMap.put(orderID, newOrder);
+	}
 	
 	public static void AddOrderItem(Order order) {
 		Scanner sc = new Scanner(System.in);
 		String categoryInput = "";
 		String menuInput = "";
+		Category category;
 		MenuItem menuItem;
-		int quantity = 0;
-		while(CategoryController.GetCategory(categoryInput) == null)
+		OrderItems orderItem; 
+		while((category = CategoryController.GetCategory(categoryInput)) == null)
 		{
 			System.out.println("Choose a Category: ");
 			RRPSS_App.categoryController.ViewCategory();
@@ -60,7 +65,7 @@ public class OrderController {
 			if(categoryInput == "exit")
 				return;
 		}
-		while((menuItem = CategoryController.GetMenuItems(menuInput)) == null)
+		while((menuItem = CategoryController.GetMenuItems(category, menuInput)) == null)
 		{
 			System.out.printf("%s:Menu Item: ", categoryInput);
 			CategoryController.ViewMenuList(categoryInput);
@@ -76,25 +81,82 @@ public class OrderController {
 				+ "%.2f", 
 				menuItem.getItemName(), menuItem.getDescription(), menuItem.getPrice());
 
-		if((quantity = order.getMenuQuantity(menuItem)) > 0)
-			System.out.printf("Existing Quantity: %d", quantity);
+		if((orderItem = order.getOrderItem(menuItem.getItemName())) != null)
+			System.out.printf("Existing Quantity: %d", orderItem.getQuantity());
 		System.out.println("Enter Desired Quantity: ");	// Do You want do it by addition or replace the value
-		quantity = sc.nextInt();
+		orderItem.setQuantity(sc.nextInt());
 		
-		order.setMenuQuantity(menuItem, quantity);
-		if(order.getMenuQuantity(menuItem) == quantity)
-			System.out.printf("Item: %s was added into Order List - QTY: %d", menuItem.getItemName(), order.getMenuQuantity(menuItem));	
-		else
-			System.out.println("Item was not added into Order List");	
+		System.out.printf("Item: %s was added into Order List - QTY: %d", menuItem.getItemName(), orderItem.getQuantity());	
 	}
-	public static void RemoveOrderItem() {
+	public static void RemoveOrderItem(Order order) {
+		Scanner sc = new Scanner(System.in);
+		OrderItems orderItem;
+		String itemInput;
+		int quantityRemove, newQuantity;
+				
+		ShowAllOrderItems(order);
+		System.out.println("Select an Item: ");
+		itemInput = sc.nextLine();
+		orderItem = order.getOrderItem(itemInput);
+		if(orderItem == null)
+			return;
+
+		// Show Item Selected
+		System.out.printf("Item Selected:\n"
+				+ "Name: %s \n"
+				+ "Quantity: %d \n", 
+				orderItem.getMenuItem().getItemName(), orderItem.getQuantity());
+		
+		// Check Quantity
+		quantityRemove = sc.nextInt();
+		newQuantity = orderItem.getQuantity() - quantityRemove;
+		// Remove Item
+		if(newQuantity <= 0)
+		{
+			order.removeOrderItems(itemInput);
+			System.out.printf("Item: %s has been removered from Order List", itemInput);
+		}
+		else
+		{
+			orderItem.setQuantity(newQuantity);
+			System.out.printf("%d has been removed from %s", quantityRemove, itemInput);
+		}
+	}
+	public static void ShowAllOrderItems(Order order)
+	{
+		int count = 1;
+        for (String menuItem : order.getOrderItems().keySet())
+        {
+            OrderItems orderItem = order.getOrderItems().get(menuItem);
+            System.out.printf("%d | %s",count, orderItem.getMenuItem().getItemName());
+            count++;
+        }
+	}
+	
+	public static void printInvoice(Order order)
+	{
+		
+		
+		
+		
+		
+		System.out.println("Server: Test\t\t Date:12/06/2011");
+		System.out.println("Table: 11\t\t Time:21:26");
+		System.out.println("\t     Client: 2");
+		System.out.println("----------------------------------------");
+		System.out.println();
+		System.out.println("  1  Oysters\t\t\t6.00");
+		System.out.println("  1  Stuffs\t\t\t6.00");
+		System.out.println("----------------------------------------");
+		System.out.println("\t\tSUB-TOTAL:\t6.00");
+		System.out.println("\t\t    Taxes:\t2.00");
+		System.out.println("----------------------------------------");
+		System.out.println("\t\t    TOTAL:\t8.00");
+		System.out.println();
 		
 	}
 	
-	public static Order addOrder(int orderID, int noOfPax, Table selectedTable, Staff createdStaff) {
-		Order newOrder = new Order(orderID, noOfPax, selectedTable, createdStaff);
-		return orderMap.put(orderID, newOrder);
-	}
+
 	
 
 }

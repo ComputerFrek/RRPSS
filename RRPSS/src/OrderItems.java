@@ -2,11 +2,9 @@
 public class OrderItems {
 	private MenuItem menuItem;
 	private int quantity;
-	private Order order;
 
-	public OrderItems(Order order, MenuItem menuItem, int quantity)
+	public OrderItems(MenuItem menuItem, int quantity)
 	{
-		this.order = order;
 		this.menuItem = menuItem;
 		this.quantity = quantity;
 	}

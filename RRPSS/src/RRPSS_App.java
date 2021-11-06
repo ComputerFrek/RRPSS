@@ -127,23 +127,7 @@ public class RRPSS_App {
 	}
 
 	
-	public static void printInvoice()
-	{
-		System.out.println("Server: Test\t\t Date:12/06/2011");
-		System.out.println("Table: 11\t\t Time:21:26");
-		System.out.println("\t     Client: 2");
-		System.out.println("----------------------------------------");
-		System.out.println();
-		System.out.println("  1  Oysters\t\t\t6.00");
-		System.out.println("  1  Stuffs\t\t\t6.00");
-		System.out.println("----------------------------------------");
-		System.out.println("\t\tSUB-TOTAL:\t6.00");
-		System.out.println("\t\t    Taxes:\t2.00");
-		System.out.println("----------------------------------------");
-		System.out.println("\t\t    TOTAL:\t8.00");
-		System.out.println();
-		
-	}
+
 	
 
 

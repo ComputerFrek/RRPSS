@@ -10,7 +10,7 @@ public class Order {
 	private int noOfPax;
 	private Table table;
 	private Staff staff;
-	private static Map<MenuItem, Integer> menuQuantity = new HashMap<MenuItem, Integer>();
+	private Map<String, OrderItems> orderItems;
 	
 	public Order(int orderID, int noOfPax, Table table, Staff staff)
 	{
@@ -18,6 +18,7 @@ public class Order {
 		this.noOfPax = noOfPax;
 		this.table = table;
 		this.staff = staff;
+		orderItems = new HashMap<String, OrderItems>();
 	}
 	
 	public int getOrderID()
@@ -93,16 +94,23 @@ public class Order {
 		this.staff = staff;
 	}
 	
-	public int getMenuQuantity(MenuItem menuItem) {
-		if(this.menuQuantity.containsKey(menuItem))
-			return this.menuQuantity.get(menuItem);
-		return 0;
+	public OrderItems getOrderItem(String item) {
+		if(this.orderItems.containsKey(item))
+			return this.orderItems.get(item);
+		return null;
+		
+		
 	}
-	public int setMenuQuantity(MenuItem menuItem, int quantity)
-	{
-		if(this.menuQuantity.containsKey(menuItem))
-			return this.menuQuantity.replace(menuItem, quantity);
-		return this.menuQuantity.put(menuItem, quantity);
+	public Map<String, OrderItems> getOrderItems() {
+		return this.orderItems;
 	}
+	public void removeOrderItems(String item) {
+		this.orderItems.remove(item);
+	}
+	
+	private boolean isNumeric(String str){
+        return str != null && str.matches("[0-9.]+");
+    }
+	
 	
 }

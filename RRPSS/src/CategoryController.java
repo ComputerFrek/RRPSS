@@ -19,11 +19,18 @@ public class CategoryController {
 	public static void ViewMenuList(String category) {
 		int count = 1;
 		for(MenuItem itemName : categoryDictionary.get(category).getMenuItems().values())
+		{
 			System.out.println(count + "| " + itemName.getItemName());
+			count++;
+		}
+			
 	}
-	public static MenuItem GetMenuItems(String menuItem) {
-		if(isNumeric(menuItem) && categoryDictionary.get(menuItem).getMenuItems().values().size() <= Integer.valueOf(menuItem))
-			return (MenuItem) categoryDictionary.get(menuItem).getMenuItems().values().toArray()[Integer.valueOf(menuItem) - 1];
+	public static MenuItem GetMenuItems(Category category, String menuItem) {
+		if(isNumeric(menuItem) && category.getMenuItems().size() <= Integer.valueOf(menuItem))
+		{
+			MenuItem[] item = category.getMenuItems().values().toArray(new MenuItem[0]); // Convert To Array
+			return item[Integer.valueOf(menuItem) - 1];
+		}
 		if(categoryDictionary.get(menuItem).getMenuItems().containsKey(menuItem))
 			return categoryDictionary.get(menuItem).getMenuItems().get(menuItem);
 		System.out.println("Invalid Input: MenuItem");
