@@ -1,0 +1,4 @@
+Cake  |Dessert |5.00 
+Water |Drinks  |1.00
+Steak |MainDish|13.00
+Fries |Side    |4.00
