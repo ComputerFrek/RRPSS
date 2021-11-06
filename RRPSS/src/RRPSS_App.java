@@ -50,14 +50,32 @@ public class RRPSS_App {
 				switch(choice)
 				{
 					case 1:
-						System.out.println("Enter Dish Name");
+						System.out.print("Enter Dish Name: ");
 						String dishname = sc.next();
-						System.out.println("Enter Description");
+						System.out.print("Enter Description: ");
 						String dishdesc = sc.next();
-						System.out.println("Enter Price");
+						System.out.print("Enter Price: ");
 						String dishprice = sc.next();
 						
 						menuitemcontroller.createMenuItem(dishname, dishdesc, dishprice);
+						break;
+					case 2:
+						System.out.println("Enter Old Dish Name");
+						String olddishname = sc.next();
+						System.out.println("Enter Old Description");
+						String olddishdesc = sc.next();
+						System.out.println("Enter Old Price");
+						String olddishprice = sc.next();
+						System.out.println("Enter New Dish Name");
+						String newdishname = sc.next();
+						System.out.println("Enter New Description");
+						String newdishdesc = sc.next();
+						System.out.println("Enter New Price");
+						String newdishprice = sc.next();
+						
+						menuitemcontroller.updateMenuItem(olddishname, olddishdesc, newdishname, newdishdesc, olddishprice, newdishprice);
+						break;
+					case 3:
 						
 				}
 				
