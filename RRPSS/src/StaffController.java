@@ -12,7 +12,6 @@ public class StaffController {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Select Staff: ");
 		int staffID = sc.nextInt();
-
 		return staffDictionary.get(staffID);
 	}
 	public void ViewStaff() {

@@ -8,6 +8,15 @@ public class TableController {
 			tables[i] = new Table(i+1);
 	}
 	public void ViewTable() {
+		System.out.println("All Tables:");
+		for(Table t: tables)
+		{
+			if(!t.getReserved() && !t.getOccupied())
+				System.out.println("TableID " + t.getTableID());
+		}
+		System.out.println();
+	} 
+	public void ViewAvailableTable() {
 		System.out.println("Tables Available:");
 		for(Table t: tables)
 		{
@@ -15,10 +24,7 @@ public class TableController {
 				System.out.println("TableID " + t.getTableID());
 		}
 		System.out.println();
-	}
-	public void ShowRecommendTable(int noOfPax) {
-		
-	}
+	} 
 	public Table SelectTable(int tableID) {
 		if(tables[tableID].getReserved() == true || tables[tableID].getOccupied() == true)
 			return null;

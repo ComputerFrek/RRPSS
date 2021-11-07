@@ -79,7 +79,6 @@ public class RRPSS_App {
 			case 3:	
 				break;
 			case 4:
-				orderController.ViewOrder();
 				break;
 			case 5:
 				break;

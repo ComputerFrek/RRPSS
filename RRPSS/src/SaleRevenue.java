@@ -1,4 +1,3 @@
-
 public class SaleRevenue {
 	private int reportID;
 	private String reportName;

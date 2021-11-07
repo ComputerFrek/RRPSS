@@ -1,4 +1,3 @@
-
 public class Tax {
 	String taxName;
 	double taxPercentage;
