@@ -3,12 +3,12 @@ import java.time.*;
 import java.time.format.DateTimeParseException;
 
 public class ReservationController {
-
-	private boolean reservationstatus;
+	
 	private List<Reservation> reservation = new ArrayList<>();
+	private int tableID;
+	private int reservationID = 1;
 	
-	
-	public boolean getDetails(Table[] tables) {
+	public void getDetails(Table[] tables) {
 		
 		Scanner sc = new Scanner(System.in);
 		
@@ -17,7 +17,7 @@ public class ReservationController {
 		System.out.println("-----------------------------------------------");
 		
 		System.out.print("Date (YYYY-MM-DD) : "); //date
-		String date = sc.nextLine();
+		String date = sc.next();
 		while(!checkDate(date))
 		{
 			System.out.println("Invalid date format!");
@@ -26,7 +26,7 @@ public class ReservationController {
 		}
 		
 		System.out.print("Time (HH:MM) : "); //time
-		String time = sc.nextLine();
+		String time = sc.next();
 		while(!checkTime(time))
 		{
 			System.out.println("Invalid time format!");
@@ -41,25 +41,53 @@ public class ReservationController {
 			System.out.println("No tables currently available.");
 		}
 		else
-		{
+		{	
 			System.out.print("Customer's Name: "); //name
-			String name = sc.nextLine();
+			String name = sc.next();
 			
-			System.out.print("Contact Number: "); //contact
-			String number = sc.nextLine();
+//			System.out.print("Contact Number: "); //contact
+//			String number = sc.nextLine();
 			
 			Customer customer = new Customer();
 			customer.setName(name);
 			
+			Reservation reserve = new Reservation(
+					reservationID,LocalDateTime.parse(date+"T"+time+":00"),pax,customer,tables[tableID-1]);
+			
+			reservation.add(reserve);
+			tables[tableID-1].setReserved(true);
+			System.out.println("Reservation has been created. Reservation ID is "+reservationID);
+			System.out.println();
+			
+			reservationID++;
+						
 		}
 		
-
-		return reservationstatus;
 	}
 	
 	public List<Reservation> getReservations()
 	{
 		return reservation;
+	}
+	
+	public void printReservation()
+	{
+		System.out.println("Reservations: ");
+		System.out.println("--------------------------------");
+		if(reservation.isEmpty())
+			System.out.println("There are no reservations.\n");
+		else
+		{
+			for(Reservation r : reservation)
+			{
+				//[ReservationID]: [DateTime], Table [TableID], [noOfPax] pax, [customer name]
+				System.out.printf("(%d): [%s], Table %d, %d pax, %s"
+						,r.getReservationID(),r.getDateTime(),
+						r.getTableReserved().getTableID(),r.getNoOfPax(),r.getCustomerBooked().getName());
+				System.out.println();
+			}
+			System.out.println();
+		}
 	}
 	
 	
@@ -89,7 +117,10 @@ public class ReservationController {
 			if(!t.getReserved())
 			{
 				if(t.getCapacity() >= pax)
+				{
+					tableID = t.getTableID();
 					return true;
+				}
 			}
 		}
 		return false;

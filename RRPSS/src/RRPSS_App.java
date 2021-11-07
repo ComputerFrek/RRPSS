@@ -72,7 +72,7 @@ public class RRPSS_App {
 				System.out.println("\nInvalid choice.\n");
 				break;	
 			}
-		}while(choice!=0);
+		}while(choice!=1000);
 	}
 	
 	public static void runCreateUpdateRemoveMenu() {
@@ -166,7 +166,7 @@ public class RRPSS_App {
 	
 	public static void checkRemoveReservation()
 	{
-		
+		reserve_control.printReservation();
 		
 	}
 	

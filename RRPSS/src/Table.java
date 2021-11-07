@@ -1,7 +1,7 @@
 
 public class Table {
 	private int tableID;
-	private int capacity;
+	private int capacity = 4;
 	private int noOfPax;
 	private boolean reserved;
 	
