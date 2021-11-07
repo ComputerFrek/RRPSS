@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.Scanner;
 
 public class RRPSS_App {
+	private static ReservationController reserve_control = new ReservationController();
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		int choice;
@@ -52,8 +53,10 @@ public class RRPSS_App {
 			case 5:
 				break;
 			case 6:
+				createReservation(tables);
 				break;
 			case 7:
+				checkRemoveReservation();
 				break;
 			case 8:
 				showTableAvail(tables);
@@ -145,6 +148,27 @@ public class RRPSS_App {
 		System.out.println();
 	}
 
+	public static void createReservation(Table[] tables)
+	{
+		//int choice;
+		//Scanner sc = new Scanner(System.in);
+		//ReservationController reserve_control = new ReservationController();
+
+		reserve_control.getDetails(tables);
+		//date, time, #pax, name, contact, etc. 
+//		System.out.println("Enter the following details for reservation:");
+//		System.out.println("-----------------------------------------------");
+//		System.out.println("Date & Time (dd-MM-yyy HH:mm) :");
+//		String dateTime = sc.nextLine();
+//
+//		sc.close();
+	}
+	
+	public static void checkRemoveReservation()
+	{
+		
+		
+	}
 	
 	public static void printInvoice()
 	{

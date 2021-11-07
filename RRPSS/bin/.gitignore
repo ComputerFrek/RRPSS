@@ -4,6 +4,7 @@
 /MenuItem.class
 /MenuItemController.class
 /Order.class
+/OrderController.class
 /Person.class
 /PromoPackage.class
 /RRPSS_App.class
@@ -11,4 +12,4 @@
 /SaleRevenue.class
 /Staff.class
 /Table.class
-/OrderController.class
+/ReservationController.class

@@ -1,12 +1,20 @@
 import java.time.*;
-import java.lang.*;
 
 public class Reservation {
 	private int reservationID;
-	private LocalDateTime datetime = LocalDateTime.now();
+	//private String date_time;
+	private LocalDateTime datetime;
 	private int noOfPax;
 	private Customer customerBooked;
 	private Table tableReserved;
+	
+	public Reservation(int reservationID, LocalDateTime datetime,int noOfPax, Customer customerBooked, Table tableReserved) {
+		this.reservationID = reservationID;
+		this.datetime = datetime;
+		this.noOfPax = noOfPax;
+		this.customerBooked = customerBooked;
+		this.tableReserved = tableReserved;
+	}
 	
 	public int getReservationID()
 	{

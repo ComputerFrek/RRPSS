@@ -1,6 +1,7 @@
 
 public class Table {
 	private int tableID;
+	private int capacity;
 	private int noOfPax;
 	private boolean reserved;
 	
@@ -17,6 +18,16 @@ public class Table {
 	public void setTableID(int tableID)
 	{
 		this.tableID = tableID;
+	}
+	
+	public int getCapacity()
+	{
+		return capacity;
+	}
+	
+	public void setCapacity(int capacity)
+	{
+		this.capacity = capacity;
 	}
 	
 	public int getNoOfPax()
