@@ -3,6 +3,7 @@ public class Table {
 	private int tableID;
 	private int noOfPax;
 	private boolean reserved;
+	private boolean occupied;
 	
 	public Table(int tableID)
 	{
@@ -37,5 +38,14 @@ public class Table {
 	public void setReserved(boolean reserved)
 	{
 		this.reserved = reserved;
+	}
+	public boolean getOccupied()
+	{
+		return occupied;
+	}
+	
+	public void setOccupied(boolean occupied)
+	{
+		this.occupied = occupied;
 	}
 }

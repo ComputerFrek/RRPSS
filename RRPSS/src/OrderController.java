@@ -1,7 +1,5 @@
-import java.util.ArrayList;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.Scanner;
 
 public class OrderController {
 	static Map<Integer, Order> orderMap = new HashMap<Integer, Order>();
@@ -12,50 +10,94 @@ public class OrderController {
 	
 	public void ViewOrder()
 	{
-		System.out.println("Order List: ");
-		for(Order o : new ArrayList<Order>(orderMap.values()))
-			System.out.println("OrderID("+ o.getOrderID() + "): " + o.getStartTimeStamp());
-		System.out.println();
-		//add items in order
 		
 	}
 	public void ViewAllOrder()
 	{
+		int count = 1;
 		System.out.println("Order List: ");
+		System.out.println("No. \tOrder ID \tStaff By");
+        for (int orderID : orderMap.keySet())
+        {
+            Order order = orderMap.get(orderID);
+            System.out.printf("%d \t%s \t%s",count, orderID, order.getStaff());
+            count++;
+        }
 
 	}
 		
 	public void ViewCloseOrder()
 	{
+		int count = 1;
 		System.out.println("Order List: ");
+		System.out.println("No. \tOrder ID \tStaff By");
+        for (int orderID : orderMap.keySet())
+        {
+            Order order = orderMap.get(orderID);
+            if(order.getEndTimeStamp() != null)
+            {
+            	System.out.printf("%d \t%s \t%s",count, orderID, order.getStaff());
+                count++;
+            }
+        }
 
 		
 	}
 	public void ViewOpenOrder()
 	{
+		int count = 1;
 		System.out.println("Order List: ");
-
+		System.out.println("No. \tOrder ID \tStaff By");
+        for (int orderID : orderMap.keySet())
+        {
+            Order order = orderMap.get(orderID);
+            if(order.getEndTimeStamp() == null)
+            {
+            	System.out.printf("%d \t%s \t%s",count, orderID, order.getStaff());
+                count++;
+            }
+        }
+	}
+	public void ViewMoreDetail(String orderID) {
+		Scanner sc = new Scanner(System.in);
+		
+		Order order = orderMap.get(orderID);
+		System.out.printf("Order Details: ");
+		System.out.printf("Order ID: /t%d", order.getOrderID());
+		System.out.printf("Table ID: /t%d", order.getTable().getTableID());
+		System.out.printf("Staff Name: /t%d", order.getStaff().getName());
+		System.out.printf("Start Date/Time: /t%s", order.getStartTimeStamp());
+		System.out.printf("End Date/Time: /t%s", order.getEndTimeStamp());
+		System.out.printf("Number of Pax: /t%s", order.getNoOfPax());
+		System.out.printf("View Order Items(Y/N) ?");
+		if(sc.nextLine() == "Y")
+			ShowAllOrderItems(order);
 	}
 	
 	public static void CreateOrder() {
 		Scanner sc = new Scanner(System.in);
-		// Creating New Order
-		// Check Which Staff is Creating the Order;
-		// Ask for Number of PAX for the Order (2-10)
-		// Recommend Table, and show the Table Available  
-		// Select the Table
-		// Order Created
+		int noOfPax, tableSelected;
+		Staff staff;
+		Table table = null;
 
 		RRPSS_App.staffController.ViewStaff();
-		Staff staff = RRPSS_App.staffController.SelectStaff();
+		while(staff == null) {
+			staff = RRPSS_App.staffController.SelectStaff();
+		}
+		
 		System.out.println("No of Pax?: ");
-		int noOfPax = sc.nextInt();
+		noOfPax = sc.nextInt();
 		System.out.println("Choose A Table: ");
 		RRPSS_App.tableController.ShowRecommendTable(noOfPax);
 		RRPSS_App.tableController.ViewTable();
-		System.out.println("Select One Of The Table Above: ");
-		int tableSelected = sc.nextInt();
-		Table table = RRPSS_App.tableController.SelectTable(tableSelected);
+		
+		while(table == null)
+		{
+			System.out.println("Select One Of The Table Above: ");
+			tableSelected = sc.nextInt();
+			table = RRPSS_App.tableController.SelectTable(tableSelected);
+		}
+
 		
 		Order newOrder = addOrder(orderMap.size(), noOfPax, table, staff);
 		if(newOrder != null)
