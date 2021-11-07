@@ -19,8 +19,8 @@ public class RRPSS_App {
 		int ordernum = 1;
 		
 		do{
-			System.out.println("(1) Create/Update/Remove Menu Item");
-			System.out.println("(2) Create/Update/Remove Promotion");
+			System.out.println("(1) View/Create/Update/Remove Menu Item");
+			System.out.println("(2) View/Create/Update/Remove Promotion");
 			System.out.println("(3) Create Order");
 			System.out.println("(4) View Order");
 			System.out.println("(5) Add/Remove Order From Item(s) To/From Order");
@@ -80,10 +80,10 @@ public class RRPSS_App {
 		
 		do {
 			//call menuitem controller display
-			alacartecontroller.printAlacarteMenu();
-			System.out.println("(1) Create Menu Item");
-			System.out.println("(2) Update Menu Item");
-			System.out.println("(3) Remove Menu Item");
+			System.out.println("(1) View Menu Item");
+			System.out.println("(2) Create Menu Item");
+			System.out.println("(3) Update Menu Item");
+			System.out.println("(4) Remove Menu Item");
 			System.out.println("(0) Back");
 			System.out.print("Enter Choice: ");
 			choice = sc.nextInt();
@@ -91,6 +91,9 @@ public class RRPSS_App {
 			switch(choice)
 			{
 				case 1:
+					alacartecontroller.printAlacarteMenu();
+					break;
+				case 2:
 					System.out.print("Enter Dish Name: ");
 					String dishname = sc.next();
 					System.out.print("Enter Description: ");
@@ -100,7 +103,7 @@ public class RRPSS_App {
 					
 					alacartecontroller.createAlacarteItem(dishname, dishdesc, dishprice);
 					break;
-				case 2:
+				case 3:
 					System.out.print("Enter Old Dish Name: ");
 					String olddishname = sc.next();
 					System.out.print("Enter New Dish Name: ");
@@ -112,7 +115,7 @@ public class RRPSS_App {
 					
 					alacartecontroller.updateAlacarteItem(olddishname, newdishname, newdishdesc, newdishprice);
 					break;
-				case 3:
+				case 4:
 					System.out.print("Enter Dish Name: ");
 					alacartecontroller.deleteAlacarteItem(sc.next());
 					break;
@@ -132,9 +135,10 @@ public class RRPSS_App {
 		PromoPackageController promopackagecontroller = new PromoPackageController();
 		
 		do {
-			System.out.println("(1) Create Promo Item");
-			System.out.println("(2) Update Promo Item");
-			System.out.println("(3) Remove Promo Item");
+			System.out.println("(1) View Promo Item");
+			System.out.println("(2) Create Promo Item");
+			System.out.println("(3) Update Promo Item");
+			System.out.println("(4) Remove Promo Item");
 			System.out.println("(0) Back");
 			System.out.print("Enter Choice: ");
 			choice = sc.nextInt();
@@ -142,6 +146,9 @@ public class RRPSS_App {
 			switch(choice)
 			{
 				case 1:
+					promopackagecontroller.printPromoMenu();
+					break;
+				case 2:
 					System.out.print("Enter Promo Name: ");
 					String dishname = sc.next();
 					System.out.print("Enter Description: ");
@@ -152,25 +159,45 @@ public class RRPSS_App {
 					
 					//call menuitem controller display
 					promopackagecontroller.printAlacarteMenu();
+					System.out.print("Add alacarte dish(Separate by comma): ");
+					String[] dishlist = sc.next().split(",");
+					List<Alacarte> ailist = new ArrayList<>();
+					for(String s: dishlist)
+					{
+						ailist.add(promopackagecontroller.getAlacarteItem(s));
+					}
 					
-					
-					alacartecontroller.createAlacarteItem(dishname, dishdesc, dishprice);
+					System.out.println("=======================");
+					promopackagecontroller.createPromoPackage(dishname, dishdesc, dishprice, ailist);
 					break;
-				case 2:
-					System.out.print("Enter Old Dish Name: ");
+				case 3:
+					System.out.print("Enter Old Promo Name: ");
 					String olddishname = sc.next();
-					System.out.print("Enter New Dish Name: ");
+					System.out.print("Enter New Promo Name: ");
 					String newdishname = sc.next();
 					System.out.print("Enter New Description: ");
 					String newdishdesc = sc.next();
 					System.out.print("Enter New Price: ");
 					String newdishprice = sc.next();
+					System.out.println("=======================");
 					
-					alacartecontroller.updateAlacarteItem(olddishname, newdishname, newdishdesc, newdishprice);
+					//call menuitem controller display
+					promopackagecontroller.printAlacarteMenu();
+					System.out.print("Add alacarte dish(Separate by comma): ");
+					dishlist = sc.next().split(",");
+					ailist = new ArrayList<>();
+					for(String s: dishlist)
+					{
+						ailist.add(promopackagecontroller.getAlacarteItem(s));
+					}
+					
+					System.out.println("=======================");
+					
+					promopackagecontroller.updatePromoPackage(olddishname, newdishname, newdishdesc, newdishprice, ailist);
 					break;
-				case 3:
+				case 4:
 					System.out.print("Enter Dish Name: ");
-					alacartecontroller.deleteAlacarteItem(sc.next());
+					promopackagecontroller.deleteAlacarteItem(sc.next());
 					break;
 				default:
 					break;

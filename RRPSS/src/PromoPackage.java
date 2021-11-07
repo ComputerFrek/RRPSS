@@ -50,6 +50,11 @@ public class PromoPackage implements MenuItem{
 		return menuitems;
 	}
 	
+	public void clearMenuItem()
+	{
+		menuitems.clear();
+	}
+	
 	public void addMenuItem(MenuItem item)
 	{
 		menuitems.add(item);
