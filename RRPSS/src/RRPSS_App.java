@@ -91,7 +91,6 @@ public class RRPSS_App {
 				tableController.ViewTable();
 				break;
 			case 9:
-				printInvoice();
 				break;
 			case 10:
 				break;
@@ -125,6 +124,7 @@ public class RRPSS_App {
 		}
 		System.out.println();
 	}
+
 
 	
 

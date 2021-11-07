@@ -132,7 +132,7 @@ public class Order {
 		}
 		return null;
 	}
-	public void addTaxOrder(Tax tax)
+	public void addTaxOrder(Tax tax, double taxPrice)
 	{
 		for(int i = 0; i < this.taxOrderArray.size(); i++)
 		{
@@ -141,6 +141,7 @@ public class Order {
 		}
 		TaxOrder newTaxOrder = new TaxOrder();
 		newTaxOrder.setTax(tax);
+		newTaxOrder.setTaxPrice(taxPrice);
 		taxOrderArray.add(newTaxOrder);
 	}
 	

@@ -13,4 +13,7 @@ public class Tax {
 	public double getTaxPercentage() {
 		return this.taxPercentage;
 	}
+	public double calculateTax(Order order) {
+		return order.getSubtotal() * (this.getTaxPercentage() / 100);
+	}
 }

@@ -1,10 +1,10 @@
 
 public class Membership extends Discount {
 	
-	int membershipID;
+	String membershipID;
 	String membershipName;
 
-	public Membership(int membershipID, String membershipName, double discount, String description) {
+	public Membership(double discount, String description, String membershipID, String membershipName) {
 		super(discount, description);
 		// TODO Auto-generated constructor stub
 		this.membershipID = membershipID;
@@ -14,7 +14,13 @@ public class Membership extends Discount {
 	@Override
 	public double CalulcateDiscount(double subTotal) {
 		// TODO Auto-generated method stub
-		return 0;
+		return subTotal * this.getDiscount();
+	}
+	public String getMembershipID() {
+		return this.membershipID;
+	}
+	public String getMembershipName() {
+		return this.membershipName;
 	}
 	
 }

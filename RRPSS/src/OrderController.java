@@ -17,6 +17,24 @@ public class OrderController {
 			System.out.println("OrderID("+ o.getOrderID() + "): " + o.getStartTimeStamp());
 		System.out.println();
 		//add items in order
+		
+	}
+	public void ViewAllOrder()
+	{
+		System.out.println("Order List: ");
+
+	}
+		
+	public void ViewCloseOrder()
+	{
+		System.out.println("Order List: ");
+
+		
+	}
+	public void ViewOpenOrder()
+	{
+		System.out.println("Order List: ");
+
 	}
 	
 	public static void CreateOrder() {
@@ -137,28 +155,56 @@ public class OrderController {
 	public void CloseOrder(Order order) {
 		order.setEndTimeStamp(LocalDateTime.now()); // Closed Order with DateTime
 		order.setSubTotal(CalculateSubTotal(order)); // Update Order Bill SubTotal
-		double discountTotal = DiscountTotal(order);
+		double discountTotal = CalculateDiscount(order);
 		double taxTotal = CalculateTax(order);
 		
 		double total = order.getSubtotal() - discountTotal + taxTotal;
 		order.setTotal(total);
 		
 	}
-	private double CalculateTax(Order order) {
-		return 0;
+	private double CalculateTax(Order order) 
+	{
+		double totalTax = 0;
+		for(int i = 0; i < taxList.size(); i++)
+		{
+			Tax tax = taxList.get(i);
+			double taxPrice = tax.calculateTax(order);
+			order.addTaxOrder(tax, taxPrice);
+			totalTax += taxPrice;
+		}
+		return totalTax;
 	}
-	private double DiscountTotal(Order order) {
+	ArrayList<Tax> taxList = new ArrayList<Tax>();
+	private void GenerateTax() {
+		Tax gst = new Tax("GST",7);
+		Tax serviceCharge = new Tax("Service Charge",15);
+		taxList.add(gst);
+		taxList.add(serviceCharge);
+	}
+	private double CalculateDiscount(Order order) {
 		Scanner sc = new Scanner(System.in);
 		Discount discount = null;
+		
 		System.out.println("Apply Discount?(Y/N): ");
 		String isApply = sc.nextLine();
 		if(isApply == "N")
 			return 0;
+		
 		PrintDiscountOption();
-		
-		// Retrieve the Discount Details(Membership and Coupon)
-		
-		
+		// Retrieve the Discount Details(Membership or Coupon)
+		int choice = sc.nextInt();
+		switch(choice) {
+			case 1:
+				discount = MembershipDiscount();
+				break;
+			case 2:
+				discount = CouponDiscount();
+				break;
+			default:
+				System.out.println("Invalid Discount Choice. Discount was not Applied");
+				return -1;
+		}
+
 		DiscountOrder discountOrder = new DiscountOrder();
 		discountOrder.setDiscount(discount);
 		discountOrder.setDiscountPrice(discount.CalulcateDiscount(order.getSubtotal()));
@@ -166,11 +212,105 @@ public class OrderController {
 		
 		return discountOrder.getDiscountPrice();
 	}
+	
+	
+	ArrayList<Discount> membershipDiscount = new ArrayList<Discount>();
+	ArrayList<Discount> couponDiscount = new ArrayList<Discount>();
+	
+	private void GenerateDiscount() {
+		GenerateMembership();
+		GenerateCoupon();
+	}
+	private void GenerateMembership() {
+		Discount weiling = new Membership(0.15,"Regular Membership", "0001", "Weiling Wu");
+		Discount delon = new Membership(0.15,"Regular Membership","0002", "Delon Lee");
+		Discount eugene = new Membership(0.15,"Regular Membership","0003", "Eugene Sow");
+		Discount jengkit = new Membership(0.15,"Regular Membership","0004", "Jeng Kit");
+		
+		membershipDiscount.add(weiling);
+		membershipDiscount.add(delon);
+		membershipDiscount.add(eugene);
+		membershipDiscount.add(jengkit);
+	}
+	private void GenerateCoupon() {
+		Discount coupon5 = new DiscountCoupon(5,"$5 OFF Coupon",false);
+		Discount coupon10 = new DiscountCoupon(10,"$10 OFF Coupon",false);
+		Discount coupon15OFF = new DiscountCoupon(0.05,"15% OFF Coupon",true);
+		
+		couponDiscount.add(coupon5);
+		couponDiscount.add(coupon10);
+		couponDiscount.add(coupon15OFF);
+	}
 	private void PrintDiscountOption() {
 		System.out.println("Select Discount Type: ");
 		System.out.println("1) Membership: ");
 		System.out.println("2) Coupon: ");
+		System.out.println("3) Exit ");
 	}
+	private Discount MembershipDiscount() {
+		Scanner sc = new Scanner(System.in);
+		String membershipID = "";
+		Discount discount = null;
+		
+		while(discount == null)
+		{
+			System.out.println("Enter MembershipID: ");
+			membershipID = sc.nextLine();
+			discount = CheckMembershipStatus(membershipID);
+			
+			if(discount == null)
+			{
+				System.out.println("Could not find Membership Details.");
+				System.out.println("Retype MembershipID?: ");
+				if(sc.nextLine() == "Y")
+					continue;
+				return null;
+			}
+		}
+		return discount;
+	}
+	private Discount CheckMembershipStatus(String membershipID){
+		for(int i = 0; i < membershipDiscount.size(); i++)
+		{
+			Membership m = (Membership)membershipDiscount.get(i);
+			if(m.membershipID == membershipID)
+				return membershipDiscount.get(i);
+		}
+		return null;
+	}
+	
+	private Discount CouponDiscount() {
+		Scanner sc = new Scanner(System.in);
+		Discount discount = null;
+		int couponIndex = -1;
+		DisplayCoupon();
+
+		while(discount == null)
+		{
+			System.out.println("Choose Coupon: ");
+			couponIndex = sc.nextInt();
+			if(couponIndex < 0 || couponDiscount.size() > couponIndex)
+			{
+				System.out.println("Could not find Membership Details.");
+				System.out.println("Retype Coupon?: ");
+				if(sc.nextLine() == "Y")
+					continue;
+				return null;
+			}
+			discount = couponDiscount.get(couponIndex - 1);
+		}
+		return discount;
+		
+	}
+	private void DisplayCoupon() {
+		System.out.println("No. \tDescription");
+		for(int i = 0; i < couponDiscount.size(); i++)
+		{
+			DiscountCoupon c = (DiscountCoupon)couponDiscount.get(i);
+			System.out.printf("%d. \t%s",i,c.getDescription());
+		}
+	}
+
 	private double CalculateSubTotal(Order order) {
 		double subTotalBill = 0;
 		// Calculate Items SubTotal
@@ -190,7 +330,7 @@ public class OrderController {
 	public static void printInvoice(Order order)
 	{
 		Invoice invoice = new Invoice(order);
-		
+		invoice.printInvoice();
 	}
 	
 
