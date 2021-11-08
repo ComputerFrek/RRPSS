@@ -1,44 +1,144 @@
 
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Scanner;
 
 public class ViewOrderController implements iViewOrderController{
+	
+	private OrderController oC;
+
+	public ViewOrderController(OrderController oC) {
+		this.oC = oC;
+	}
+	
+	public void ViewOrderMenu(Map<Integer, Order> orderMap) {
+		Scanner sc = new Scanner(System.in);
+		int choice = -1;
+		int orderSearchSize;
+		
+		try {
+			do
+			{
+				Order order;
+				System.out.println("(1) View All Orders");
+				System.out.println("(2) View Existing Order");
+				System.out.println("(3) View Close Order");
+				System.out.println("(0) Exit");
+				
+				choice = sc.nextInt();
+				
+				switch(choice) {
+					case 1:
+						orderSearchSize = ViewAllOrder(orderMap);
+						if(orderSearchSize > 1)
+						{
+							order = SelectOrder();
+							if(order == null)
+								break;
+							ViewMoreDetails(order);
+						}
+						break;
+					case 2:
+						orderSearchSize = ViewExistingOrder(orderMap);
+						if(orderSearchSize > 1)
+						{
+							order = SelectOrder();
+							if(order == null)
+								break;
+							ViewMoreDetails(order);
+							EditMenuItems(order);
+						}
+						break;
+					case 3:
+						orderSearchSize = ViewClosedOrder(orderMap);
+						if(orderSearchSize > 1)
+						{
+							order = SelectOrder();
+							if(order == null)
+								break;
+							ViewMoreDetails(order);
+						}
+						break;
+					case 0:
+						return;
+					default:
+						break;
+				}
+			}while(choice != 0);
+		}
+		catch(Exception ex)
+		{
+			System.out.println("Error: Invalid Input. Please Try Again.");
+		}
+	}
+	
+	private Order SelectOrder() {
+		Scanner sc = new Scanner(System.in);
+		int orderID;
+		
+		System.out.println("Enter a Order ID: ");
+		orderID = sc.nextInt();
+		
+		return oC.SelectOrder(orderID);
+	}
+	
+	
 
 	@Override
-	public void ViewExistingOrder(Map<Integer, Order> orderMap) {
+	public int ViewExistingOrder(Map<Integer, Order> orderMap) {
 		// TODO Auto-generated method stub
 		int count = 1;
-		System.out.println("Order List: ");
+		System.out.println("Existing Order List: ");
 		System.out.println("No. \tOrder ID \tStaff By");
         for (int orderID : orderMap.keySet())
         {
             Order order = orderMap.get(orderID);
-            System.out.printf("%d \t%s \t%s",count, orderID, order.getStaff());
+            System.out.printf("%d \t%s \t\t%s \r\n",count, orderID, order.getStaff().getName());
             count++;
         }
+        return count;
+        
+        
 	}
 	
 	@Override
-	public void ViewMoreDetails(String orderID, Map<Integer, Order> orderMap) {
+	public void ViewMoreDetails(Order order) {
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
+		String showMore;
+		System.out.printf("Order Details: \r\n");
+		System.out.printf("Order ID: \t\t%d \r\n", order.getOrderID());
+		System.out.printf("Table ID: \t\t%d \r\n", order.getTable().getTableID());
+		System.out.printf("Staff Name: \t\t%s \r\n", order.getStaff().getName());
+		System.out.printf("Start Date/Time: \t\t%s \r\n", ConvertLocalToString(order.getStartTimeStamp()));
+		System.out.printf("End Date/Time: \t\t%s \r\n", ConvertLocalToString(order.getEndTimeStamp()));
+		System.out.printf("Number of Pax: \t\t%s \r\n", order.getNoOfPax());
 		
-		Order order = orderMap.get(orderID);
-		System.out.printf("Order Details: ");
-		System.out.printf("Order ID: /t%d", order.getOrderID());
-		System.out.printf("Table ID: /t%d", order.getTable().getTableID());
-		System.out.printf("Staff Name: /t%d", order.getStaff().getName());
-		System.out.printf("Start Date/Time: /t%s", order.getStartTimeStamp());
-		System.out.printf("End Date/Time: /t%s", order.getEndTimeStamp());
-		System.out.printf("Number of Pax: /t%s", order.getNoOfPax());
-		System.out.printf("View Order Items(Y/N) ?");
-		if(sc.nextLine() == "Y")
-			ShowAllOrderItems(order);
+		System.out.printf("View Order Items(Y/N) ?\r\n");
+		if(order.getOrderItems().size() > 0)
+		{
+			showMore = sc.nextLine();
+			if(showMore.toLowerCase() == "y")
+				ShowAllOrderItems(order);
+		}
 	}
+	
+	private void EditMenuItems(Order order) {
+		Scanner sc = new Scanner(System.in);
+		String isEdit;
+		System.out.println("Edit Order List(Y/N) ?");
+		isEdit = sc.nextLine();
+		if(isEdit.toLowerCase() == "y")
+		{
+			// Call AddOrder
+		}
+	}
+	
 
 	@Override
-	public void ViewClosedOrder(Map<Integer, Order> orderMap) {
+	public int ViewClosedOrder(Map<Integer, Order> orderMap) {
 		// TODO Auto-generated method stub
 		int count = 1;
 		System.out.println("Order List: ");
@@ -48,24 +148,27 @@ public class ViewOrderController implements iViewOrderController{
             Order order = orderMap.get(orderID);
             if(order.getEndTimeStamp() != null)
             {
-            	System.out.printf("%d \t%s \t%s",count, orderID, order.getStaff());
+            	System.out.printf("%d \t%s \t\t%s \r\n",count, orderID, order.getStaff().getName());
                 count++;
             }
         }
+		return count;
 	}
 
 	@Override
-	public void ViewAllOrder(Map<Integer, Order> orderMap) {
+	public int ViewAllOrder(Map<Integer, Order> orderMap) {
 		// TODO Auto-generated method stub
 		int count = 1;
 		System.out.println("Order List: ");
-		System.out.println("No. \tOrder ID \tStaff By");
+		System.out.println("No. \tOrder ID \tIs Open");
         for (int orderID : orderMap.keySet())
         {
             Order order = orderMap.get(orderID);
-            System.out.printf("%d \t%s \t%s",count, orderID, order.getStaff());
+            String isOpen = ((order.getEndTimeStamp() == null) ? "Open" : "Closed");
+            System.out.printf("%d \t%s \t\t%s \r\n",count, orderID, isOpen);
             count++;
         }
+		return count;
 	}
 
 	@Override
@@ -79,5 +182,11 @@ public class ViewOrderController implements iViewOrderController{
             count++;
         }
 	}
-
+	
+	private String ConvertLocalToString(LocalDateTime timeStamp) {
+		if(timeStamp == null)
+			return "NIL";
+		DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd/MM/yyy HH:mm");
+		return timeStamp.format(formatDate);
+	}
 }

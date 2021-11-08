@@ -46,7 +46,7 @@ public class UpdateOrderController implements iUpdateOrderController{
 		String itemInput;
 		int quantityRemove, newQuantity;
 				
-		OrderController.vOC.ShowAllOrderItems(order);
+		OrderController.viewOC.ShowAllOrderItems(order);
 		System.out.println("Select an Item: ");
 		itemInput = sc.nextLine();
 		orderItem = order.getOrderItem(itemInput);

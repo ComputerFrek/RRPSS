@@ -11,8 +11,7 @@ public class TableController {
 		System.out.println("All Tables:");
 		for(Table t: tables)
 		{
-			if(!t.getReserved() && !t.getOccupied())
-				System.out.println("TableID " + t.getTableID());
+			System.out.println("TableID " + t.getTableID());
 		}
 		System.out.println();
 	} 
@@ -26,8 +25,8 @@ public class TableController {
 		System.out.println();
 	} 
 	public Table SelectTable(int tableID) {
-		if(tables[tableID].getReserved() == true || tables[tableID].getOccupied() == true)
+		if(tables[tableID-1].getReserved() == true || tables[tableID-1].getOccupied() == true)
 			return null;
-		return tables[tableID];
+		return tables[tableID-1];
 	}
 }

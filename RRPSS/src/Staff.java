@@ -4,6 +4,14 @@ public class Staff extends Person{
 	private String jobtitle;
 	private char gender;
 	
+	
+	public Staff(String name, int employeeID, String jobtitle, char gender) {
+		super(name);
+		this.employeeID = employeeID;
+		this.jobtitle = jobtitle;
+		this.gender = gender;
+	}
+	
 	public int getEmployeeID()
 	{
 		return employeeID;

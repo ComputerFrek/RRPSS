@@ -8,54 +8,91 @@ public class OrderController {
 	static ClosedOrderController closedOC;
 	static OpenOrderController openOC;
 	
-	ArrayList<Discount> membershipDiscount = new ArrayList<Discount>();
-	ArrayList<Discount> couponDiscount = new ArrayList<Discount>();
-	ArrayList<Tax> taxList = new ArrayList<Tax>();
-	
 	public OrderController() 
 	{
-		viewOC = new ViewOrderController();
+		viewOC = new ViewOrderController(this);
 		updateOC = new UpdateOrderController();
 		closedOC = new ClosedOrderController();
 		openOC = new OpenOrderController();
 	}	
-	public static void PrintInvoice(Order order)
+	
+	public void OrderMenu() {
+
+		Scanner sc = new Scanner(System.in);
+		int choice = -1;
+		
+		try {
+			
+			do
+			{
+				System.out.println("(1) View Orders");
+				System.out.println("(2) Open Order");
+				System.out.println("(3) Close Order");
+				System.out.println("(4) Add/Remove Order Items");
+				System.out.println("(0) Exit");
+				
+				choice = sc.nextInt();
+				
+				switch(choice) {
+					case 1:
+						viewOC.ViewOrderMenu(orderMap);
+						break;
+					case 2:
+						break;
+					case 3:
+						break;
+					case 4:
+						break;
+					case 0:
+						break;
+					default:
+						break;
+				}
+			} while(choice != 0);
+		}
+		catch(Exception ex)
+		{
+			System.out.println("Error: Invalid Input. Please Try Again.");
+		}
+	}
+	
+	
+	
+	
+	public void PrintInvoice(Order order)
 	{
 		Invoice invoice = new Invoice(order);
 		invoice.printInvoice();
 	}
+	public void ViewAllOrder() {
+		viewOC.ViewAllOrder(orderMap);
+	}
+	public void ViewExistingOrder() {
+		viewOC.ViewExistingOrder(orderMap);
+	}
+	public void ViewClosedOrder() {
+		viewOC.ViewClosedOrder(orderMap);
+	}
+	public Order SelectOrder(int orderID) {
+		if(!orderMap.containsKey(orderID))
+			return null;
+		return orderMap.get(orderID);
+	}
+	public void AddOrderItem(Order order) {
+		updateOC.AddOrderItem(order);
+	}
+	public void RemoveOrderItem(Order order) {
+		updateOC.RemoveOrderItem(order);
+	}
+	public void OpenOrder() {
+		openOC.OpenOrder(orderMap);
+	}
+	public void CloseOrder(Order order, ArrayList<Tax> taxList, ArrayList<Discount> membershipDiscount) {
+		closedOC.CloseOrder(order, taxList, membershipDiscount);
+	}
+
 
 	
-	private void GenerateTax() {
-		Tax gst = new Tax("GST",7);
-		Tax serviceCharge = new Tax("Service Charge",15);
-		taxList.add(gst);
-		taxList.add(serviceCharge);
-	}
-	private void GenerateDiscount() {
-		GenerateMembership();
-		GenerateCoupon();
-	}
-	private void GenerateMembership() {
-		Discount weiling = new Membership(0.15,"Regular Membership", "0001", "Weiling Wu");
-		Discount delon = new Membership(0.15,"Regular Membership","0002", "Delon Lee");
-		Discount eugene = new Membership(0.15,"Regular Membership","0003", "Eugene Sow");
-		Discount jengkit = new Membership(0.15,"Regular Membership","0004", "Jeng Kit");
-		
-		membershipDiscount.add(weiling);
-		membershipDiscount.add(delon);
-		membershipDiscount.add(eugene);
-		membershipDiscount.add(jengkit);
-	}
-	private void GenerateCoupon() {
-		Discount coupon5 = new DiscountCoupon(5,"$5 OFF Coupon",false);
-		Discount coupon10 = new DiscountCoupon(10,"$10 OFF Coupon",false);
-		Discount coupon15OFF = new DiscountCoupon(0.05,"15% OFF Coupon",true);
-		
-		couponDiscount.add(coupon5);
-		couponDiscount.add(coupon10);
-		couponDiscount.add(coupon15OFF);
-	}
 
 	
 

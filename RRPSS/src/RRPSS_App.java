@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
-import java.util.Scanner;
 
 public class RRPSS_App {
 	
@@ -9,6 +8,10 @@ public class RRPSS_App {
 	static StaffController staffController;
 	static TableController tableController;
 	static CategoryController categoryController;
+	
+	ArrayList<Discount> membershipDiscount = new ArrayList<Discount>();
+	ArrayList<Discount> couponDiscount = new ArrayList<Discount>();
+	ArrayList<Tax> taxList = new ArrayList<Tax>();
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -71,16 +74,17 @@ public class RRPSS_App {
 						menuitemcontroller.createMenuItem(dishname, dishdesc, dishprice);
 						
 				}
-				
-				
 				break;
 			case 2:
 				break;
 			case 3:	
+				orderController.OpenOrder();
 				break;
 			case 4:
+				orderController.OrderMenu();
 				break;
 			case 5:
+				
 				break;
 			case 6:
 				break;
@@ -123,6 +127,38 @@ public class RRPSS_App {
 		}
 		System.out.println();
 	}
+	
+	private void GenerateTax() {
+		Tax gst = new Tax("GST",7);
+		Tax serviceCharge = new Tax("Service Charge",15);
+		taxList.add(gst);
+		taxList.add(serviceCharge);
+	}
+	private void GenerateDiscount() {
+		GenerateMembership();
+		GenerateCoupon();
+	}
+	private void GenerateMembership() {
+		Discount weiling = new Membership(0.15,"Regular Membership", "0001", "Weiling Wu");
+		Discount delon = new Membership(0.15,"Regular Membership","0002", "Delon Lee");
+		Discount eugene = new Membership(0.15,"Regular Membership","0003", "Eugene Sow");
+		Discount jengkit = new Membership(0.15,"Regular Membership","0004", "Jeng Kit");
+		
+		membershipDiscount.add(weiling);
+		membershipDiscount.add(delon);
+		membershipDiscount.add(eugene);
+		membershipDiscount.add(jengkit);
+	}
+	private void GenerateCoupon() {
+		Discount coupon5 = new DiscountCoupon(5,"$5 OFF Coupon",false);
+		Discount coupon10 = new DiscountCoupon(10,"$10 OFF Coupon",false);
+		Discount coupon15OFF = new DiscountCoupon(0.05,"15% OFF Coupon",true);
+		
+		couponDiscount.add(coupon5);
+		couponDiscount.add(coupon10);
+		couponDiscount.add(coupon15OFF);
+	}
+
 
 
 	
