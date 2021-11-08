@@ -1,19 +1,62 @@
+import java.util.ArrayList;
+import java.util.List;
 
-public class PromoPackage extends MenuItem{
-	public PromoPackage(String itemName, String description, String price) {
-		super(itemName, description, price);
-		// TODO Auto-generated constructor stub
-	}
-
-	private MenuItem[] alaCarteItem;
+public class PromoPackage implements MenuItem{
+	private String promoname;
+	private String promodesc;
+	private double promoprice;
+	private List<MenuItem> menuitems;
 	
-	public MenuItem[] getAlaCarteItem()
+	public PromoPackage(String name, String description, String price)
 	{
-		return alaCarteItem;
+		menuitems = new ArrayList<>();
+		this.promodesc = description;
+		this.promoname = name;
+		this.promoprice = Double.parseDouble(price);
 	}
 	
-	public void setAlaCarteItem(MenuItem[] alaCarteItem)
+	public String getItemName()
 	{
-		this.alaCarteItem = alaCarteItem;
+		return promoname;
+	}
+	
+	public void setItemName(String name)
+	{
+		this.promoname = name;
+	}
+	
+	public String getDescription()
+	{
+		return promodesc;
+	}
+	
+	public void setDescription(String description)
+	{
+		this.promodesc = description;
+	}
+	
+	public double getPrice()
+	{
+		return promoprice;
+	}
+	
+	public void setPrice(String price)
+	{
+		this.promoprice = Double.parseDouble(price);
+	}
+	
+	public List<MenuItem> getMenuItem()
+	{
+		return menuitems;
+	}
+	
+	public void clearMenuItem()
+	{
+		menuitems.clear();
+	}
+	
+	public void addMenuItem(MenuItem item)
+	{
+		menuitems.add(item);
 	}
 }

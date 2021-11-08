@@ -106,6 +106,11 @@ public class Order {
 		this.staff = staff;
 	}
 	
+	public void addOrderItem(OrderItems item) {
+		if(!this.orderItems.containsKey(item.getMenuItem().getItemName()))
+			this.orderItems.put(item.getMenuItem().getItemName(), item);
+	}
+	
 	public OrderItems getOrderItem(String item) {
 		if(this.orderItems.containsKey(item))
 			return this.orderItems.get(item);

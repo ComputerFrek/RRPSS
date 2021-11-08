@@ -1,0 +1,8 @@
+VanillaCake|Dessert|40.0
+IceMountainWater|Drinks|200.0
+Steak|MainDish|13.0
+Fries|Side|4.0
+WantonMee|MainDish|5000.0
+CharKuayTiao|MainDish|200.0
+FishBall|Noodle|300.0
+Icecreme|Dessert|3000.0

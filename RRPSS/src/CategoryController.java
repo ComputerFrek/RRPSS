@@ -39,4 +39,8 @@ public class CategoryController {
 	private static boolean isNumeric(String str){
         return str != null && str.matches("[0-9.]+");
     }
+	
+	public void GenerateMenuItem() {
+		
+	}
 }

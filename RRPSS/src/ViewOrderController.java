@@ -74,7 +74,7 @@ public class ViewOrderController implements iViewOrderController{
 		}
 	}
 	
-	private Order SelectOrder() {
+	public Order SelectOrder() {
 		Scanner sc = new Scanner(System.in);
 		int orderID;
 		
@@ -116,12 +116,17 @@ public class ViewOrderController implements iViewOrderController{
 		System.out.printf("End Date/Time: \t\t%s \r\n", ConvertLocalToString(order.getEndTimeStamp()));
 		System.out.printf("Number of Pax: \t\t%s \r\n", order.getNoOfPax());
 		
-		System.out.printf("View Order Items(Y/N) ?\r\n");
+		
 		if(order.getOrderItems().size() > 0)
 		{
-			showMore = sc.nextLine();
-			if(showMore.toLowerCase() == "y")
+			System.out.printf("View Order Items(Y/N) ?\r\n");
+			showMore = sc.next().toLowerCase();
+			if(showMore.equals("y"))
+			{
+				System.out.printf(showMore.toLowerCase());
 				ShowAllOrderItems(order);
+			}
+				
 		}
 	}
 	
@@ -129,10 +134,11 @@ public class ViewOrderController implements iViewOrderController{
 		Scanner sc = new Scanner(System.in);
 		String isEdit;
 		System.out.println("Edit Order List(Y/N) ?");
-		isEdit = sc.nextLine();
-		if(isEdit.toLowerCase() == "y")
+		isEdit = sc.next().toLowerCase();
+		if(isEdit.equals("y"))
 		{
-			// Call AddOrder
+			// Call AddOrde
+			oC.updateOC.UpdateOrderMenu(order);
 		}
 	}
 	
@@ -175,10 +181,12 @@ public class ViewOrderController implements iViewOrderController{
 	public void ShowAllOrderItems(Order order) {
 		// TODO Auto-generated method stub
 		int count = 1;
+		System.out.println("Order List: ");
+		System.out.println("No. \tItem Name \t\tQTY");
         for (String menuItem : order.getOrderItems().keySet())
         {
             OrderItems orderItem = order.getOrderItems().get(menuItem);
-            System.out.printf("%d | %s",count, orderItem.getMenuItem().getItemName());
+            System.out.printf("%03d \t%-10s \t\t%02d\r\n",count, orderItem.getMenuItem().getItemName(), orderItem.getQuantity());
             count++;
         }
 	}

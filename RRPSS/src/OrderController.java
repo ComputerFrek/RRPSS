@@ -2,16 +2,16 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public class OrderController {
-	static Map<Integer, Order> orderMap = new HashMap<Integer, Order>();
-	static ViewOrderController viewOC;
-	static UpdateOrderController updateOC;
-	static ClosedOrderController closedOC;
-	static OpenOrderController openOC;
+	Map<Integer, Order> orderMap = new HashMap<Integer, Order>();
+	ViewOrderController viewOC;
+	UpdateOrderController updateOC;
+	ClosedOrderController closedOC;
+	OpenOrderController openOC;
 	
 	public OrderController() 
 	{
 		viewOC = new ViewOrderController(this);
-		updateOC = new UpdateOrderController();
+		updateOC = new UpdateOrderController(this);
 		closedOC = new ClosedOrderController();
 		openOC = new OpenOrderController();
 	}	
@@ -38,10 +38,13 @@ public class OrderController {
 						viewOC.ViewOrderMenu(orderMap);
 						break;
 					case 2:
+						OpenOrder();
 						break;
 					case 3:
+						CloseOrder(RRPSS_App.taxList, RRPSS_App.membershipDiscount);
 						break;
 					case 4:
+						UpdateOrder();
 						break;
 					case 0:
 						break;
@@ -56,38 +59,28 @@ public class OrderController {
 		}
 	}
 	
-	
-	
-	
 	public void PrintInvoice(Order order)
 	{
 		Invoice invoice = new Invoice(order);
 		invoice.printInvoice();
-	}
-	public void ViewAllOrder() {
-		viewOC.ViewAllOrder(orderMap);
-	}
-	public void ViewExistingOrder() {
-		viewOC.ViewExistingOrder(orderMap);
-	}
-	public void ViewClosedOrder() {
-		viewOC.ViewClosedOrder(orderMap);
 	}
 	public Order SelectOrder(int orderID) {
 		if(!orderMap.containsKey(orderID))
 			return null;
 		return orderMap.get(orderID);
 	}
-	public void AddOrderItem(Order order) {
-		updateOC.AddOrderItem(order);
-	}
-	public void RemoveOrderItem(Order order) {
-		updateOC.RemoveOrderItem(order);
+	
+	public void UpdateOrder() {
+		viewOC.ViewExistingOrder(orderMap);
+		Order order = viewOC.SelectOrder();
+		updateOC.UpdateOrderMenu(order);
 	}
 	public void OpenOrder() {
 		openOC.OpenOrder(orderMap);
 	}
-	public void CloseOrder(Order order, ArrayList<Tax> taxList, ArrayList<Discount> membershipDiscount) {
+	public void CloseOrder(ArrayList<Tax> taxList, ArrayList<Discount> membershipDiscount) {
+		viewOC.ViewExistingOrder(orderMap);
+		Order order = viewOC.SelectOrder();
 		closedOC.CloseOrder(order, taxList, membershipDiscount);
 	}
 
