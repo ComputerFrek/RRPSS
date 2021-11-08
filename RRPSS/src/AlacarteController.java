@@ -6,27 +6,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class MenuItemController {
-	private String menufilename = "menuItem.txt";
-	private File menufile;
-	private List<MenuItem> menu;
+public class AlacarteController {
+	private String alacartefilename = "alacarteItem.txt";
+	private File alacartefile;
+	private List<Alacarte> alacarteitems;
 	
-	public MenuItemController() {
-		menu = new ArrayList<>();
-		menufile = new File(menufilename);
+	public AlacarteController() {
+		alacarteitems = new ArrayList<>();
+		alacartefile = new File(alacartefilename);
 		
 		try {
 			//if exists load menu in file into menu item arraylist
-			Scanner sc = new Scanner(menufile);
+			Scanner sc = new Scanner(alacartefile);
 			while(sc.hasNextLine()) {
 				String[] fields = sc.nextLine().split("\\|");
-				MenuItem m = new MenuItem(fields[0].trim(),fields[1].trim(),fields[2].trim());
-				menu.add(m);
+				Alacarte m = new Alacarte(fields[0].trim(),fields[1].trim(),fields[2].trim());
+				alacarteitems.add(m);
 			}
 			sc.close();
 		} catch (FileNotFoundException e) {
 			try {
-				menufile.createNewFile();
+				alacartefile.createNewFile();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -34,32 +34,45 @@ public class MenuItemController {
 		}
 	}
 	
-	public List<MenuItem> getMenuItems()
+	public List<Alacarte> getAllAlacarteItems()
 	{
-		return menu;
+		return alacarteitems;
+	}
+	
+	public Alacarte getAlacarteItem(String name)
+	{
+		for(Alacarte ai: alacarteitems)
+		{
+			if(ai.getItemName().equalsIgnoreCase(name))
+			{
+				return ai;
+			}
+		}
+		
+		return null;
 	}
 	
 	//display
-	public void printMenu() {
+	public void printAlacarteMenu() {
 		System.out.println("Name,Category,Price");
 		System.out.println("===================");
-		for(MenuItem me : menu)
+		for(Alacarte me : alacarteitems)
 		{
 			System.out.printf("%s,%s,%.2f\n",me.getItemName(),me.getDescription(),me.getPrice());
 		}
 	}
 	
 	//create
-	public boolean createMenuItem(String name, String desc, String price) {
-		MenuItem m = new MenuItem(name, desc, price);
-		menu.add(m);
+	public boolean createAlacarteItem(String name, String desc, String price) {
+		Alacarte m = new Alacarte(name, desc, price);
+		alacarteitems.add(m);
 		
 		return writeToFile(name, desc, price);
 	}
 	
 	//update
-	public boolean updateMenuItem(String oldname, String newname, String newdesc, String newprice) {
-		for(MenuItem me: menu)
+	public boolean updateAlacarteItem(String oldname, String newname, String newdesc, String newprice) {
+		for(Alacarte me: alacarteitems)
 		{
 			if(me.getItemName().equalsIgnoreCase(oldname))
 			{
@@ -81,9 +94,9 @@ public class MenuItemController {
 			}
 		}
 		
-		menufile.delete();
+		alacartefile.delete();
 		
-		for(MenuItem me: menu)
+		for(Alacarte me: alacarteitems)
 		{
 			boolean status = writeToFile(me.getItemName(), me.getDescription(), Double.toString(me.getPrice()));
 			if(status)
@@ -96,22 +109,22 @@ public class MenuItemController {
 	}
 	
 	//delete
-	public boolean deleteMenuItem(String name) {
-		List<MenuItem> menutoremove = new ArrayList<>();
+	public boolean deleteAlacarteItem(String name) {
+		List<Alacarte> alacartetoremove = new ArrayList<>();
 		
-		for(MenuItem me: menu)
+		for(Alacarte me: alacarteitems)
 		{
 			if(me.getItemName().equalsIgnoreCase(name))
 			{
-				menutoremove.add(me);
+				alacartetoremove.add(me);
 			}
 		}
 		
-		menu.removeAll(menutoremove);
+		alacarteitems.removeAll(alacartetoremove);
 		
-		menufile.delete();
+		alacartefile.delete();
 		
-		for(MenuItem me: menu)
+		for(Alacarte me: alacarteitems)
 		{
 			boolean status = writeToFile(me.getItemName(), me.getDescription(), Double.toString(me.getPrice()));
 			if(status)
@@ -126,7 +139,7 @@ public class MenuItemController {
 	private boolean writeToFile(String name, String desc, String price) {
 		FileWriter fw;
 		try {
-			fw = new FileWriter(menufilename, true);
+			fw = new FileWriter(alacartefile, true);
 			fw.write(name + "|" + desc + "|" + price + "\n");
 			fw.close();
 		} catch (IOException e) {

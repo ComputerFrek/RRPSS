@@ -1,0 +1,2 @@
+Promo1|Promo1|5|Steak,Fries,FishBall,
+Promo2|Promo2|4|Steak,Fries,FishBall,
