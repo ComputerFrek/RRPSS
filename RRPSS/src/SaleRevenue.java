@@ -5,6 +5,12 @@ public class SaleRevenue {
 	private double totalRevenue;
 	private Order[] orderList;
 	
+	public SaleRevenue(int reportid, String reportname, boolean bydayormonth)
+	{
+		this.reportID = reportid;
+		this.reportName = reportname;
+		this.periodByDay = bydayormonth;
+	}
 	
 	public int getReportID()
 	{
