@@ -12,8 +12,8 @@ public class OrderController {
 	{
 		viewOC = new ViewOrderController(this);
 		updateOC = new UpdateOrderController(this);
-		closedOC = new ClosedOrderController();
-		openOC = new OpenOrderController();
+		closedOC = new ClosedOrderController(this);
+		openOC = new OpenOrderController(this);
 	}	
 	
 	public void OrderMenu() {
@@ -30,7 +30,7 @@ public class OrderController {
 				System.out.println("(3) Close Order");
 				System.out.println("(4) Add/Remove Order Items");
 				System.out.println("(0) Exit");
-				
+				System.out.print("Your Choice: ");
 				choice = sc.nextInt();
 				
 				switch(choice) {
@@ -79,9 +79,21 @@ public class OrderController {
 		openOC.OpenOrder(orderMap);
 	}
 	public void CloseOrder(ArrayList<Tax> taxList, ArrayList<Discount> membershipDiscount) {
+		Scanner sc = new Scanner(System.in);
+		
 		viewOC.ViewExistingOrder(orderMap);
 		Order order = viewOC.SelectOrder();
-		closedOC.CloseOrder(order, taxList, membershipDiscount);
+		System.out.print("Are You Sure? (Y/N)");
+		
+		String choice = sc.next();
+		if(choice.trim().equals("Y"))
+			closedOC.CloseOrder(order, taxList, membershipDiscount);
+		
+		System.out.print("Print Invoice? (Y/N)");
+		
+		choice = sc.next();
+		if(choice.trim().equals("Y"))
+			PrintInvoice(order);
 	}
 
 

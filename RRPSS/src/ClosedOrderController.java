@@ -1,19 +1,43 @@
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ClosedOrderController implements iClosedOrder, iDiscount{
 
+	private OrderController oC;
+
+	public ClosedOrderController(OrderController oC) {
+		this.oC = oC;
+	}
+	
 	@Override
 	public void CloseOrder(Order order, ArrayList<Tax> taxList, ArrayList<Discount> membershipDiscount) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub	
 		order.setEndTimeStamp(LocalDateTime.now()); // Closed Order with DateTime
-		order.setSubTotal(CalculateSubTotal(order)); // Update Order Bill SubTotal
-		double discountTotal = CalculateDiscount(order, membershipDiscount);
-		double taxTotal = CalculateTax(order, taxList);
-		
-		double total = order.getSubtotal() - discountTotal + taxTotal;
-		order.setTotal(total);
+		if(order.getEndTimeStamp() != null)
+		{
+			order.setSubTotal(CalculateSubTotal(order)); // Update Order Bill SubTotal
+			double discountTotal = CalculateDiscount(order, membershipDiscount);
+			double taxTotal = CalculateTax(order, taxList);
+			
+			double total = order.getSubtotal() - discountTotal + taxTotal;
+			if(total < 0)
+				total = 0;
+			order.setTotal(total);
+			order.getTable().setOccupied(false);
+			System.out.printf("Order %03d Closed @ %s \r\n", order.getOrderID(), ConvertLocalToString(order.getEndTimeStamp()));
+		}
+		else
+		{
+			System.out.printf("Order %03d was not closed, Please Try Again \r\n");
+		}
+	}
+	private String ConvertLocalToString(LocalDateTime timeStamp) {
+		if(timeStamp == null)
+			return "NIL";
+		DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd/MM/yyy HH:mm");
+		return timeStamp.format(formatDate);
 	}
 
 	@Override
@@ -52,9 +76,9 @@ public class ClosedOrderController implements iClosedOrder, iDiscount{
 		Scanner sc = new Scanner(System.in);
 		Discount discount = null;
 		
-		System.out.println("Apply Discount?(Y/N): ");
+		System.out.print("Apply Discount?(Y/N): ");
 		String isApply = sc.nextLine();
-		if(isApply == "N")
+		if(isApply.toLowerCase().equals("n"))
 			return 0;
 		
 		PrintDiscountOption();
@@ -71,7 +95,12 @@ public class ClosedOrderController implements iClosedOrder, iDiscount{
 				System.out.println("Invalid Discount Choice. Discount was not Applied");
 				return -1;
 		}
-
+		if(discount == null)
+		{
+			System.out.println("Discount was not apply");
+			return 0;
+		}
+		System.out.printf("%s Discount Applied \r\n", discount.getDescription());
 		DiscountOrder discountOrder = new DiscountOrder();
 		discountOrder.setDiscount(discount);
 		discountOrder.setDiscountPrice(discount.CalulcateDiscount(order.getSubtotal()));
@@ -81,10 +110,11 @@ public class ClosedOrderController implements iClosedOrder, iDiscount{
 	}
 	
 	private void PrintDiscountOption() {
-		System.out.println("Select Discount Type: ");
+		System.out.println("Discount Type: ");
 		System.out.println("1) Membership: ");
 		System.out.println("2) Coupon: ");
 		System.out.println("3) Exit ");
+		System.out.print("Select Discount Type: ");
 	}
 
 	@Override
@@ -95,15 +125,15 @@ public class ClosedOrderController implements iClosedOrder, iDiscount{
 		
 		while(discount == null)
 		{
-			System.out.println("Enter MembershipID: ");
+			System.out.print("Enter MembershipID: ");
 			membershipID = sc.nextLine();
 			discount = CheckMembershipStatus(membershipID, membershipDiscount);
 			
 			if(discount == null)
 			{
 				System.out.println("Could not find Membership Details.");
-				System.out.println("Retype MembershipID?: ");
-				if(sc.nextLine() == "Y")
+				System.out.println("Do You want To Retype MembershipID?:(Y/N)");
+				if(sc.nextLine().trim().toLowerCase().equals("y"))
 					continue;
 				return null;
 			}
@@ -117,7 +147,7 @@ public class ClosedOrderController implements iClosedOrder, iDiscount{
 		for(int i = 0; i < membershipDiscount.size(); i++)
 		{
 			Membership m = (Membership)membershipDiscount.get(i);
-			if(m.membershipID == membershipID)
+			if(m.membershipID.equals(membershipID))
 				return membershipDiscount.get(i);
 		}
 		return null;
@@ -138,7 +168,7 @@ public class ClosedOrderController implements iClosedOrder, iDiscount{
 			{
 				System.out.println("Could not find Membership Details.");
 				System.out.println("Retype Coupon?: ");
-				if(sc.nextLine() == "Y")
+				if(sc.nextLine().trim().toLowerCase().equals("y"))
 					continue;
 				return null;
 			}

@@ -5,9 +5,10 @@ public class Table {
 	private boolean reserved;
 	private boolean occupied;
 	
-	public Table(int tableID)
+	public Table(int tableID, int noOfPax)
 	{
 		this.tableID = tableID;
+		this.noOfPax = noOfPax;
 	}
 	
 	public int getTableID()

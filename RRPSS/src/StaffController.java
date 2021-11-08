@@ -8,10 +8,9 @@ public class StaffController {
 	public StaffController(){
 		GenerateStaff();
 	}
-	public Staff SelectStaff() {
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Select Staff: ");
-		int staffID = sc.nextInt();
+	public Staff SelectStaff(int staffID) {
+		if(!staffDictionary.containsKey(staffID))
+			return null;
 		return staffDictionary.get(staffID);
 	}
 	public void ViewStaff() {

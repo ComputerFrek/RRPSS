@@ -24,17 +24,13 @@ public class RRPSS_App {
 		categoryController = new CategoryController();
 		alacartecontroller = new AlacarteController();
 		promopackagecontroller = new PromoPackageController();
-		
+		GenerateDiscount();
+		GenerateTax();
 		int choice;
 		Scanner sc = new Scanner(System.in);
 
 		System.out.println("Restaurant Reservation and Point of Sale System (RRPSS)");
 		System.out.println("========================================================");
-		
-		ArrayList<Order> orderlist = new ArrayList<Order>();
-		Table[] tables = new Table[10];
-		for(int i = 0; i < tables.length; i++)
-			tables[i] = new Table(i+1);
 		int ordernum = 1;
 		
 		do{
@@ -227,17 +223,17 @@ public class RRPSS_App {
 		//}
 	}
 	
-	private void GenerateTax() {
+	private static void GenerateTax() {
 		Tax gst = new Tax("GST",7);
 		Tax serviceCharge = new Tax("Service Charge",15);
 		taxList.add(gst);
 		taxList.add(serviceCharge);
 	}
-	private void GenerateDiscount() {
+	private static void GenerateDiscount() {
 		GenerateMembership();
 		GenerateCoupon();
 	}
-	private void GenerateMembership() {
+	private static void GenerateMembership() {
 		Discount weiling = new Membership(0.15,"Regular Membership", "0001", "Weiling Wu");
 		Discount delon = new Membership(0.15,"Regular Membership","0002", "Delon Lee");
 		Discount eugene = new Membership(0.15,"Regular Membership","0003", "Eugene Sow");
@@ -248,7 +244,7 @@ public class RRPSS_App {
 		membershipDiscount.add(eugene);
 		membershipDiscount.add(jengkit);
 	}
-	private void GenerateCoupon() {
+	private static void GenerateCoupon() {
 		Discount coupon5 = new DiscountCoupon(5,"$5 OFF Coupon",false);
 		Discount coupon10 = new DiscountCoupon(10,"$10 OFF Coupon",false);
 		Discount coupon15OFF = new DiscountCoupon(0.05,"15% OFF Coupon",true);

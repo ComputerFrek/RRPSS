@@ -26,7 +26,7 @@ public class ViewOrderController implements iViewOrderController{
 				System.out.println("(2) View Existing Order");
 				System.out.println("(3) View Close Order");
 				System.out.println("(0) Exit");
-				
+				System.out.print("Your Choice: ");
 				choice = sc.nextInt();
 				
 				switch(choice) {
@@ -78,7 +78,7 @@ public class ViewOrderController implements iViewOrderController{
 		Scanner sc = new Scanner(System.in);
 		int orderID;
 		
-		System.out.println("Enter a Order ID: ");
+		System.out.print("Enter a Order ID: ");
 		orderID = sc.nextInt();
 		
 		return oC.SelectOrder(orderID);
@@ -95,6 +95,8 @@ public class ViewOrderController implements iViewOrderController{
         for (int orderID : orderMap.keySet())
         {
             Order order = orderMap.get(orderID);
+            if(order.getEndTimeStamp() != null)
+            	continue;
             System.out.printf("%d \t%s \t\t%s \r\n",count, orderID, order.getStaff().getName());
             count++;
         }
@@ -112,7 +114,7 @@ public class ViewOrderController implements iViewOrderController{
 		System.out.printf("Order ID: \t\t%d \r\n", order.getOrderID());
 		System.out.printf("Table ID: \t\t%d \r\n", order.getTable().getTableID());
 		System.out.printf("Staff Name: \t\t%s \r\n", order.getStaff().getName());
-		System.out.printf("Start Date/Time: \t\t%s \r\n", ConvertLocalToString(order.getStartTimeStamp()));
+		System.out.printf("Start Date/Time: \t%s \r\n", ConvertLocalToString(order.getStartTimeStamp()));
 		System.out.printf("End Date/Time: \t\t%s \r\n", ConvertLocalToString(order.getEndTimeStamp()));
 		System.out.printf("Number of Pax: \t\t%s \r\n", order.getNoOfPax());
 		
@@ -152,11 +154,10 @@ public class ViewOrderController implements iViewOrderController{
         for (int orderID : orderMap.keySet())
         {
             Order order = orderMap.get(orderID);
-            if(order.getEndTimeStamp() != null)
-            {
-            	System.out.printf("%d \t%s \t\t%s \r\n",count, orderID, order.getStaff().getName());
-                count++;
-            }
+            if(order.getEndTimeStamp() == null)
+            	continue;
+            System.out.printf("%d \t%s \t\t%s \r\n",count, orderID, order.getStaff().getName());
+            count++;
         }
 		return count;
 	}
