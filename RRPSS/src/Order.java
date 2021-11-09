@@ -156,9 +156,9 @@ public class Order {
 	{
 		if(endTimeStamp == null)
 		{
-			return true;
-		} else {
 			return false;
+		} else {
+			return true;
 		}
 	}
 	

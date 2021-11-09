@@ -27,7 +27,7 @@ public class RRPSS_App {
 		salerevenue = new SaleRevenue();
 		
 		int choice;
-		Scanner sc = new Scanner(System.in);
+		
 
 		System.out.println("Restaurant Reservation and Point of Sale System (RRPSS)");
 		System.out.println("========================================================");
@@ -37,6 +37,7 @@ public class RRPSS_App {
 		for(int i = 0; i < tables.length; i++)
 			tables[i] = new Table(i+1);
 		int ordernum = 1;
+		Scanner sc = new Scanner(System.in);
 		
 		do{
 			System.out.println("(1) View/Create/Update/Remove Menu Item");
@@ -50,7 +51,7 @@ public class RRPSS_App {
 			System.out.print("Enter Choice: ");
 			choice = sc.nextInt();
 			System.out.println();
-
+			
 			switch(choice)
 			{
 			case 1:
@@ -69,7 +70,7 @@ public class RRPSS_App {
 			case 6:
 				break;
 			case 7:
-				salerevenue.generateNewSalesReport(orderController.getAllOrders(), alacartecontroller.getAllAlacarteItems(), promopackagecontroller.getAllPromoItems());
+				salerevenue.generateNewSalesReport(sc, orderController.getAllOrders(), alacartecontroller.getAllAlacarteItems(), promopackagecontroller.getAllPromoItems());
 				break;
 			case 8:
 				System.exit(0);

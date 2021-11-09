@@ -54,7 +54,7 @@ public class ClosedOrderController implements iClosedOrder, iDiscount{
 		
 		System.out.println("Apply Discount?(Y/N): ");
 		String isApply = sc.nextLine();
-		if(isApply == "N")
+		if(isApply.equalsIgnoreCase("N"))
 			return 0;
 		
 		PrintDiscountOption();
