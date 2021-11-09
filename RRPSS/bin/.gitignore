@@ -1,15 +1,1 @@
-/AlaCarte.class
-/Category.class
-/Customer.class
-/MenuItem.class
-/MenuItemController.class
-/Order.class
-/OrderController.class
-/Person.class
-/PromoPackage.class
-/RRPSS_App.class
-/Reservation.class
-/SaleRevenue.class
-/Staff.class
-/Table.class
-/ReservationController.class
+/TableController.class

@@ -1,13 +1,15 @@
 
 public class Table {
 	private int tableID;
-	private int capacity = 4;
+	private int capacity;
 	private int noOfPax;
 	private boolean reserved;
+	private boolean occupied;
 	
-	public Table(int tableID)
+	public Table(int tableID, int capacity)
 	{
 		this.tableID = tableID;
+		this.capacity = capacity;
 	}
 	
 	public int getTableID()
@@ -48,5 +50,15 @@ public class Table {
 	public void setReserved(boolean reserved)
 	{
 		this.reserved = reserved;
+	}
+	
+	public boolean getOccupied()
+	{
+		return occupied;
+	}
+	
+	public void setOccupied(boolean occupied)
+	{
+		this.occupied = occupied;
 	}
 }

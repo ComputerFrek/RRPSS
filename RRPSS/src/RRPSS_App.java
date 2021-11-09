@@ -5,6 +5,8 @@ import java.util.Scanner;
 
 public class RRPSS_App {
 	private static ReservationController reserve_control = new ReservationController();
+	static TableController tableController = new TableController();
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		int choice;
@@ -14,9 +16,9 @@ public class RRPSS_App {
 		System.out.println("========================================================");
 		
 		ArrayList<Order> orderlist = new ArrayList<Order>();
-		Table[] tables = new Table[10];
-		for(int i = 0; i < tables.length; i++)
-			tables[i] = new Table(i+1);
+//		Table[] tables = new Table[10];
+//		for(int i = 0; i < tables.length; i++)
+//			tables[i] = new Table(i+1);
 		int ordernum = 1;
 		
 		do{
@@ -53,13 +55,13 @@ public class RRPSS_App {
 			case 5:
 				break;
 			case 6:
-				reserve_control.getDetails(tables);
+				reserve_control.getDetails(tableController);
 				break;
 			case 7:
-				reserve_control.checkRemoveReservation(tables);
+				reserve_control.checkRemoveReservation();
 				break;
 			case 8:
-				showTableAvail(tables);
+				tableController.ViewAvailableTable();
 				break;
 			case 9:
 				printInvoice();
@@ -176,14 +178,5 @@ public class RRPSS_App {
 		//add items in order
 	}
 
-	public static void showTableAvail(Table[] tables)
-	{
-		System.out.println("Tables Available:");
-		for(Table t: tables)
-		{
-			if(!t.getReserved())
-				System.out.println("TableID " + t.getTableID());
-		}
-		System.out.println();
-	}
+
 }

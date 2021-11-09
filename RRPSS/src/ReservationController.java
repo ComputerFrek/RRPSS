@@ -9,7 +9,7 @@ public class ReservationController {
 	private int tableID;
 	private int reservationID = 1;
 	
-	public void getDetails(Table[] tables) {
+	public void getDetails(TableController table_control) {
 		
 		Scanner sc = new Scanner(System.in);
 		
@@ -37,7 +37,9 @@ public class ReservationController {
 		
 		System.out.print("Number of pax: ");
 		int pax = sc.nextInt();
-		if(!checkTable(tables, pax))
+		
+		tableID = table_control.CheckTable(pax);
+		if(tableID == -1)
 		{
 			System.out.println("No tables currently available.");
 		}
@@ -50,17 +52,17 @@ public class ReservationController {
 			customer.setName(name);
 			
 			Reservation reserve = new Reservation(
-					reservationID,LocalDateTime.parse(date+"T"+time+":00"),pax,customer,tables[tableID-1]);
+					reservationID,LocalDateTime.parse(date+"T"+time+":00"),pax,customer,table_control.tables[tableID-1]);
 			
 			reservation.add(reserve);
-			tables[tableID-1].setReserved(true);
-			System.out.printf("Reservation has been created. Reservation ID is %d. Table ID is %d.\n",reservationID,tableID);
+			
+			table_control.tables[tableID-1].setReserved(true);
+			System.out.printf("Reservation has been created. \nReservation ID is %d. Table ID is %d.\n",reservationID,tableID);
 			System.out.println();
 			
 			reservationID++;
 						
-		}
-		
+		}	
 	}
 	
 	public List<Reservation> getReservations()
@@ -70,10 +72,14 @@ public class ReservationController {
 	
 	private void printReservation()
 	{
-		System.out.println("Reservations: ");
-		System.out.println("--------------------------------");
+		checkPeriodExpiry();
+		
+		System.out.println("\n\t\t  Reservations ");
+		System.out.println("----------------------------------------------------");
+		System.out.println(" ID |  Reserved Time   | Table ID | Pax | Name ");
+		System.out.println("----------------------------------------------------");
 		if(reservation.isEmpty())
-			System.out.println("There are no reservations.\n");
+			System.out.println("\t    There are no reservations.\n");
 		else
 		{
 			for(Reservation r : reservation)
@@ -88,38 +94,78 @@ public class ReservationController {
 		}
 	}
 	
-	private void remove(Table[] tables, int reservationID)
+//	private void remove(Table[] tables, int reservationID, boolean occupy)
+//	{
+//		for(int i = 0; i < reservation.size(); i++)
+//		{
+//			if(reservation.get(i).getReservationID() == reservationID)
+//			{
+//				tables[reservation.get(i).getTableReserved().getTableID() - 1].setReserved(false);
+//				tables[reservation.get(i).getTableReserved().getTableID() - 1].setOccupied(occupy);;
+//				reservation.remove(i);
+//				System.out.printf("ReservationID %d is removed.\n\n",reservationID);
+//			}			
+//		}
+//	}
+	private void remove(int reservationID, boolean occupy)
 	{
 		for(int i = 0; i < reservation.size(); i++)
 		{
 			if(reservation.get(i).getReservationID() == reservationID)
 			{
-				tables[reservation.get(i).getTableReserved().getTableID() - 1].setReserved(false);
+				reservation.get(i).getTableReserved().setReserved(false);
+				reservation.get(i).getTableReserved().setOccupied(occupy);
 				reservation.remove(i);
-				System.out.printf("ReservationID %d is removed.\n",reservationID);
-			}			
+			}
 		}
 	}
 	
-	private void removeReservation(Table[] tables)
+	private void removeReservation()
 	{
 		if(reservation.isEmpty())
 		{
-			System.out.println("There are no reservations to remove.\n");
+			System.out.println("\nThere are no reservations to remove.\n");
 			return;
 		}
+
+		System.out.print("\nEnter reservation ID to remove: ");
+		Scanner sc = new Scanner(System.in);
+		int reservationID = sc.nextInt();
+
+		if(!checkReservation(reservationID))
+		{
+			System.out.print("Reservation ID not found.\n");
+			return;
+		}
+		
+		System.out.print("Did the customer(s) arrive? (Y/N): ");
+		String c = sc.next();
+		
+		if(c.trim().toLowerCase().equals("y"))
+			remove(reservationID,true);//remove(tables,reservationID,true);
+		else if(c.trim().toLowerCase().endsWith("n"))
+			remove(reservationID,false);//remove(tables,reservationID,false);
 		else
 		{
-			System.out.print("Enter reservation ID to remove: ");
-			Scanner sc = new Scanner(System.in);
-			int reservationID = sc.nextInt();
-
-			remove(tables,reservationID);
-			
+			System.out.println("Invalid input. Please try again.");
+			return;
 		}
+		System.out.printf("ReservationID %d is removed.\n\n",reservationID);
 	}
 	
-	public void checkRemoveReservation(Table[] tables) 
+	private boolean checkReservation(int reservationID)
+	{
+		for(int i = 0; i < reservation.size(); i++)
+		{
+			if(reservation.get(i).getReservationID() == reservationID)
+			{
+				return true;
+			}			
+		}
+		return false;
+	}
+	
+	public void checkRemoveReservation() 
 	{
 		int choice;
 		Scanner sc = new Scanner(System.in);
@@ -134,7 +180,7 @@ public class ReservationController {
 			{
 			case 1:	printReservation();
 			break;
-			case 2: removeReservation(tables);
+			case 2: removeReservation();
 			break;
 			case 3: System.out.println(); 
 				return;
@@ -163,19 +209,20 @@ public class ReservationController {
 		return true;
 	}
 	
-	private boolean checkTable(Table[] tables, int pax)
+	private void checkPeriodExpiry()
 	{
-		for(Table t : tables)
+		LocalDateTime current = LocalDateTime.now();
+		if(reservation.isEmpty())
+			return;
+		
+		for(int i = 0; i < reservation.size(); i++)
 		{
-			if(!t.getReserved())
+			if(current.isAfter(reservation.get(i).getExpiryTime())) 
 			{
-				if(t.getCapacity() >= pax)
-				{
-					tableID = t.getTableID();
-					return true;
-				}
+				remove(reservation.get(i).getReservationID(),false);
 			}
 		}
-		return false;
+		
 	}
+	
 }
