@@ -112,8 +112,8 @@ public class UpdateOrderController implements iUpdateOrderController{
 		RRPSS_App.menuItemController.acC.printAlacarteMenu();
 				
 		System.out.print("Select an Item: ");
-		String menuItemSelected = sc.nextLine();
-		return RRPSS_App.menuItemController.acC.getAlacarteItem(menuItemSelected);
+		int menuIndex = sc.nextInt();
+		return RRPSS_App.menuItemController.acC.getAllAlacarteItems().get(menuIndex-1);
 		
 	}
 	private MenuItem PromoChoice() {
@@ -122,8 +122,8 @@ public class UpdateOrderController implements iUpdateOrderController{
 		RRPSS_App.menuItemController.ppC.printPromoMenu();
 		
 		System.out.print("Select a Promo Package: ");
-		String menuItemSelected = sc.nextLine();
-		return RRPSS_App.menuItemController.ppC.getPromoPackage(menuItemSelected);
+		int menuIndex = sc.nextInt();
+		return RRPSS_App.menuItemController.ppC.getAllPromoItems().get(menuIndex-1);
 		
 	}
 	
@@ -146,7 +146,7 @@ public class UpdateOrderController implements iUpdateOrderController{
 				
 				oC.viewOC.ShowAllOrderItems(order);
 				System.out.println();
-				System.out.print("Select an Item: ");
+				System.out.print("Enter Item Name: ");
 				itemInput = sc.next();
 				orderItem = order.getOrderItem(itemInput);
 				if(orderItem == null)

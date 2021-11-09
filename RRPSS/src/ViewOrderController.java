@@ -228,7 +228,7 @@ public class ViewOrderController implements iViewOrderController{
         for (String menuItem : order.getOrderItems().keySet())
         {
             OrderItems orderItem = order.getOrderItems().get(menuItem);
-            System.out.printf("%03d \t%-10s \t\t%02d\r\n",count, orderItem.getMenuItem().getItemName(), orderItem.getQuantity());
+            System.out.printf("%03d \t%-15s \t%02d\r\n",count, orderItem.getMenuItem().getItemName(), orderItem.getQuantity());
             count++;
         }
 	}

@@ -31,6 +31,7 @@ public class RRPSS_App {
 		int ordernum = 1;
 		
 		do{
+			System.out.println();
 			System.out.println("(1) View/Create/Update/Remove Menu Item");
 			System.out.println("(2) View/Create/Update/Remove Promotion");
 			System.out.println("(3) Create order");
