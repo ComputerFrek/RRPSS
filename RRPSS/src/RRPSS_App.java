@@ -7,23 +7,20 @@ public class RRPSS_App {
 	static OrderController orderController;
 	static StaffController staffController;
 	static TableController tableController;
-	static CategoryController categoryController;
-	static PromoPackageController promopackagecontroller;
-	static AlacarteController alacartecontroller;
+	static MenuItemController menuItemController;
 	
-	
+	static ReservationController reservationController = new ReservationController();
 	static ArrayList<Discount> membershipDiscount = new ArrayList<Discount>();
 	static ArrayList<Discount> couponDiscount = new ArrayList<Discount>();
 	static ArrayList<Tax> taxList = new ArrayList<Tax>();
+	
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		orderController = new OrderController();
 		staffController = new StaffController();
 		tableController = new TableController();
-		categoryController = new CategoryController();
-		alacartecontroller = new AlacarteController();
-		promopackagecontroller = new PromoPackageController();
+		menuItemController = new MenuItemController(); 
 		GenerateDiscount();
 		GenerateTax();
 		int choice;
@@ -36,35 +33,50 @@ public class RRPSS_App {
 		do{
 			System.out.println("(1) View/Create/Update/Remove Menu Item");
 			System.out.println("(2) View/Create/Update/Remove Promotion");
-			System.out.println("(3) Order");
-			System.out.println("(4) Create Reservation Booking");
-			System.out.println("(5) Check/Remove Reservation Booking");
-			System.out.println("(6) Check Table Availability");
-			System.out.println("(7) Print Sale Revenue Report By Period");
-			System.out.println("(8) Exit");
+			System.out.println("(3) Create order");
+			System.out.println("(4) View order");
+			System.out.println("(5) Add/Remove order item/s to/from order");
+			System.out.println("(6) Create Reservation Booking"); //
+			System.out.println("(7) Check/Remove Reservation Booking"); //
+			System.out.println("(8) Check Table Availability");
+			System.out.println("(9) Print order invoice");
+			System.out.println("(10) Print Sale Revenue Report By Period");
+			System.out.println("(0) Exit");
 			System.out.print("Enter Choice: ");
 			choice = sc.nextInt();
 
 			switch(choice)
 			{
 			case 1:
-				runCreateUpdateRemoveAlacarte();
+				menuItemController.runCreateUpdateRemoveAlacarte();
 				break;
 			case 2:
-				runCreateUpdateRemovePromo();
+				menuItemController.runCreateUpdateRemovePromo();
 				break;
 			case 3:	
-				orderController.OrderMenu();
+				orderController.OpenOrder();
 				break;
 			case 4:
+				orderController.ViewOrder();
 				break;
 			case 5:
+				orderController.UpdateOrder();
 				break;
 			case 6:
+				reservationController.getDetails(tableController);
 				break;
 			case 7:
+				reservationController.checkRemoveReservation();
 				break;
 			case 8:
+				tableController.ViewTable();
+				break;
+			case 9:
+				orderController.CloseOrder(taxList, membershipDiscount, couponDiscount);
+				break;
+			case 10:
+				break;
+			case 0:
 				System.exit(0);
 				break;
 			default:
@@ -74,153 +86,7 @@ public class RRPSS_App {
 		}while(choice!=0);
 	}
 	
-	public static void runCreateUpdateRemoveAlacarte() {
-		int choice;
-		Scanner sc = new Scanner(System.in);
-		try {
-			do {
-				//call menuitem controller display
-				System.out.println("(1) View Menu Item");
-				System.out.println("(2) Create Menu Item");
-				System.out.println("(3) Update Menu Item");
-				System.out.println("(4) Remove Menu Item");
-				System.out.println("(0) Back");
-				System.out.print("Enter Choice: ");
-				choice = sc.nextInt();
-				
-				switch(choice)
-				{
-					case 1:
-						alacartecontroller.printAlacarteMenu();
-						break;
-					case 2:
-						System.out.print("Enter Dish Name: ");
-						String dishname = sc.next();
-						System.out.print("Enter Description: ");
-						String dishdesc = sc.next();
-						System.out.print("Enter Price: ");
-						String dishprice = sc.next();
-						
-						alacartecontroller.createAlacarteItem(dishname, dishdesc, dishprice);
-						break;
-					case 3:
-						System.out.print("Enter Old Dish Name: ");
-						String olddishname = sc.next();
-						System.out.print("Enter New Dish Name: ");
-						String newdishname = sc.next();
-						System.out.print("Enter New Description: ");
-						String newdishdesc = sc.next();
-						System.out.print("Enter New Price: ");
-						String newdishprice = sc.next();
-						
-						alacartecontroller.updateAlacarteItem(olddishname, newdishname, newdishdesc, newdishprice);
-						break;
-					case 4:
-						System.out.print("Enter Dish Name: ");
-						alacartecontroller.deleteAlacarteItem(sc.next());
-						break;
-					case 0:
-						return;
-					default:
-						break;
-				}
-				
-				System.out.println();
-			}while(choice != 0);
-		}
-		catch(Exception ex){
-			System.out.println("Error: Invalid Input. Please Try Again.");
-		}
-
-	}
 	
-	public static void runCreateUpdateRemovePromo() {
-		int choice;
-		Scanner sc = new Scanner(System.in);
-		//try {
-			do {
-				System.out.println("(1) View Promo Item");
-				System.out.println("(2) Create Promo Item");
-				System.out.println("(3) Update Promo Item");
-				System.out.println("(4) Remove Promo Item");
-				System.out.println("(0) Back");
-				System.out.print("Enter Choice: ");
-				choice = sc.nextInt();
-				
-				switch(choice)
-				{
-					case 1:
-						promopackagecontroller.printPromoMenu();
-						break;
-					case 2:
-						System.out.println("Enter Promo Name: ");
-						String dishname = sc.next();
-						System.out.println("Promo:" + dishname);
-						System.out.println("Enter Description: ");
-						String dishdesc = sc.next();
-						System.out.println("Desc:" + dishdesc);
-						
-						System.out.println("Enter Price: ");
-						String dishprice = sc.next();
-						System.out.println("Promo:" + dishprice);
-						System.out.println("=======================");
-						
-						//call menuitem controller display
-						promopackagecontroller.printAlacarteMenu();
-						System.out.print("Add alacarte dish(Separate by comma): ");
-						String[] dishlist = sc.next().split(",");
-						List<Alacarte> ailist = new ArrayList<>();
-						for(String s: dishlist)
-						{
-							ailist.add(promopackagecontroller.getAlacarteItem(s));
-						}
-						
-						System.out.println("=======================");
-						promopackagecontroller.createPromoPackage(dishname, dishdesc, dishprice, ailist);
-						break;
-					case 3:
-						System.out.print("Enter Old Promo Name: ");
-						String olddishname = sc.next();
-						System.out.print("Enter New Promo Name: ");
-						String newdishname = sc.next();
-						System.out.print("Enter New Description: ");
-						String newdishdesc = sc.next();
-						System.out.print("Enter New Price: ");
-						String newdishprice = sc.next();
-						System.out.println("=======================");
-						
-						//call menuitem controller display
-						promopackagecontroller.printAlacarteMenu();
-						System.out.print("Add alacarte dish(Separate by comma): ");
-						dishlist = sc.next().split(",");
-						ailist = new ArrayList<>();
-						for(String s: dishlist)
-						{
-							ailist.add(promopackagecontroller.getAlacarteItem(s));
-						}
-						
-						System.out.println("=======================");
-						
-						promopackagecontroller.updatePromoPackage(olddishname, newdishname, newdishdesc, newdishprice, ailist);
-						break;
-					case 4:
-						System.out.print("Enter Dish Name: ");
-						promopackagecontroller.deleteAlacarteItem(sc.next());
-						break;
-					case 0:
-						return;
-					default:
-						break;
-				}
-				
-				System.out.println();
-			} while(choice != 0);
-
-		//}
-		//catch(Exception ex){
-		//	System.out.println("Error: Invalid Input. Please Try Again.");
-		//}
-	}
 	
 	private static void GenerateTax() {
 		Tax gst = new Tax("GST",7);

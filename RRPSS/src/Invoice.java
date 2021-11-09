@@ -3,35 +3,27 @@ import java.time.format.DateTimeFormatter;
 
 public class Invoice {
 	
-	private Order order;
-	
-
-	public Invoice(Order order) {
-		this.order = order;
-	}
-	
-	
-	public void printInvoice()
+	public static void PrintInvoice(Order order)
 	{
 		System.out.println();
 		System.out.println("----------------------------------------");
-		printHeader();
+		printHeader(order);
 		System.out.println("----------------------------------------");
 		System.out.println("QTY \tITEM \t\t\tAMT ");
 		System.out.println("----------------------------------------");
-		printMenuItem();
+		printMenuItem(order);
 		System.out.println("----------------------------------------");
-		printSubTotal();
+		printSubTotal(order);
 		System.out.println("----------------------------------------");
-		printTotal();
+		printTotal(order);
 		System.out.println();
 		
 	}
-	private void printHeader(){
+	private static void printHeader(Order order){
 		System.out.printf("Server: %s\t\t Date:%s \r\n",order.getStaff().getName() ,ProduceDate(order.getEndTimeStamp()));
 		System.out.printf("Table: %d\t\t Time:%s \r\n",order.getTable().getTableID() ,ProduceTime(order.getEndTimeStamp()));
 	}
-	private void printMenuItem() {
+	private static void printMenuItem(Order order) {
 		for (String item : order.getOrderItems().keySet())
         {
 			String menuItem = item;
@@ -40,15 +32,15 @@ public class Invoice {
             System.out.printf("%d \t%-15s \t%.2f \r\n",qty, menuItem, itemSubTotal);
         }
 	}
-	private void printSubTotal() {
+	private static void printSubTotal(Order order) {
 		System.out.printf("  SUB-TOTAL:\t\t\t%.2f \r\n", order.getSubtotal());
-		printTaxes();
-		printDiscount();
+		printTaxes(order);
+		printDiscount(order);
 	}
-	private void printTotal() {
+	private static void printTotal(Order order) {
 		System.out.printf("  TOTAL:\t\t\t%.2f \r\n",order.getTotal());
 	}
-	private void printTaxes() {
+	private static void printTaxes(Order order) {
 		for(TaxOrder tO : order.getTaxOrders())
 		{
 			Tax t = tO.getTax();
@@ -56,7 +48,7 @@ public class Invoice {
 			System.out.printf("  %d %s:\t\t\t%.2f \r\n",(int)t.taxPercentage, t.taxName, taxPrice);
 		}
 	}
-	private void printDiscount() {
+	private static void printDiscount(Order order) {
 		if(order.getDiscount() == null)
 			return;
 		DiscountOrder dO = order.getDiscount();
@@ -78,11 +70,11 @@ public class Invoice {
 		System.out.printf("  DISCOUNT:\t\t\t-%.2f \r\n", discountPrice);
 	}
 
-	private String ProduceDate(LocalDateTime timeStamp) {
+	private static String ProduceDate(LocalDateTime timeStamp) {
 		DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd/MM/yyy");
 		return timeStamp.format(formatDate);
 	}
-	private String ProduceTime(LocalDateTime timeStamp) {
+	private static String ProduceTime(LocalDateTime timeStamp) {
 		DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("HH:mm");
 		return timeStamp.format(formatDate);
 	}

@@ -1,12 +1,22 @@
 import java.time.*;
-import java.lang.*;
 
 public class Reservation {
 	private int reservationID;
-	private LocalDateTime datetime = LocalDateTime.now();
+	//private String date_time;
+	private LocalDateTime datetime;
+	private LocalDateTime expirytime;
 	private int noOfPax;
 	private Customer customerBooked;
 	private Table tableReserved;
+	
+	public Reservation(int reservationID, LocalDateTime datetime,int noOfPax, Customer customerBooked, Table tableReserved) {
+		this.reservationID = reservationID;
+		this.datetime = datetime;
+		this.expirytime = this.datetime.plusMinutes(30);
+		this.noOfPax = noOfPax;
+		this.customerBooked = customerBooked;
+		this.tableReserved = tableReserved;
+	}
 	
 	public int getReservationID()
 	{
@@ -26,6 +36,16 @@ public class Reservation {
 	public void setDateTime(LocalDateTime datetime)
 	{
 		this.datetime = datetime; //idk man
+	}
+	
+	public LocalDateTime getExpiryTime()
+	{
+		return expirytime;
+	}
+	
+	public void setExpiryTime(LocalDateTime expirytime)
+	{
+		this.expirytime = expirytime;
 	}
 	
 	public int getNoOfPax()

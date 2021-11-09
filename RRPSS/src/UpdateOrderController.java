@@ -39,48 +39,6 @@ public class UpdateOrderController implements iUpdateOrderController{
 			System.out.println("Error: Invalid Input. Please Try Again.");
 		}
 	}
-
-	public void AddOrderItem(Order order) {
-		Scanner sc = new Scanner(System.in);
-		String categoryInput = "";
-		String menuInput = "";
-		Category category;
-		MenuItem menuItem = null;
-		OrderItems orderItem; 
-		System.out.println();
-		while(!menuInput.trim().toLowerCase().equals("exit")) {		
-			menuItem = AddOrderMenu();
-			
-			if(menuItem == null)
-			{
-				System.out.println("No Menu Item Selected.");
-				break;
-			}
-			
-			// Show Menu Item Description and Price
-			System.out.printf("Menu Item Selected: \r\n"
-					+ "Item Name: \t%s \r\n"
-					+ "Category: \t%s \r\n"
-					+ "Price: \t\t%.2f \r\n", 
-					menuItem.getItemName(), menuItem.getDescription(), menuItem.getPrice());
-
-			if((orderItem = order.getOrderItem(menuItem.getItemName())) != null)
-				System.out.printf("Existing Quantity: %d \r\n", orderItem.getQuantity());
-			
-			if(orderItem == null)
-				orderItem = new OrderItems(menuItem, 0);
-			
-			System.out.print("Enter Quantity to Add: ");	// Do You want do it by addition or replace the value
-			orderItem.setQuantity(orderItem.getQuantity()+sc.nextInt());
-			order.addOrderItem(orderItem);
-			
-			System.out.printf("Item: %s was added into Order List - QTY: %d\r\n", menuItem.getItemName(), orderItem.getQuantity());
-			
-
-			
-			
-		} 
-	}
 	private MenuItem AddOrderMenu() {
 		Scanner sc = new Scanner(System.in);
 		int choice = -1;
@@ -105,24 +63,67 @@ public class UpdateOrderController implements iUpdateOrderController{
 		}while(choice != 0);
 		return null;
 	}
+	
+	public void AddOrderItem(Order order) {
+		Scanner sc = new Scanner(System.in);
+		String menuInput = "";
+		MenuItem menuItem = null;
+		OrderItems orderItem; 
+		System.out.println();
+		try {
+			while(!menuInput.trim().toLowerCase().equals("exit")) {		
+				menuItem = AddOrderMenu();
+				
+				if(menuItem == null)
+				{
+					System.out.println("No Menu Item Selected.");
+					break;
+				}
+				
+				// Show Menu Item Description and Price
+				System.out.printf("Menu Item Selected: \r\n"
+						+ "Item Name: \t%s \r\n"
+						+ "Category: \t%s \r\n"
+						+ "Price: \t\t%.2f \r\n", 
+						menuItem.getItemName(), menuItem.getDescription(), menuItem.getPrice());
+
+				if((orderItem = order.getOrderItem(menuItem.getItemName())) != null)
+					System.out.printf("Existing Quantity: %d \r\n", orderItem.getQuantity());
+				
+				if(orderItem == null)
+					orderItem = new OrderItems(menuItem, 0);
+				
+				System.out.print("Enter Quantity to Add: ");	// Do You want do it by addition or replace the value
+				orderItem.setQuantity(orderItem.getQuantity()+sc.nextInt());
+				order.addOrderItem(orderItem);
+				
+				System.out.printf("Item: %s was added into Order List - QTY: %d\r\n", menuItem.getItemName(), orderItem.getQuantity());
+			}
+		}
+		catch(Exception ex)
+		{
+			System.out.println("Error: Adding Item Failed.");
+		}
+ 
+	}
 	private MenuItem AlaCarteChoice() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println();
-		RRPSS_App.alacartecontroller.printAlacarteMenu();
+		RRPSS_App.menuItemController.acC.printAlacarteMenu();
 				
 		System.out.print("Select an Item: ");
 		String menuItemSelected = sc.nextLine();
-		return RRPSS_App.alacartecontroller.getAlacarteItem(menuItemSelected);
+		return RRPSS_App.menuItemController.acC.getAlacarteItem(menuItemSelected);
 		
 	}
 	private MenuItem PromoChoice() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println();
-		RRPSS_App.promopackagecontroller.printPromoMenu();
+		RRPSS_App.menuItemController.ppC.printPromoMenu();
 		
 		System.out.print("Select a Promo Package: ");
 		String menuItemSelected = sc.nextLine();
-		return RRPSS_App.promopackagecontroller.getPromoPackage(menuItemSelected);
+		return RRPSS_App.menuItemController.ppC.getPromoPackage(menuItemSelected);
 		
 	}
 	
@@ -139,56 +140,60 @@ public class UpdateOrderController implements iUpdateOrderController{
 			System.out.println("Order's order list is Empty.");
 			return;
 		}
-		
-		while(!itemInput.trim().toLowerCase().equals("exit"))
-		{
-			
-			oC.viewOC.ShowAllOrderItems(order);
-			System.out.println();
-			System.out.print("Select an Item: ");
-			itemInput = sc.next();
-			orderItem = order.getOrderItem(itemInput);
-			if(orderItem == null)
+		try {
+			while(!itemInput.trim().toLowerCase().equals("exit"))
 			{
-				System.out.println("Item not included in order list.");
+				
+				oC.viewOC.ShowAllOrderItems(order);
 				System.out.println();
-				continue;
-			}
+				System.out.print("Select an Item: ");
+				itemInput = sc.next();
+				orderItem = order.getOrderItem(itemInput);
+				if(orderItem == null)
+				{
+					System.out.println("Item not included in order list.");
+					System.out.println();
+					continue;
+				}
 
-			// Show Item Selected
+				// Show Item Selected
 
-			System.out.println();
-			System.out.printf("Item Selected: \n"
-					+ "Item Name: \t%s \n"
-					+ "Quantity: \t%d \n", 
-					orderItem.getMenuItem().getItemName(), orderItem.getQuantity());
-			
-			// Check Quantity
-			System.out.println();
-			System.out.printf("Enter Reduce Quantity By: ");
-			quantityRemove = sc.nextInt();
-			newQuantity = orderItem.getQuantity() - quantityRemove;
-			// Remove Item
-			if(newQuantity <= 0)
-			{
-				order.removeOrderItems(itemInput);
-				System.out.printf("Item: %s has been removered from Order List", itemInput);
+				System.out.println();
+				System.out.printf("Item Selected: \n"
+						+ "Item Name: \t%s \n"
+						+ "Quantity: \t%d \n", 
+						orderItem.getMenuItem().getItemName(), orderItem.getQuantity());
+				
+				// Check Quantity
+				System.out.println();
+				System.out.printf("Enter Reduce Quantity By: ");
+				quantityRemove = sc.nextInt();
+				newQuantity = orderItem.getQuantity() - quantityRemove;
+				// Remove Item
+				if(newQuantity <= 0)
+				{
+					order.removeOrderItems(itemInput);
+					System.out.printf("Item: %s has been removered from Order List", itemInput);
+				}
+				else
+				{
+					orderItem.setQuantity(newQuantity);
+					System.out.printf("%d has been removed from %s", quantityRemove, itemInput);
+				}
+				
+				if(order.getOrderItems().size() <= 0)
+				{
+					System.out.println("Order's order list is Empty.");
+					return;
+				}
+				
+				System.out.println("Type any key to continue adding. \r\n(Type: Exit, To Exit Adding Items)");
+				itemInput = sc.next();			
 			}
-			else
-			{
-				orderItem.setQuantity(newQuantity);
-				System.out.printf("%d has been removed from %s", quantityRemove, itemInput);
-			}
-			
-			if(order.getOrderItems().size() <= 0)
-			{
-				System.out.println("Order's order list is Empty.");
-				return;
-			}
-			
-			System.out.println("Type any key to continue adding. \r\n(Type: Exit, To Exit Adding Items)");
-			itemInput = sc.next();
-						
+		}
+		catch(Exception ex)
+		{
+			System.out.println("Error: Adding Item Failed.");
 		}
 	}
 }

@@ -15,50 +15,9 @@ public class OrderController {
 		closedOC = new ClosedOrderController(this);
 		openOC = new OpenOrderController(this);
 	}	
-	
-	public void OrderMenu() {
 
-		Scanner sc = new Scanner(System.in);
-		int choice = -1;
-		
-		try {
-			
-			do
-			{
-				System.out.println();
-				
-				System.out.println("(1) View Orders");
-				System.out.println("(2) Open Order");
-				System.out.println("(3) Close Order");
-				System.out.println("(4) Add/Remove Order Items");
-				System.out.println("(0) Exit");
-				System.out.print("Enter Choice: ");
-				choice = sc.nextInt();
-				
-				switch(choice) {
-					case 1:
-						viewOC.ViewOrderMenu(orderMap);
-						break;
-					case 2:
-						OpenOrder();
-						break;
-					case 3:
-						CloseOrder(RRPSS_App.taxList, RRPSS_App.membershipDiscount, RRPSS_App.couponDiscount);
-						break;
-					case 4:
-						UpdateOrder();
-						break;
-					case 0:
-						break;
-					default:
-						break;
-				}
-			} while(choice != 0);
-		}
-		catch(Exception ex)
-		{
-			System.out.println("Error: Invalid Input. Please Try Again.");
-		}
+	public void ViewOrder() {
+		viewOC.ViewOrderMenu(orderMap);
 	}
 	
 	public void PrintInvoice(Order order)
@@ -69,10 +28,8 @@ public class OrderController {
 		System.out.print("Print Invoice? (Y/N): ");
 		choice = sc.next();
 		if(!choice.trim().toLowerCase().equals("y"))
-			return;
-		
-		Invoice invoice = new Invoice(order);
-		invoice.printInvoice();
+			return; 
+		Invoice.PrintInvoice(order);
 	}
 	public Order SelectOrder(int orderID) {
 		if(!orderMap.containsKey(orderID))
@@ -114,10 +71,4 @@ public class OrderController {
 		}
 		return order;
 	}
-
-
-	
-
-	
-
 }

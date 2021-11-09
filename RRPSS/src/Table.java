@@ -5,6 +5,7 @@ public class Table {
 	private int capacity;
 	private boolean reserved;
 	private boolean occupied;
+	private Order order;
 	
 	public Table(int tableID, int capacity)
 	{
@@ -59,5 +60,13 @@ public class Table {
 	public void setOccupied(boolean occupied)
 	{
 		this.occupied = occupied;
+	}
+	public Order getOrder()
+	{
+		return order;
+	}
+	public void setOrder(Order order)
+	{
+		this.order = order;
 	}
 }

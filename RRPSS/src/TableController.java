@@ -10,10 +10,14 @@ public class TableController {
 	}
 	public void ViewTable() {
 		System.out.println("All Tables:");
-		System.out.println("Table ID \tNo Of Pax");
+		System.out.println("Table ID \tCapacity \tNo Of Pax\tisOccupied? \tisReserved?");
 		for(Table t: tables)
 		{
-			System.out.printf("%02d \t%02d pax \r\n", t.getTableID(), t.getCapacity());
+			String isOccupied = ((t.getOccupied() == true) ? Integer.toString(t.getOrder().getOrderID()) : "Vacant");
+			String isReserved = ((t.getReserved() == true) ? "Reserved" : "NIL");
+			String noOfPax = ((t.getNoOfPax() == 0) ? "-" : Integer.toString(t.getNoOfPax()));
+			System.out.printf("%02d \t\t%02d \t\t%s\t\t%s \t\t%s\r\n", 
+					t.getTableID(), t.getCapacity(), noOfPax, isOccupied, isReserved);
 		}
 		System.out.println();
 	} 
