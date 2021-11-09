@@ -17,10 +17,9 @@ public class Invoice {
 		System.out.println("----------------------------------------");
 		printHeader();
 		System.out.println("----------------------------------------");
-		System.out.println("QTY \tITEM \t\tAMT ");
+		System.out.println("QTY \tITEM \t\t\tAMT ");
 		System.out.println("----------------------------------------");
-		System.out.println();
-		//printMenuItem();
+		printMenuItem();
 		System.out.println("----------------------------------------");
 		printSubTotal();
 		System.out.println("----------------------------------------");
@@ -38,23 +37,23 @@ public class Invoice {
 			String menuItem = item;
 			int qty = order.getOrderItem(menuItem).getQuantity();
             double itemSubTotal = order.getOrderItem(menuItem).getSubTotal();
-            System.out.printf("%d \t%s \t\t%2.f \r\n",qty, menuItem, itemSubTotal);
+            System.out.printf("%d \t%-15s \t%.2f \r\n",qty, menuItem, itemSubTotal);
         }
 	}
 	private void printSubTotal() {
-		System.out.printf("\t\tSUB-TOTAL: \t%.2f \r\n", order.getSubtotal());
-		printDiscount();
+		System.out.printf("  SUB-TOTAL:\t\t\t%.2f \r\n", order.getSubtotal());
 		printTaxes();
+		printDiscount();
 	}
 	private void printTotal() {
-		System.out.printf("\t\t    TOTAL:\t%.2f \r\n",order.getTotal());
+		System.out.printf("  TOTAL:\t\t\t%.2f \r\n",order.getTotal());
 	}
 	private void printTaxes() {
 		for(TaxOrder tO : order.getTaxOrders())
 		{
 			Tax t = tO.getTax();
 			double taxPrice = tO.getTaxPrice();
-			System.out.printf("\t\t%d-%-15s:%.2f \r\n",(int)t.taxPercentage, t.taxName, taxPrice);
+			System.out.printf("  %d %s:\t\t\t%.2f \r\n",(int)t.taxPercentage, t.taxName, taxPrice);
 		}
 	}
 	private void printDiscount() {
@@ -68,16 +67,15 @@ public class Invoice {
 		{
 			Membership m = (Membership)d;
 			String name = m.membershipName;
-			System.out.printf("\t\tMEMBER: \t%s \r\n", name);
+			System.out.printf("  MEMBER:\t\t\t%s \r\n", name);
 		}
 		else if(d instanceof DiscountCoupon)
 		{
 			DiscountCoupon c = (DiscountCoupon)d;
 			String couponName = c.getDescription();
-			System.out.printf("\t\tCOUPON: %s \r\n", couponName);
+			System.out.printf("  COUPON:\t\t\t%s \r\n", couponName);
 		}
-		System.out.printf("\t\tDISCOUNT:\t-%.2f \r\n", discountPrice);
-		
+		System.out.printf("  DISCOUNT:\t\t\t-%.2f \r\n", discountPrice);
 	}
 
 	private String ProduceDate(LocalDateTime timeStamp) {

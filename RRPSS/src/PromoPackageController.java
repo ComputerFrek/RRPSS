@@ -74,10 +74,9 @@ public class PromoPackageController {
 	
 	public void printPromoMenu() {
 		System.out.println("===================");
-		int ppCount = 1;
 		for(PromoPackage pp : promopackages)
 		{
-			System.out.printf("(%d) Set: %s",ppCount ,pp.getItemName());
+			System.out.printf("Set: %s",pp.getItemName());
 			System.out.println("");
 			int mIcount = 1;
 			for(MenuItem mi : pp.getMenuItem())
@@ -88,7 +87,6 @@ public class PromoPackageController {
 			System.out.printf("Description: %s \r\n"
 							+ "Price%.2f \r\n",pp.getDescription(),pp.getPrice());
 			System.out.println();
-			ppCount++;
 		}
 	}
 

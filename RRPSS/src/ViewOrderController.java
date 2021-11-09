@@ -21,12 +21,13 @@ public class ViewOrderController implements iViewOrderController{
 		try {
 			do
 			{
+				System.out.println();
 				Order order;
 				System.out.println("(1) View All Orders");
 				System.out.println("(2) View Existing Order");
 				System.out.println("(3) View Close Order");
 				System.out.println("(0) Exit");
-				System.out.print("Your Choice: ");
+				System.out.print("Enter Choice: ");
 				choice = sc.nextInt();
 				
 				switch(choice) {
@@ -75,9 +76,11 @@ public class ViewOrderController implements iViewOrderController{
 	}
 	
 	public Order SelectOrder() {
-		Scanner sc = new Scanner(System.in);
-		int orderID;
 		
+		Scanner sc = new Scanner(System.in);
+		System.out.println();
+		int orderID;
+		System.out.println();
 		System.out.print("Enter a Order ID: ");
 		orderID = sc.nextInt();
 		
@@ -90,6 +93,13 @@ public class ViewOrderController implements iViewOrderController{
 	public int ViewExistingOrder(Map<Integer, Order> orderMap) {
 		// TODO Auto-generated method stub
 		int count = 1;
+		System.out.println();
+		if(orderMap.keySet().size() <= 0)
+		{
+			System.out.println("There are no orders.");
+			return 0;
+		}
+		
 		System.out.println("Existing Order List: ");
 		System.out.println("No. \tOrder ID \tStaff By");
         for (int orderID : orderMap.keySet())
@@ -100,9 +110,14 @@ public class ViewOrderController implements iViewOrderController{
             System.out.printf("%d \t%s \t\t%s \r\n",count, orderID, order.getStaff().getName());
             count++;
         }
+        
+		if(count == 1)
+		{
+			System.out.println("There are no Closed Orders.");
+			return 0;
+		}
+		
         return count;
-        
-        
 	}
 	
 	@Override
@@ -110,6 +125,8 @@ public class ViewOrderController implements iViewOrderController{
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
 		String showMore;
+		
+		System.out.println();
 		System.out.printf("Order Details: \r\n");
 		System.out.printf("Order ID: \t\t%d \r\n", order.getOrderID());
 		System.out.printf("Table ID: \t\t%d \r\n", order.getTable().getTableID());
@@ -135,6 +152,7 @@ public class ViewOrderController implements iViewOrderController{
 	private void EditMenuItems(Order order) {
 		Scanner sc = new Scanner(System.in);
 		String isEdit;
+		System.out.println();
 		System.out.println("Edit Order List(Y/N) ?");
 		isEdit = sc.next().toLowerCase();
 		if(isEdit.equals("y"))
@@ -149,6 +167,13 @@ public class ViewOrderController implements iViewOrderController{
 	public int ViewClosedOrder(Map<Integer, Order> orderMap) {
 		// TODO Auto-generated method stub
 		int count = 1;
+		System.out.println();
+		if(orderMap.keySet().size() <= 0)
+		{
+			System.out.println("There are no orders.");
+			return 0;
+		}
+		
 		System.out.println("Order List: ");
 		System.out.println("No. \tOrder ID \tStaff By");
         for (int orderID : orderMap.keySet())
@@ -159,6 +184,13 @@ public class ViewOrderController implements iViewOrderController{
             System.out.printf("%d \t%s \t\t%s \r\n",count, orderID, order.getStaff().getName());
             count++;
         }
+        
+		if(count == 1)
+		{
+			System.out.println("There are no Closed Orders.");
+			return 0;
+		}
+		
 		return count;
 	}
 
@@ -166,6 +198,13 @@ public class ViewOrderController implements iViewOrderController{
 	public int ViewAllOrder(Map<Integer, Order> orderMap) {
 		// TODO Auto-generated method stub
 		int count = 1;
+		System.out.println();
+		if(orderMap.keySet().size() <= 0)
+		{
+			System.out.println("There are no orders.");
+			return 0;
+		}
+		
 		System.out.println("Order List: ");
 		System.out.println("No. \tOrder ID \tIs Open");
         for (int orderID : orderMap.keySet())
@@ -175,6 +214,7 @@ public class ViewOrderController implements iViewOrderController{
             System.out.printf("%d \t%s \t\t%s \r\n",count, orderID, isOpen);
             count++;
         }
+                
 		return count;
 	}
 
@@ -182,6 +222,7 @@ public class ViewOrderController implements iViewOrderController{
 	public void ShowAllOrderItems(Order order) {
 		// TODO Auto-generated method stub
 		int count = 1;
+		System.out.println();
 		System.out.println("Order List: ");
 		System.out.println("No. \tItem Name \t\tQTY");
         for (String menuItem : order.getOrderItems().keySet())

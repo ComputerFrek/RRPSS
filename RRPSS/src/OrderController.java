@@ -25,12 +25,14 @@ public class OrderController {
 			
 			do
 			{
+				System.out.println();
+				
 				System.out.println("(1) View Orders");
 				System.out.println("(2) Open Order");
 				System.out.println("(3) Close Order");
 				System.out.println("(4) Add/Remove Order Items");
 				System.out.println("(0) Exit");
-				System.out.print("Your Choice: ");
+				System.out.print("Enter Choice: ");
 				choice = sc.nextInt();
 				
 				switch(choice) {
@@ -41,7 +43,7 @@ public class OrderController {
 						OpenOrder();
 						break;
 					case 3:
-						CloseOrder(RRPSS_App.taxList, RRPSS_App.membershipDiscount);
+						CloseOrder(RRPSS_App.taxList, RRPSS_App.membershipDiscount, RRPSS_App.couponDiscount);
 						break;
 					case 4:
 						UpdateOrder();
@@ -61,6 +63,14 @@ public class OrderController {
 	
 	public void PrintInvoice(Order order)
 	{
+		Scanner sc = new Scanner(System.in);
+		String choice = "";
+		System.out.println();
+		System.out.print("Print Invoice? (Y/N): ");
+		choice = sc.next();
+		if(!choice.trim().toLowerCase().equals("y"))
+			return;
+		
 		Invoice invoice = new Invoice(order);
 		invoice.printInvoice();
 	}
@@ -71,29 +81,38 @@ public class OrderController {
 	}
 	
 	public void UpdateOrder() {
-		viewOC.ViewExistingOrder(orderMap);
-		Order order = viewOC.SelectOrder();
+		
+		Order order = SelectionOrder();
+		if(order == null)
+			return;
 		updateOC.UpdateOrderMenu(order);
 	}
 	public void OpenOrder() {
 		openOC.OpenOrder(orderMap);
 	}
-	public void CloseOrder(ArrayList<Tax> taxList, ArrayList<Discount> membershipDiscount) {
-		Scanner sc = new Scanner(System.in);
+	public void CloseOrder(ArrayList<Tax> taxList, ArrayList<Discount> membershipList, ArrayList<Discount> couponList) {
+		Order order = SelectionOrder();
 		
-		viewOC.ViewExistingOrder(orderMap);
-		Order order = viewOC.SelectOrder();
-		System.out.print("Are You Sure? (Y/N)");
-		
-		String choice = sc.next();
-		if(choice.trim().equals("Y"))
-			closedOC.CloseOrder(order, taxList, membershipDiscount);
-		
-		System.out.print("Print Invoice? (Y/N)");
-		
-		choice = sc.next();
-		if(choice.trim().equals("Y"))
+		if(order == null)
+			return;
+		if(closedOC.CloseOrder(order, taxList, membershipList,couponList))
 			PrintInvoice(order);
+	}
+	public Order SelectionOrder() {
+		
+		int orderCount = viewOC.ViewExistingOrder(orderMap);
+		if(orderCount <=1)
+			return null;
+		
+		Order order = viewOC.SelectOrder();
+		
+		if(order == null || order.getEndTimeStamp() != null)
+		{	
+			System.out.println();
+			System.out.println("Invalid Input: Either Order has been closed or it does not exist.");
+			return null;
+		}
+		return order;
 	}
 
 

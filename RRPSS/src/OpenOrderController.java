@@ -20,9 +20,10 @@ public class OpenOrderController implements iOpenOrder{
 		
 		staff = StaffSelection();
 		noOfPax = NoOfPaxClarification();
-		table = TableSelection();
+		table = TableSelection(noOfPax);
 		
 		Order newOrder = addOrder(orderMap.size()+1, noOfPax, table, staff, orderMap);
+		System.out.println();
 		if(newOrder == null)
 		{
 			System.out.println("Error: Order was not Created");
@@ -30,12 +31,12 @@ public class OpenOrderController implements iOpenOrder{
 		}
 		newOrder.getTable().setOccupied(true);
 		System.out.printf("Order %03d has been created. Seated at Table %02d \r\n", newOrder.getOrderID(), newOrder.getTable().getTableID());
-	
+		
 	}
 	private Staff StaffSelection() {
 		Scanner sc = new Scanner(System.in);
 		Staff staff = null;
-		
+		System.out.println();
 		RRPSS_App.staffController.ViewStaff();
 		while(staff == null) {
 			System.out.print("Select Your Emp ID: ");
@@ -44,27 +45,24 @@ public class OpenOrderController implements iOpenOrder{
 		}
 		return staff;
 	}
-	private Table TableSelection() {
-		Scanner sc = new Scanner(System.in);
-		Table table = null;
-		int tableSelected;
+	private Table TableSelection(int noOfPax) {
+		System.out.println();
+		System.out.println("Searching for Table...");
+		int tableID = RRPSS_App.tableController.CheckTable(noOfPax);
 		
-		RRPSS_App.tableController.ViewTable();
-		System.out.println("Table Selections: ");
-		while(table == null)
+		if(tableID == -1)
 		{
-			System.out.print("Please Select a Table: ");
-			tableSelected = sc.nextInt();
-			table = RRPSS_App.tableController.SelectTable(tableSelected);
-			if(table == null)
-				System.out.println("Invalid Table Selection");
+			System.out.println("No tables currently available.");
+			return null;
 		}
+		Table table = RRPSS_App.tableController.SelectTable(tableID); //TableSelection();
 		return table;
 	}
 	private int NoOfPaxClarification() {
 		Scanner sc = new Scanner(System.in);
 		int noOfPax = 0;
 		
+		System.out.println();
 		while(noOfPax < 1 || noOfPax > 10)
 		{
 			System.out.print("No of Pax?: ");

@@ -44,7 +44,6 @@ public class RRPSS_App {
 			System.out.println("(8) Exit");
 			System.out.print("Enter Choice: ");
 			choice = sc.nextInt();
-			System.out.println();
 
 			switch(choice)
 			{
@@ -225,7 +224,7 @@ public class RRPSS_App {
 	
 	private static void GenerateTax() {
 		Tax gst = new Tax("GST",7);
-		Tax serviceCharge = new Tax("Service Charge",15);
+		Tax serviceCharge = new Tax("Svr Chrg",15);
 		taxList.add(gst);
 		taxList.add(serviceCharge);
 	}
@@ -245,9 +244,9 @@ public class RRPSS_App {
 		membershipDiscount.add(jengkit);
 	}
 	private static void GenerateCoupon() {
-		Discount coupon5 = new DiscountCoupon(5,"$5 OFF Coupon",false);
-		Discount coupon10 = new DiscountCoupon(10,"$10 OFF Coupon",false);
-		Discount coupon15OFF = new DiscountCoupon(0.05,"15% OFF Coupon",true);
+		Discount coupon5 = new DiscountCoupon(5,"$5 OFF",false);
+		Discount coupon10 = new DiscountCoupon(10,"$10 OFF",false);
+		Discount coupon15OFF = new DiscountCoupon(0.05,"5% OFF",true);
 		
 		couponDiscount.add(coupon5);
 		couponDiscount.add(coupon10);
