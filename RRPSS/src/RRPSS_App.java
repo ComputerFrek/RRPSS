@@ -53,10 +53,10 @@ public class RRPSS_App {
 			case 5:
 				break;
 			case 6:
-				createReservation(tables);
+				reserve_control.getDetails(tables);
 				break;
 			case 7:
-				checkRemoveReservation();
+				reserve_control.checkRemoveReservation(tables);
 				break;
 			case 8:
 				showTableAvail(tables);
@@ -148,28 +148,6 @@ public class RRPSS_App {
 		System.out.println();
 	}
 
-	public static void createReservation(Table[] tables)
-	{
-		//int choice;
-		//Scanner sc = new Scanner(System.in);
-		//ReservationController reserve_control = new ReservationController();
-
-		reserve_control.getDetails(tables);
-		//date, time, #pax, name, contact, etc. 
-//		System.out.println("Enter the following details for reservation:");
-//		System.out.println("-----------------------------------------------");
-//		System.out.println("Date & Time (dd-MM-yyy HH:mm) :");
-//		String dateTime = sc.nextLine();
-//
-//		sc.close();
-	}
-	
-	public static void checkRemoveReservation()
-	{
-		reserve_control.printReservation();
-		
-	}
-	
 	public static void printInvoice()
 	{
 		System.out.println("Server: Test\t\t Date:12/06/2011");

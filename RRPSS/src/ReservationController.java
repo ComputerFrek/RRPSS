@@ -1,3 +1,4 @@
+
 import java.util.*;
 import java.time.*;
 import java.time.format.DateTimeParseException;
@@ -45,9 +46,6 @@ public class ReservationController {
 			System.out.print("Customer's Name: "); //name
 			String name = sc.next();
 			
-//			System.out.print("Contact Number: "); //contact
-//			String number = sc.nextLine();
-			
 			Customer customer = new Customer();
 			customer.setName(name);
 			
@@ -56,7 +54,7 @@ public class ReservationController {
 			
 			reservation.add(reserve);
 			tables[tableID-1].setReserved(true);
-			System.out.println("Reservation has been created. Reservation ID is "+reservationID);
+			System.out.printf("Reservation has been created. Reservation ID is %d. Table ID is %d.\n",reservationID,tableID);
 			System.out.println();
 			
 			reservationID++;
@@ -70,7 +68,7 @@ public class ReservationController {
 		return reservation;
 	}
 	
-	public void printReservation()
+	private void printReservation()
 	{
 		System.out.println("Reservations: ");
 		System.out.println("--------------------------------");
@@ -90,6 +88,61 @@ public class ReservationController {
 		}
 	}
 	
+	private void remove(Table[] tables, int reservationID)
+	{
+		for(int i = 0; i < reservation.size(); i++)
+		{
+			if(reservation.get(i).getReservationID() == reservationID)
+			{
+				tables[reservation.get(i).getTableReserved().getTableID() - 1].setReserved(false);
+				reservation.remove(i);
+				System.out.printf("ReservationID %d is removed.\n",reservationID);
+			}			
+		}
+	}
+	
+	private void removeReservation(Table[] tables)
+	{
+		if(reservation.isEmpty())
+		{
+			System.out.println("There are no reservations to remove.\n");
+			return;
+		}
+		else
+		{
+			System.out.print("Enter reservation ID to remove: ");
+			Scanner sc = new Scanner(System.in);
+			int reservationID = sc.nextInt();
+
+			remove(tables,reservationID);
+			
+		}
+	}
+	
+	public void checkRemoveReservation(Table[] tables) 
+	{
+		int choice;
+		Scanner sc = new Scanner(System.in);
+		do {
+			System.out.println("(1) Check Reservation(s)");
+			System.out.println("(2) Remove Reservation(s)");
+			System.out.println("(3) Exit");
+			System.out.print("Enter choice: ");
+			
+			choice = sc.nextInt();
+			switch(choice)
+			{
+			case 1:	printReservation();
+			break;
+			case 2: removeReservation(tables);
+			break;
+			case 3: System.out.println(); 
+				return;
+
+			}
+		}while(choice != -1);	
+		
+	}
 	
 	private boolean checkDate(String date) {		
 		try {
