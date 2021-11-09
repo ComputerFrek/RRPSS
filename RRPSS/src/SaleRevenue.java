@@ -1,16 +1,15 @@
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+
 public class SaleRevenue {
 	private int reportID;
 	private String reportName;
 	private boolean periodByDay;
 	private double totalRevenue;
 	private Order[] orderList;
-	
-	public SaleRevenue(int reportid, String reportname, boolean bydayormonth)
-	{
-		this.reportID = reportid;
-		this.reportName = reportname;
-		this.periodByDay = bydayormonth;
-	}
 	
 	public int getReportID()
 	{
@@ -60,5 +59,62 @@ public class SaleRevenue {
 	public void setOrderList(Order[] orderList)
 	{
 		this.orderList = orderList;
+	}
+	
+	public void generateNewSalesReport(Map<Integer, Order> orders, List<Alacarte> alacarteitem, List<PromoPackage> pp)
+	{
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("Enter Report ID: ");
+		this.reportID = sc.nextInt();
+		
+		System.out.println("Enter Report Name: ");
+		this.reportName = sc.next();
+		
+		System.out.println("Generate report by day or month?");
+		System.out.println("D - Day, M - Month");
+		String dayormonth = sc.next();
+		
+		String inputdate = "";
+		DateTimeFormatter bydaydtf = DateTimeFormatter.ofPattern("dd-MMM");
+		DateTimeFormatter bymondtf = DateTimeFormatter.ofPattern("MMM");
+		
+		if(dayormonth.equalsIgnoreCase("D"))
+		{
+			this.periodByDay = true;
+			System.out.println("Enter Date(E.g. 02-Dec): ");
+		} else {
+			this.periodByDay = false;
+			System.out.println("Enter Month(E.g. Dec): ");
+		}
+		inputdate = sc.next();
+		
+		sc.close();
+		
+		for(Alacarte al: alacarteitem)
+		{
+			double itemrevenue = 0;
+			for(Map.Entry<Integer, Order> e : orders.entrySet())
+			{
+				Order currentorder = e.getValue();
+				
+				if(currentorder.getOrderItem(al.getItemName()) != null) {
+					if(periodByDay == true)
+					{
+						String orderenddate = currentorder.getEndTimeStamp().format(bydaydtf);
+						if(currentorder.isOrderClosed() == true && orderenddate.equalsIgnoreCase(inputdate))
+						{
+							itemrevenue += currentorder.getOrderItem(al.getItemName()).getSubTotal();
+						}
+					} else {
+						String orderenddate = currentorder.getEndTimeStamp().format(bymondtf);
+						if(currentorder.isOrderClosed() == true && orderenddate.equalsIgnoreCase(inputdate))
+						{
+							itemrevenue += currentorder.getOrderItem(al.getItemName()).getSubTotal();
+						}
+					}
+				}
+			}
+		}
 	}
 }

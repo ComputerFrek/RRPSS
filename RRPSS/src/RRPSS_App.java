@@ -10,7 +10,7 @@ public class RRPSS_App {
 	static CategoryController categoryController;
 	static PromoPackageController promopackagecontroller;
 	static AlacarteController alacartecontroller;
-	
+	static SaleRevenue salerevenue;
 	
 	static ArrayList<Discount> membershipDiscount = new ArrayList<Discount>();
 	static ArrayList<Discount> couponDiscount = new ArrayList<Discount>();
@@ -24,6 +24,7 @@ public class RRPSS_App {
 		categoryController = new CategoryController();
 		alacartecontroller = new AlacarteController();
 		promopackagecontroller = new PromoPackageController();
+		salerevenue = new SaleRevenue();
 		
 		int choice;
 		Scanner sc = new Scanner(System.in);
@@ -68,7 +69,7 @@ public class RRPSS_App {
 			case 6:
 				break;
 			case 7:
-				
+				salerevenue.generateNewSalesReport(orderController.getAllOrders(), alacartecontroller.getAllAlacarteItems(), promopackagecontroller.getAllPromoItems());
 				break;
 			case 8:
 				System.exit(0);

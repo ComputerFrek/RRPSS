@@ -152,6 +152,16 @@ public class Order {
 		taxOrderArray.add(newTaxOrder);
 	}
 	
+	public boolean isOrderClosed()
+	{
+		if(endTimeStamp == null)
+		{
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	private boolean isNumeric(String str){
         return str != null && str.matches("[0-9.]+");
     }

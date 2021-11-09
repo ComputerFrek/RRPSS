@@ -84,9 +84,9 @@ public class OrderController {
 		closedOC.CloseOrder(order, taxList, membershipDiscount);
 	}
 
-
+	public Map<Integer, Order> getAllOrders()
+	{
+		return this.orderMap;
+	}
 	
-
-	
-
 }
