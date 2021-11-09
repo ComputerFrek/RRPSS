@@ -47,11 +47,13 @@ public class UpdateOrderController implements iUpdateOrderController{
 		MenuItem menuItem = null;
 		OrderItems orderItem; 
 		
-		do {		
+		while(!menuInput.trim().toLowerCase().equals("exit")) {		
 			menuItem = AddOrderMenu();
+			
 			if(menuItem == null)
 			{
 				System.out.println("No Menu Item Selected.");
+				break;
 			}
 			
 			// Show Menu Item Description and Price
@@ -73,11 +75,7 @@ public class UpdateOrderController implements iUpdateOrderController{
 			
 			System.out.printf("Item: %s was added into Order List - QTY: %d\r\n", menuItem.getItemName(), orderItem.getQuantity());
 			
-			System.out.println("Type any key to continue adding. \r\n(Type: Exit, To Exit Adding Items)");
-			menuInput = sc.next();
-			if(menuInput.trim().toLowerCase().equals("exit"))
-				return;
-		} while(!menuInput.trim().toLowerCase().equals("exit"));
+		} 
 	}
 	private MenuItem AddOrderMenu() {
 		Scanner sc = new Scanner(System.in);
@@ -106,10 +104,8 @@ public class UpdateOrderController implements iUpdateOrderController{
 	private MenuItem AlaCarteChoice() {
 		Scanner sc = new Scanner(System.in);
 		RRPSS_App.alacartecontroller.printAlacarteMenu();
-		
-		System.out.println("Select a");
-		
-		System.out.println("Select an Item: ");
+				
+		System.out.print("Select an Item: ");
 		String menuItemSelected = sc.nextLine();
 		return RRPSS_App.alacartecontroller.getAlacarteItem(menuItemSelected);
 		
@@ -118,7 +114,7 @@ public class UpdateOrderController implements iUpdateOrderController{
 		Scanner sc = new Scanner(System.in);
 		RRPSS_App.promopackagecontroller.printPromoMenu();
 		
-		System.out.println("Select a Promo Package: ");
+		System.out.print("Select a Promo Package: ");
 		String menuItemSelected = sc.nextLine();
 		return RRPSS_App.promopackagecontroller.getPromoPackage(menuItemSelected);
 		
@@ -140,8 +136,8 @@ public class UpdateOrderController implements iUpdateOrderController{
 		do {
 			
 			oC.viewOC.ShowAllOrderItems(order);
-			System.out.println("Select an Item: ");
-			itemInput = sc.nextLine();
+			System.out.print("Select an Item: ");
+			itemInput = sc.next();
 			orderItem = order.getOrderItem(itemInput);
 			if(orderItem == null)
 				return;
@@ -169,10 +165,8 @@ public class UpdateOrderController implements iUpdateOrderController{
 			}
 			
 			System.out.println("Type any key to continue adding. \r\n(Type: Exit, To Exit Adding Items)");
-			itemInput = sc.nextLine();
-			if(itemInput.trim().toLowerCase() == "exit")
-				return;
-			
-		} while(itemInput.trim().toLowerCase() != "exit");
+			itemInput = sc.next();
+						
+		} while(!itemInput.trim().toLowerCase().equals("exit"));
 	}
 }
