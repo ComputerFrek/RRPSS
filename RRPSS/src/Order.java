@@ -54,11 +54,6 @@ public class Order {
 	public LocalDateTime getEndTimeStamp()
 	{
 		return this.endTimeStamp;
-
-		//DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyy HH:mm:ss");
-		//System.out.print(timeStamp.format(formatDate));
-		//return timeStamp;
-		//return timeStamp.format(formatDate);
 	}
 	
 	public void setEndTimeStamp(LocalDateTime dateTime)
@@ -104,6 +99,15 @@ public class Order {
 	public void setStaff(Staff staff)
 	{
 		this.staff = staff;
+	}
+	public boolean isOrderClosed()
+	{
+		if(endTimeStamp == null)
+		{
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	public void addOrderItem(OrderItems item) {

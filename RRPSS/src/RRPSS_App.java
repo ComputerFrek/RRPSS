@@ -8,6 +8,7 @@ public class RRPSS_App {
 	static StaffController staffController;
 	static TableController tableController;
 	static MenuItemController menuItemController;
+	static SaleRevenueController saleRevenueController;
 	
 	static ReservationController reservationController = new ReservationController();
 	static ArrayList<Discount> membershipDiscount = new ArrayList<Discount>();
@@ -21,6 +22,8 @@ public class RRPSS_App {
 		staffController = new StaffController();
 		tableController = new TableController();
 		menuItemController = new MenuItemController(); 
+		saleRevenueController = new SaleRevenueController();
+		
 		GenerateDiscount();
 		GenerateTax();
 		int choice;
@@ -76,6 +79,10 @@ public class RRPSS_App {
 				orderController.CloseOrder(taxList, membershipDiscount, couponDiscount);
 				break;
 			case 10:
+				saleRevenueController.generateNewSalesReport(sc, 
+						orderController.getAllOrders(), 
+						menuItemController.acC.getAllAlacarteItems(), 
+						menuItemController.ppC.getAllPromoItems());
 				break;
 			case 0:
 				System.exit(0);

@@ -71,4 +71,8 @@ public class OrderController {
 		}
 		return order;
 	}
+	public Map<Integer, Order> getAllOrders()
+	{
+		return this.orderMap;
+	}
 }
