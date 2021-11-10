@@ -2,11 +2,15 @@
 public class Table {
 	private int tableID;
 	private int noOfPax;
+	private int capacity;
 	private boolean reserved;
+	private boolean occupied;
+	private Order order;
 	
-	public Table(int tableID)
+	public Table(int tableID, int capacity)
 	{
 		this.tableID = tableID;
+		this.capacity = capacity;
 	}
 	
 	public int getTableID()
@@ -17,6 +21,16 @@ public class Table {
 	public void setTableID(int tableID)
 	{
 		this.tableID = tableID;
+	}
+	
+	public int getCapacity()
+	{
+		return capacity;
+	}
+	
+	public void setCapacity(int capacity)
+	{
+		this.capacity = capacity;
 	}
 	
 	public int getNoOfPax()
@@ -37,5 +51,22 @@ public class Table {
 	public void setReserved(boolean reserved)
 	{
 		this.reserved = reserved;
+	}
+	public boolean getOccupied()
+	{
+		return occupied;
+	}
+	
+	public void setOccupied(boolean occupied)
+	{
+		this.occupied = occupied;
+	}
+	public Order getOrder()
+	{
+		return order;
+	}
+	public void setOrder(Order order)
+	{
+		this.order = order;
 	}
 }

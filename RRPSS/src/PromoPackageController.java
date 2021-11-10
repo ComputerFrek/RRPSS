@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class PromoPackageController {
 	private String promopackagefilename = "promo.txt";
 	private File promofile;
@@ -49,6 +50,17 @@ public class PromoPackageController {
 	{
 		return promopackages;
 	}
+	public PromoPackage getPromoPackage(String name)
+	{
+		for(PromoPackage pp: promopackages)
+		{
+			if(pp.getItemName().equalsIgnoreCase(name))
+			{
+				return pp;
+			}
+		}
+		return null;
+	}
 	
 	public Alacarte getAlacarteItem(String name)
 	{
@@ -61,15 +73,19 @@ public class PromoPackageController {
 	}
 	
 	public void printPromoMenu() {
-		System.out.println("Name,Category,Price");
 		System.out.println("===================");
 		for(PromoPackage pp : promopackages)
 		{
-			System.out.printf("%s,%s,%.2f,",pp.getItemName(),pp.getDescription(),pp.getPrice());
+			System.out.printf("Set: %s",pp.getItemName());
+			System.out.println("");
+			int mIcount = 1;
 			for(MenuItem mi : pp.getMenuItem())
 			{
-				System.out.print(mi.getItemName() + ",");
+				System.out.printf("- (%d) %s\r\n",mIcount, mi.getItemName());
+				mIcount++;
 			}
+			System.out.printf("Description: %s \r\n"
+							+ "Price%.2f \r\n",pp.getDescription(),pp.getPrice());
 			System.out.println();
 		}
 	}
@@ -81,6 +97,7 @@ public class PromoPackageController {
 		{
 			pp.addMenuItem(ai);
 		}
+		promopackages.add(pp);
 		return writeToFile(name, desc, price, pp);
 	}
 	

@@ -1,3 +1,8 @@
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 
 public class SaleRevenue {
 	private int reportID;
@@ -5,7 +10,6 @@ public class SaleRevenue {
 	private boolean periodByDay;
 	private double totalRevenue;
 	private Order[] orderList;
-	
 	
 	public int getReportID()
 	{
@@ -56,4 +60,6 @@ public class SaleRevenue {
 	{
 		this.orderList = orderList;
 	}
+	
+	
 }

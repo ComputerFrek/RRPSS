@@ -54,11 +54,14 @@ public class AlacarteController {
 	
 	//display
 	public void printAlacarteMenu() {
-		System.out.println("Name,Category,Price");
-		System.out.println("===================");
+		int count = 1;
+		System.out.println("  No. \tName \t\t\tCategory \tPrice");
+		System.out.println("==========================================================");
+		
 		for(Alacarte me : alacarteitems)
 		{
-			System.out.printf("%s,%s,%.2f\n",me.getItemName(),me.getDescription(),me.getPrice());
+			System.out.printf("  %d \t%-15s \t%-10s \t%.2f\n",count ,me.getItemName(),me.getDescription(),me.getPrice());
+			count++;
 		}
 	}
 	
