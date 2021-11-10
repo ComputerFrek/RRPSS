@@ -3,6 +3,7 @@ import java.util.*;
 
 import rrpss.entity.Customer;
 import rrpss.entity.Reservation;
+import rrpss.main.RRPSS_App;
 
 import java.time.*;
 import java.time.format.DateTimeParseException;
@@ -13,10 +14,11 @@ public class ReservationController {
 	private int tableID;
 	private int reservationID = 1;
 	
-	public void getDetails(TableController table_control) {
+	
+	public void getDetails() {
 		
 		Scanner sc = new Scanner(System.in);
-		
+		checkPeriodExpiry();
 		//date, time, #pax, name, contact, etc. 
 		System.out.println("Enter the following details for reservation:");
 		System.out.println("-----------------------------------------------");
@@ -42,7 +44,7 @@ public class ReservationController {
 		System.out.print("Number of pax: ");
 		int pax = sc.nextInt();
 		
-		tableID = table_control.CheckTable(pax);
+		tableID = RRPSS_App.tableController.CheckTable(pax);
 		if(tableID == -1)
 		{
 			System.out.println("No tables currently available.");
@@ -55,11 +57,11 @@ public class ReservationController {
 			Customer customer = new Customer(name);
 			
 			Reservation reserve = new Reservation(
-					reservationID,LocalDateTime.parse(date+"T"+time+":00"),pax,customer,table_control.tables[tableID-1]);
+					reservationID,LocalDateTime.parse(date+"T"+time+":00"),pax,customer,RRPSS_App.tableController.tables[tableID-1]);
 			
 			reservation.add(reserve);
 			
-			table_control.tables[tableID-1].setReserved(true);
+			RRPSS_App.tableController.tables[tableID-1].setReserved(true);
 			System.out.printf("Reservation has been created. \nReservation ID is %d. Table ID is %d.\n",reservationID,tableID);
 			System.out.println();
 			
@@ -97,19 +99,6 @@ public class ReservationController {
 		}
 	}
 	
-//	private void remove(Table[] tables, int reservationID, boolean occupy)
-//	{
-//		for(int i = 0; i < reservation.size(); i++)
-//		{
-//			if(reservation.get(i).getReservationID() == reservationID)
-//			{
-//				tables[reservation.get(i).getTableReserved().getTableID() - 1].setReserved(false);
-//				tables[reservation.get(i).getTableReserved().getTableID() - 1].setOccupied(occupy);;
-//				reservation.remove(i);
-//				System.out.printf("ReservationID %d is removed.\n\n",reservationID);
-//			}			
-//		}
-//	}
 	private void remove(int reservationID, boolean occupy)
 	{
 		for(int i = 0; i < reservation.size(); i++)

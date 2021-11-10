@@ -3,7 +3,6 @@ import java.time.*;
 
 public class Reservation {
 	private int reservationID;
-	//private String date_time;
 	private LocalDateTime datetime;
 	private LocalDateTime expirytime;
 	private int noOfPax;

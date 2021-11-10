@@ -2,11 +2,13 @@ package rrpss.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PromoPackage implements MenuItem{
+import rrpss.service.iMenuItem;
+
+public class PromoPackage implements iMenuItem{
 	private String promoname;
 	private String promodesc;
 	private double promoprice;
-	private List<MenuItem> menuitems;
+	private List<iMenuItem> menuitems;
 	
 	public PromoPackage(String name, String description, String price)
 	{
@@ -46,7 +48,7 @@ public class PromoPackage implements MenuItem{
 		this.promoprice = Double.parseDouble(price);
 	}
 	
-	public List<MenuItem> getMenuItem()
+	public List<iMenuItem> getMenuItem()
 	{
 		return menuitems;
 	}
@@ -56,7 +58,7 @@ public class PromoPackage implements MenuItem{
 		menuitems.clear();
 	}
 	
-	public void addMenuItem(MenuItem item)
+	public void addMenuItem(iMenuItem item)
 	{
 		menuitems.add(item);
 	}

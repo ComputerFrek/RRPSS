@@ -1,16 +1,19 @@
 package rrpss.entity;
 
-public class OrderItems {
-	private MenuItem menuItem;
-	private int quantity;
-	private double subTotal = 0;
+import rrpss.service.iMenuItem;
 
-	public OrderItems(MenuItem menuItem, int quantity)
+public class OrderItems {
+	private iMenuItem menuItem;
+	private int quantity;
+	private double subTotal;
+
+	public OrderItems(iMenuItem menuItem, int quantity)
 	{
 		this.menuItem = menuItem;
 		this.quantity = quantity;
+		this.subTotal = 0;
 	}
-	public MenuItem getMenuItem() {
+	public iMenuItem getMenuItem() {
 		return this.menuItem;
 	}
 	public int getQuantity() {
@@ -22,7 +25,7 @@ public class OrderItems {
 	public double getSubTotal() {
 		return this.subTotal;
 	}
-	public void setSubTotal(double subtotal2) {
-		this.subTotal = subtotal2;
+	public void setSubTotal(double subtotal) {
+		this.subTotal = subtotal;
 	}
 }

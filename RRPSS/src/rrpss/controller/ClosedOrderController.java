@@ -8,7 +8,7 @@ import rrpss.entity.Discount;
 import rrpss.entity.DiscountCoupon;
 import rrpss.entity.DiscountOrder;
 import rrpss.entity.Membership;
-import rrpss.entity.MenuItem;
+import rrpss.service.iMenuItem;
 import rrpss.entity.Order;
 import rrpss.entity.Tax;
 import rrpss.service.iClosedOrder;
@@ -94,7 +94,7 @@ public class ClosedOrderController implements iClosedOrder, iDiscount{
 			for (String item : order.getOrderItems().keySet())
 	        {
 				String keyItem = item;
-				MenuItem menuItem = order.getOrderItem(keyItem).getMenuItem();
+				iMenuItem menuItem = order.getOrderItem(keyItem).getMenuItem();
 				int qty = order.getOrderItem(keyItem).getQuantity();
 				
 	            double subTotalItem = menuItem.getPrice() * qty;
@@ -120,7 +120,10 @@ public class ClosedOrderController implements iClosedOrder, iDiscount{
 			if(isApply.equalsIgnoreCase("N"))
 				return 0;
 			
-			PrintDiscountOption();
+			System.out.println("Discount Type: ");
+			System.out.println("(1) Membership: ");
+			System.out.println("(2) Coupon: ");
+			System.out.println("(3) Exit ");
 			// Retrieve the Discount Details(Membership or Coupon)
 			System.out.print("Enter Choice: ");
 			int choice = sc.nextInt();
@@ -157,13 +160,7 @@ public class ClosedOrderController implements iClosedOrder, iDiscount{
 		}
 
 	}
-	
-	private void PrintDiscountOption() {
-		System.out.println("Discount Type: ");
-		System.out.println("(1) Membership: ");
-		System.out.println("(2) Coupon: ");
-		System.out.println("(3) Exit ");
-	}
+
 
 	@Override
 	public Discount CalculateMembershipDiscount(ArrayList<Discount> membershipDiscount) {

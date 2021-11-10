@@ -4,7 +4,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Invoice {
 	
-	public static void PrintInvoice(Order order)
+	public static void printInvoice(Order order)
 	{
 		System.out.println();
 		System.out.println("----------------------------------------");

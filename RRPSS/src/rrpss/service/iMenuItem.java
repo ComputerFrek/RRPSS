@@ -1,5 +1,5 @@
-package rrpss.entity;
-public interface MenuItem {
+package rrpss.service;
+public interface iMenuItem {
 	public String getItemName();
 	public void setItemName(String itemName);
 	public String getDescription();

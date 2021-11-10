@@ -5,18 +5,14 @@ import java.util.Map;
 import java.util.Scanner;
 
 import rrpss.entity.Alacarte;
-import rrpss.entity.MenuItem;
 import rrpss.entity.Order;
 import rrpss.entity.PromoPackage;
 import rrpss.entity.SaleRevenue;
+import rrpss.service.iMenuItem;
 
 public class SaleRevenueController {
-	private SaleRevenue sr;
-	private OrderController oc;
-	private AlacarteController ac;
-	private PromoPackageController ppc;
 	
-	public void generateNewSalesReport(Scanner sc, Map<Integer, Order> orders, List<Alacarte> alacarteitem, List<PromoPackage> pp)
+	public void generateNewSalesReport(Scanner sc, OrderController oC, AlacarteController acC, PromoPackageController ppC)
 	{
 		SaleRevenue newSalesReport = new SaleRevenue();
 		
@@ -54,9 +50,9 @@ public class SaleRevenueController {
 		System.out.println("Alacarte Name\t\tRevenue($)");
 		System.out.println("-------------------------------------");
 		double alrev = 0;
-		for(Alacarte al: alacarteitem)
+		for(Alacarte al: acC.getAllAlacarteItems())
 		{
-			double itemrev = getItemRevenue(newSalesReport, orders, inputdate, al);
+			double itemrev = getItemRevenue(newSalesReport, oC, inputdate, al);
 			totalrevenue += itemrev;
 			alrev += itemrev;
 			System.out.printf("%-16s\t%.2f\n",al.getItemName(),itemrev);
@@ -68,9 +64,9 @@ public class SaleRevenueController {
 		System.out.println("Promo Name\t\tRevenue($)");
 		System.out.println("-------------------------------------");
 		double promorev = 0;
-		for(PromoPackage promo: pp)
+		for(PromoPackage promo: ppC.getAllPromoItems())
 		{
-			double itemrev = getItemRevenue(newSalesReport, orders, inputdate, promo);
+			double itemrev = getItemRevenue(newSalesReport, oC, inputdate, promo);
 			totalrevenue += itemrev;
 			promorev += itemrev;
 			System.out.printf("%-16s\t%.2f\n",promo.getItemName(),itemrev);
@@ -83,14 +79,14 @@ public class SaleRevenueController {
 		System.out.println();
 	}
 	
-	private double getItemRevenue(SaleRevenue salesReport, Map<Integer, Order> orders, String inputdate, MenuItem mi)
+	private double getItemRevenue(SaleRevenue salesReport, OrderController oC, String inputdate, iMenuItem mi)
 	{
 		DateTimeFormatter bydaydtf = DateTimeFormatter.ofPattern("dd-MMM");
 		DateTimeFormatter bymondtf = DateTimeFormatter.ofPattern("MMM");
 		double itemrevenue = 0;
 		String orderenddate = "";
 		
-		for(Map.Entry<Integer, Order> e : orders.entrySet())
+		for(Map.Entry<Integer, Order> e : oC.getOrderMap().entrySet())
 		{
 			Order currentorder = e.getValue();
 			

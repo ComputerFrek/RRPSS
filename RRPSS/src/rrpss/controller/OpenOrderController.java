@@ -18,7 +18,7 @@ public class OpenOrderController implements iOpenOrder{
 	}
 	
 	@Override
-	public void OpenOrder(Map<Integer, Order> orderMap) {
+	public void OpenOrder() {
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
 		int noOfPax;
@@ -37,7 +37,7 @@ public class OpenOrderController implements iOpenOrder{
 		
 		try 
 		{
-			Order newOrder = addOrder(orderMap.size()+1, noOfPax, table, staff, orderMap);
+			Order newOrder = addOrder(oC.getOrderMap().size()+1, noOfPax, table, staff);
 			System.out.println();
 			if(newOrder == null)
 			{
@@ -113,10 +113,10 @@ public class OpenOrderController implements iOpenOrder{
 	}
 
 	@Override
-	public Order addOrder(int orderID, int noOfPax, Table selectedTable, Staff createdStaff, Map<Integer, Order> orderMap) {
+	public Order addOrder(int orderID, int noOfPax, Table selectedTable, Staff createdStaff) {
 		try {
 			Order newOrder = new Order(orderID, noOfPax, selectedTable, createdStaff);
-			orderMap.put(orderID, newOrder);
+			oC.addOrderMap(newOrder);
 			return newOrder;
 		}
 		catch(Exception ex) 

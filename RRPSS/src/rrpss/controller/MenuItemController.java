@@ -111,13 +111,13 @@ public class MenuItemController {
 						System.out.println("=======================");
 						
 						//call menuitem controller display
-						ppC.printAlacarteMenu();
+						acC.printAlacarteMenu();
 						System.out.print("Add alacarte dish(Separate by comma): ");
 						String[] dishlist = sc.next().split(",");
 						List<Alacarte> ailist = new ArrayList<>();
 						for(String s: dishlist)
 						{
-							ailist.add(ppC.getAlacarteItem(s));
+							ailist.add(acC.getAlacarteItem(s));
 						}
 						
 						System.out.println("=======================");
@@ -135,13 +135,13 @@ public class MenuItemController {
 						System.out.println("=======================");
 						
 						//call menuitem controller display
-						ppC.printAlacarteMenu();
+						acC.printAlacarteMenu();
 						System.out.print("Add alacarte dish(Separate by comma): ");
 						dishlist = sc.next().split(",");
 						ailist = new ArrayList<>();
 						for(String s: dishlist)
 						{
-							ailist.add(ppC.getAlacarteItem(s));
+							ailist.add(acC.getAlacarteItem(s));
 						}
 						
 						System.out.println("=======================");

@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import rrpss.entity.Alacarte;
-import rrpss.entity.MenuItem;
 import rrpss.entity.PromoPackage;
+import rrpss.service.iMenuItem;
 
 
 public class PromoPackageController {
@@ -67,16 +67,6 @@ public class PromoPackageController {
 		return null;
 	}
 	
-	public Alacarte getAlacarteItem(String name)
-	{
-		return alacartecontroller.getAlacarteItem(name);
-	}
-	
-	public void printAlacarteMenu()
-	{
-		alacartecontroller.printAlacarteMenu();
-	}
-	
 	public void printPromoMenu() {
 		System.out.println("===================");
 		for(PromoPackage pp : promopackages)
@@ -84,7 +74,7 @@ public class PromoPackageController {
 			System.out.printf("Set: %s",pp.getItemName());
 			System.out.println("");
 			int mIcount = 1;
-			for(MenuItem mi : pp.getMenuItem())
+			for(iMenuItem mi : pp.getMenuItem())
 			{
 				System.out.printf("- (%d) %s\r\n",mIcount, mi.getItemName());
 				mIcount++;
@@ -185,7 +175,7 @@ public class PromoPackageController {
 		try {
 			fw = new FileWriter(promopackagefilename, true);
 			fw.write(name + "|" + desc + "|" + price + "|");
-			for(MenuItem mi: pp.getMenuItem())
+			for(iMenuItem mi: pp.getMenuItem())
 			{
 				fw.write(mi.getItemName() + ",");
 			}

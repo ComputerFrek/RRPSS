@@ -21,8 +21,7 @@ public class RRPSS_App {
 	public static TableController tableController;
 	public static MenuItemController menuItemController;
 	public static SaleRevenueController saleRevenueController;
-	
-	static ReservationController reservationController = new ReservationController();
+	public static ReservationController reservationController = new ReservationController();
 	static ArrayList<Discount> membershipDiscount = new ArrayList<Discount>();
 	static ArrayList<Discount> couponDiscount = new ArrayList<Discount>();
 	static ArrayList<Tax> taxList = new ArrayList<Tax>();
@@ -79,7 +78,7 @@ public class RRPSS_App {
 				orderController.UpdateOrder();
 				break;
 			case 6:
-				reservationController.getDetails(tableController);
+				reservationController.getDetails();
 				break;
 			case 7:
 				reservationController.checkRemoveReservation();
@@ -92,7 +91,7 @@ public class RRPSS_App {
 				break;
 			case 10:
 				saleRevenueController.generateNewSalesReport(sc, 
-						orderController.getAllOrders(), 
+						orderController.getOrderMap(), 
 						menuItemController.acC.getAllAlacarteItems(), 
 						menuItemController.ppC.getAllPromoItems());
 				break;

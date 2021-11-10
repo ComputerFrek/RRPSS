@@ -1,6 +1,8 @@
 package rrpss.entity;
 
-public class Alacarte implements MenuItem{
+import rrpss.service.iMenuItem;
+
+public class Alacarte implements iMenuItem{
 	private String itemName;
 	private String description;
 	private double price;

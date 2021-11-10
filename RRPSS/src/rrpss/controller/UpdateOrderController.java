@@ -1,7 +1,7 @@
 package rrpss.controller;
 import java.util.Scanner;
 
-import rrpss.entity.MenuItem;
+import rrpss.service.iMenuItem;
 import rrpss.entity.Order;
 import rrpss.entity.OrderItems;
 import rrpss.main.RRPSS_App;
@@ -46,7 +46,7 @@ public class UpdateOrderController implements iUpdateOrderController{
 			System.out.println("Error: Invalid Input. Please Try Again.");
 		}
 	}
-	private MenuItem AddOrderMenu() {
+	private iMenuItem AddOrderMenu() {
 		Scanner sc = new Scanner(System.in);
 		int choice = -1;
 		do
@@ -74,7 +74,7 @@ public class UpdateOrderController implements iUpdateOrderController{
 	public void AddOrderItem(Order order) {
 		Scanner sc = new Scanner(System.in);
 		String menuInput = "";
-		MenuItem menuItem = null;
+		iMenuItem menuItem = null;
 		OrderItems orderItem; 
 		System.out.println();
 		try {
@@ -113,7 +113,7 @@ public class UpdateOrderController implements iUpdateOrderController{
 		}
  
 	}
-	private MenuItem AlaCarteChoice() {
+	private iMenuItem AlaCarteChoice() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println();
 		RRPSS_App.menuItemController.acC.printAlacarteMenu();
@@ -123,7 +123,7 @@ public class UpdateOrderController implements iUpdateOrderController{
 		return RRPSS_App.menuItemController.acC.getAllAlacarteItems().get(menuIndex-1);
 		
 	}
-	private MenuItem PromoChoice() {
+	private iMenuItem PromoChoice() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println();
 		RRPSS_App.menuItemController.ppC.printPromoMenu();

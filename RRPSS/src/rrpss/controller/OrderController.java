@@ -8,7 +8,7 @@ import rrpss.entity.Order;
 import rrpss.entity.Tax;
 
 public class OrderController {
-	Map<Integer, Order> orderMap = new HashMap<Integer, Order>();
+	private Map<Integer, Order> orderMap = new HashMap<Integer, Order>();
 	ViewOrderController viewOC;
 	UpdateOrderController updateOC;
 	ClosedOrderController closedOC;
@@ -35,7 +35,7 @@ public class OrderController {
 		choice = sc.next();
 		if(!choice.trim().toLowerCase().equals("y"))
 			return; 
-		Invoice.PrintInvoice(order);
+		Invoice.printInvoice(order);
 	}
 	public Order SelectOrder(int orderID) {
 		if(!orderMap.containsKey(orderID))
@@ -51,7 +51,7 @@ public class OrderController {
 		updateOC.UpdateOrderMenu(order);
 	}
 	public void OpenOrder() {
-		openOC.OpenOrder(orderMap);
+		openOC.OpenOrder();
 	}
 	public void CloseOrder(ArrayList<Tax> taxList, ArrayList<Discount> membershipList, ArrayList<Discount> couponList) {
 		Order order = SelectionOrder();
@@ -77,8 +77,12 @@ public class OrderController {
 		}
 		return order;
 	}
-	public Map<Integer, Order> getAllOrders()
+	public Map<Integer, Order> getOrderMap()
 	{
 		return this.orderMap;
+	}
+	public void addOrderMap(Order order)
+	{
+		this.orderMap.put(order.getOrderID(), order);
 	}
 }
