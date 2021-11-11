@@ -44,14 +44,38 @@ public class OrderController {
 	}
 	
 	public void UpdateOrder() {
-		
 		Order order = SelectionOrder();
 		if(order == null)
 			return;
 		updateOC.UpdateOrderMenu(order);
 	}
 	public void OpenOrder() {
-		openOC.OpenOrder();
+		Scanner sc = new Scanner(System.in);
+		int choice = -1;
+		while(choice != 0)
+		{
+			System.out.println("(1) Create Walk-In Order");
+			System.out.println("(2) Create Reservation Order");
+			System.out.println("(0) Exit");
+			
+			System.out.print("Enter Choice: ");
+			choice = sc.nextInt();
+			switch(choice)
+			{
+			case 1:
+				openOC.OpenOrder(); // Walk in order
+				return;
+			case 2:
+				openOC.OpenOrderByReservation();
+				return;
+			case 0:
+				return;
+			default:
+				break;
+			}
+		}
+
+		
 	}
 	public void CloseOrder(ArrayList<Tax> taxList, ArrayList<Discount> membershipList, ArrayList<Discount> couponList) {
 		Order order = SelectionOrder();

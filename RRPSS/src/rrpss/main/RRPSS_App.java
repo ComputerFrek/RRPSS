@@ -91,9 +91,9 @@ public class RRPSS_App {
 				break;
 			case 10:
 				saleRevenueController.generateNewSalesReport(sc, 
-						orderController.getOrderMap(), 
-						menuItemController.acC.getAllAlacarteItems(), 
-						menuItemController.ppC.getAllPromoItems());
+						orderController, 
+						menuItemController.acC, 
+						menuItemController.ppC);
 				break;
 			case 0:
 				System.exit(0);

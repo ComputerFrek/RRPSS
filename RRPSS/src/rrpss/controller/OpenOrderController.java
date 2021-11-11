@@ -3,6 +3,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import rrpss.entity.Order;
+import rrpss.entity.Reservation;
 import rrpss.entity.Staff;
 import rrpss.entity.Table;
 import rrpss.main.RRPSS_App;
@@ -46,6 +47,51 @@ public class OpenOrderController implements iOpenOrder{
 			}
 			newOrder.setNoOfPax(noOfPax);
 			newOrder.getTable().setOccupied(true);
+			newOrder.getTable().setNoOfPax(noOfPax);
+			newOrder.getTable().setOrder(newOrder);
+			System.out.printf("Order %03d has been created. Seated at Table %02d \r\n", newOrder.getOrderID(), newOrder.getTable().getTableID());
+			
+		}
+		catch(Exception ex){
+			System.out.println("Error: Order was not Created");
+		}
+		
+	}
+	
+	public void OpenOrderByReservation() {
+		Scanner sc = new Scanner(System.in);
+		int noOfPax;
+		Staff staff = null;
+		Table table = null;
+		
+		//Choose Reservation
+		RRPSS_App.reservationController.printReservation();
+		
+		System.out.print("\nEnter reservation ID to Check In: ");
+		int reservationID = sc.nextInt();
+
+		if(!RRPSS_App.reservationController.checkReservation(reservationID))
+		{
+			System.out.print("Reservation ID not found.\n");
+			return;
+		}
+		Reservation reservation = RRPSS_App.reservationController.getReservations().get(reservationID-1);
+		staff = StaffSelection();
+		noOfPax = reservation.getNoOfPax();
+		table = reservation.getTableReserved();
+		
+		try 
+		{
+			Order newOrder = addOrder(oC.getOrderMap().size()+1, noOfPax, table, staff);
+			System.out.println();
+			if(newOrder == null)
+			{
+				System.out.println("Error: Order was not Created");
+				return;
+			}
+			newOrder.setNoOfPax(noOfPax);
+			newOrder.getTable().setOccupied(true);
+			newOrder.getTable().setReserved(false);
 			newOrder.getTable().setNoOfPax(noOfPax);
 			newOrder.getTable().setOrder(newOrder);
 			System.out.printf("Order %03d has been created. Seated at Table %02d \r\n", newOrder.getOrderID(), newOrder.getTable().getTableID());

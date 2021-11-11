@@ -75,7 +75,7 @@ public class ReservationController {
 		return reservation;
 	}
 	
-	private void printReservation()
+	public void printReservation()
 	{
 		checkPeriodExpiry();
 		
@@ -145,7 +145,7 @@ public class ReservationController {
 		System.out.printf("ReservationID %d is removed.\n\n",reservationID);
 	}
 	
-	private boolean checkReservation(int reservationID)
+	public boolean checkReservation(int reservationID)
 	{
 		for(int i = 0; i < reservation.size(); i++)
 		{
