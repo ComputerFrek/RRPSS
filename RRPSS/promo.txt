@@ -1,2 +1,2 @@
-Promo1|Promo1|5|Steak,Fries,FishBall,
-Promo2|Promo2|4|Steak,Fries,FishBall,
+Set Meal 1|Fish Soup with Fries |8.0|Salmon Fish Rice,Wanton Mee,
+Set Meal 2|Wanton Mee with Fries|8.0|Wanton Mee,Fries,

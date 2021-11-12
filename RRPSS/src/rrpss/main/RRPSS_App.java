@@ -92,10 +92,11 @@ public class RRPSS_App {
 			case 10:
 				saleRevenueController.generateNewSalesReport(sc, 
 						orderController, 
-						menuItemController.acC, 
-						menuItemController.ppC);
+						menuItemController.getAlaCarteController(), 
+						menuItemController.getPromoPackageController());
 				break;
 			case 0:
+				System.out.println("\nExiting Program.\n");
 				System.exit(0);
 				break;
 			default:

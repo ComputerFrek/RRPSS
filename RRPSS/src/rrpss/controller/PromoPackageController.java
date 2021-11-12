@@ -67,6 +67,16 @@ public class PromoPackageController {
 		return null;
 	}
 	
+	public Alacarte getAlacarteItem(String name)
+	{
+		return alacartecontroller.getAlacarteItem(name);
+	}
+	
+	public void printAlacarteMenu()
+	{
+		alacartecontroller.printAlacarteMenu();
+	}
+	
 	public void printPromoMenu() {
 		System.out.println("===================");
 		for(PromoPackage pp : promopackages)
@@ -80,7 +90,7 @@ public class PromoPackageController {
 				mIcount++;
 			}
 			System.out.printf("Description: %s \r\n"
-							+ "Price%.2f \r\n",pp.getDescription(),pp.getPrice());
+							+ "Price: %.2f \r\n",pp.getDescription(),pp.getPrice());
 			System.out.println();
 		}
 	}
@@ -139,7 +149,7 @@ public class PromoPackageController {
 			}
 		}
 		
-		return false;
+		return true;
 	}
 	
 	//delete
@@ -167,7 +177,7 @@ public class PromoPackageController {
 			}
 		}
 		
-		return false;
+		return true;
 	}
 	
 	private boolean writeToFile(String name, String desc, String price, PromoPackage pp) {

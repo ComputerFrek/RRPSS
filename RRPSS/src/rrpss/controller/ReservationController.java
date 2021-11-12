@@ -5,6 +5,8 @@ import rrpss.entity.Customer;
 import rrpss.entity.Reservation;
 import rrpss.main.RRPSS_App;
 
+import java.text.NumberFormat;
+import java.text.ParsePosition;
 import java.time.*;
 import java.time.format.DateTimeParseException;
 
@@ -40,9 +42,29 @@ public class ReservationController {
 			System.out.print("Time (HH:MM) : ");
 			time = sc.nextLine();
 		}
+
 		
-		System.out.print("Number of pax: ");
-		int pax = sc.nextInt();
+		int pax = 0;
+		
+		while(pax < 1 || pax > 10)
+		{
+			System.out.print("Number of Pax: ");
+			String paxString = sc.next();
+			if(isNumeric(paxString))
+				pax = Integer.parseInt(paxString);
+			else
+			{
+				System.out.println("Invalid pax input.");
+				continue;
+			}
+			if(pax < 1 || pax > 10)
+			{
+				System.out.println("Invalid No Of Pax - Min: 1 pax, Max: 10 pax");
+				continue;
+			}
+			pax = Integer.parseInt(paxString);	
+		}
+		
 		
 		tableID = RRPSS_App.tableController.CheckTable(pax);
 		if(tableID == -1)
@@ -52,7 +74,7 @@ public class ReservationController {
 		else
 		{	
 			System.out.print("Customer's Name: "); //name
-			String name = sc.next();
+			String name = sc.nextLine();
 			
 			Customer customer = new Customer(name);
 			
@@ -130,13 +152,16 @@ public class ReservationController {
 			return;
 		}
 		
-		System.out.print("Did the customer(s) arrive? (Y/N): ");
+		System.out.print("Are you sure you want to remove the reservation? (Y/N): ");
 		String c = sc.next();
 		
 		if(c.trim().toLowerCase().equals("y"))
-			remove(reservationID,true);//remove(tables,reservationID,true);
+			remove(reservationID,false);//remove(tables,reservationID,true);
 		else if(c.trim().toLowerCase().endsWith("n"))
-			remove(reservationID,false);//remove(tables,reservationID,false);
+		{
+			System.out.println("Reservation not removed.");
+			return;
+		}
 		else
 		{
 			System.out.println("Invalid input. Please try again.");
@@ -215,6 +240,11 @@ public class ReservationController {
 			}
 		}
 		
+	}
+	public boolean isNumeric(String str) {
+		  ParsePosition pos = new ParsePosition(0);
+		  NumberFormat.getInstance().parse(str, pos);
+		  return str.length() == pos.getIndex();
 	}
 	
 }

@@ -1,4 +1,6 @@
 package rrpss.controller;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -138,13 +140,20 @@ public class OpenOrderController implements iOpenOrder{
 	private int NoOfPaxClarification() {
 		Scanner sc = new Scanner(System.in);
 		int noOfPax = 0;
-		
+		String paxString;
 		System.out.println();
 		try {
 			while(noOfPax < 1 || noOfPax > 10)
 			{
-				System.out.print("No of Pax?: ");
-				noOfPax = sc.nextInt();
+				System.out.print("Number of Pax: ");
+				paxString = sc.next();
+				if(isNumeric(paxString))
+					noOfPax = Integer.parseInt(paxString);
+				else
+				{
+					System.out.println("Invalid pax input.");
+					continue;
+				}
 				if(noOfPax < 1 || noOfPax > 10)
 					System.out.println("Invalid No Of Pax - Min: 1 pax, Max: 10 pax");
 			}
@@ -155,6 +164,7 @@ public class OpenOrderController implements iOpenOrder{
 			System.out.println("Error: Input No of Pax Error");
 			return 0;
 		}
+		
 
 	}
 
@@ -170,6 +180,11 @@ public class OpenOrderController implements iOpenOrder{
 			return null;
 		}
 
+	}
+	public boolean isNumeric(String str) {
+		  ParsePosition pos = new ParsePosition(0);
+		  NumberFormat.getInstance().parse(str, pos);
+		  return str.length() == pos.getIndex();
 	}
 
 }

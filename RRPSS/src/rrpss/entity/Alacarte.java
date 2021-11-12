@@ -5,12 +5,14 @@ import rrpss.service.iMenuItem;
 public class Alacarte implements iMenuItem{
 	private String itemName;
 	private String description;
+	private String category;
 	private double price;
 	
-	public Alacarte(String itemName, String description, String price)
+	public Alacarte(String itemName, String description, String category, String price)
 	{
 		this.itemName = itemName;
 		this.description = description;
+		this.category = category;
 		this.price = Double.parseDouble(price);
 	}
 	
@@ -32,6 +34,16 @@ public class Alacarte implements iMenuItem{
 	public void setDescription(String description)
 	{
 		this.description = description;
+	}
+	
+	public String getCategory()
+	{
+		return category;
+	}
+	
+	public void setCategory(String category)
+	{
+		this.category = category;
 	}
 	
 	public double getPrice()

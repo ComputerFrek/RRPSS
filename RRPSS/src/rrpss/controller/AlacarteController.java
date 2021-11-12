@@ -23,7 +23,7 @@ public class AlacarteController {
 			Scanner sc = new Scanner(alacartefile);
 			while(sc.hasNextLine()) {
 				String[] fields = sc.nextLine().split("\\|");
-				Alacarte m = new Alacarte(fields[0].trim(),fields[1].trim(),fields[2].trim());
+				Alacarte m = new Alacarte(fields[0].trim(),fields[1].trim(),fields[2].trim(),fields[3].trim());
 				alacarteitems.add(m);
 			}
 			sc.close();
@@ -58,26 +58,39 @@ public class AlacarteController {
 	//display
 	public void printAlacarteMenu() {
 		int count = 1;
-		System.out.println("  No. \tName \t\t\tCategory \tPrice");
-		System.out.println("==========================================================");
+		//System.out.println(" No. \tName \t\t\tDescription \t\t\tCategory \tPrice");
+		
+		//System.out.println("==================================================================================================");
+		System.out.println(String.format("%s %3s %12s %12s %25s %20s %12s %12s %10s", "No.", "|", "Name", "|", "Description", "|", "Category", "|", "Price($)"));
+        System.out.println(String.format("%s", "-------------------------------------------------------------------------------------------------------------------------"));
 		
 		for(Alacarte me : alacarteitems)
 		{
-			System.out.printf("  %d \t%-15s \t%-10s \t%.2f\n",count ,me.getItemName(),me.getDescription(),me.getPrice());
+			System.out.format(" %d \t%15s \t\t%20s \t\t%20s \t%15.2f\r\n", count,me.getItemName(),me.getDescription(),me.getCategory(),me.getPrice());
+			//System.out.printf(me.getItemName(),me.getDescription(),me.getCategory(),me.getPrice());
+			//System.out.printf("  %d \t%-15s \t%-10s \t%.2f\n",me.getCategory());
+			//System.out.printf("  %d \t%-15s \t%-10s \t%.-5s \t%.2f\n",count ,me.getItemName(),me.getDescription(),me.getCategory(),me.getPrice());
 			count++;
+			
+			
 		}
 	}
 	
 	//create
-	public boolean createAlacarteItem(String name, String desc, String price) {
-		Alacarte m = new Alacarte(name, desc, price);
+	public boolean createAlacarteItem(String name, String desc, String cate, String price) {
+		Alacarte m = new Alacarte(name, desc, cate, price);
+		if(getAlacarteItem(name) != null)
+		{
+			System.out.println("Item was not added, Items Exist.");
+			return false;
+		}
 		alacarteitems.add(m);
 		
-		return writeToFile(name, desc, price);
+		return writeToFile(name, desc, cate, price);
 	}
 	
 	//update
-	public boolean updateAlacarteItem(String oldname, String newname, String newdesc, String newprice) {
+	public boolean updateAlacarteItem(String oldname, String newname, String newdesc, String newcate,String newprice) {
 		for(Alacarte me: alacarteitems)
 		{
 			if(me.getItemName().equalsIgnoreCase(oldname))
@@ -92,6 +105,11 @@ public class AlacarteController {
 					me.setDescription(newdesc);
 				}
 				
+				if(!newcate.isEmpty())
+				{
+					me.setCategory(newcate);
+				}
+				
 				if(!newprice.isEmpty())
 				{
 					me.setPrice(newprice);
@@ -101,17 +119,16 @@ public class AlacarteController {
 		}
 		
 		alacartefile.delete();
-		
 		for(Alacarte me: alacarteitems)
 		{
-			boolean status = writeToFile(me.getItemName(), me.getDescription(), Double.toString(me.getPrice()));
+			boolean status = writeToFile(me.getItemName(), me.getDescription(), me.getCategory(), Double.toString(me.getPrice()));
+			//boolean status = writeToFile(me.getItemName(), me.getDescription(), me.getCategory(), me.getPrice());
 			if(status)
 			{
 				System.out.println("Error saving: " + me.getItemName());
 			}
 		}
-		
-		return false;
+		return true;
 	}
 	
 	//delete
@@ -132,21 +149,21 @@ public class AlacarteController {
 		
 		for(Alacarte me: alacarteitems)
 		{
-			boolean status = writeToFile(me.getItemName(), me.getDescription(), Double.toString(me.getPrice()));
+			boolean status = writeToFile(me.getItemName(), me.getDescription(), me.getCategory(), Double.toString(me.getPrice()));
 			if(status)
 			{
 				System.out.println("Error saving: " + me.getItemName());
 			}
 		}
 		
-		return false;
+		return true;
 	}
 	
-	private boolean writeToFile(String name, String desc, String price) {
+	private boolean writeToFile(String name, String desc, String cate, String price) {
 		FileWriter fw;
 		try {
 			fw = new FileWriter(alacartefile, true);
-			fw.write(name + "|" + desc + "|" + price + "\n");
+			fw.write(name + "|" + desc + "|" + cate + "|" + price + "\n");
 			fw.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -155,4 +172,5 @@ public class AlacarteController {
 		}
 		return false;
 	}
+	
 }
