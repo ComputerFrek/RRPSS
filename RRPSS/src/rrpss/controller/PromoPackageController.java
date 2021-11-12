@@ -102,8 +102,18 @@ public class PromoPackageController {
 		{
 			pp.addMenuItem(ai);
 		}
-		promopackages.add(pp);
-		return writeToFile(name, desc, price, pp);
+		if(writeToFile(name, desc, price, pp))
+		{
+			promopackages.add(pp);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+			
+		
+		
 	}
 	
 	public boolean updatePromoPackage(String oldname, String newname, String newdesc, String newprice, List<Alacarte> newitemstoadd) {

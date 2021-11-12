@@ -1,10 +1,12 @@
-Sliced Fish Soup|Fish Soup|Soup|5.8
-Salmon Fish Rice|Main Dish|Rice|7.8
-Curry Chicken|Curry Chicken|Rice|5.0
+Sliced Fish Soup|Fish Soup|Main Dish|5.8
+Salmon Fish Rice|Rice Dish|Main Dish|7.8
+Curry Chicken|Curry Chicken|Main Dish|5.0
+Chicken Rice|Rice with Chicken|Main Dish|5.0
+Wanton Mee|Noodle with Meat|Main Dish|5.0
+Char Kuay Tiao|Noodle with Meat|Main Dish|5.0
+Fish Ball Noodle|FishBall with Noodle|Main Dish|5.0
 Fries|Plain Fries|Side Dish|4.0
-Wanton Mee|Noodle with Meat|Noodle|5.0
-Char Kuay Tiao|Noodle with Meat|Noodle|5.0
-Fish Ball Noodle|FishBall with Noodle|Noodle|5.0
-Vanilla Ice Cream|Favoured Ice Cream|Dessert|5.0
-Chicken Rice|Chicken Rice with Fish|Main Dish|5.0
-Coke|Soft Drinks|Drink|5.0
+Vanilla Ice Cream|Ice Cream|Dessert|5.0
+Chocolate Ice Cream|Ice Cream|Dessert|5.0
+Coke|Soft Drinks|Drink|2.0
+Sprite|Soft Drinks|Drink|2.0

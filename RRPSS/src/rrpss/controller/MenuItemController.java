@@ -232,7 +232,7 @@ public class MenuItemController {
 		String dishcat;
 		String dishprice="";
 		
-		while(1==1)
+		while(true)
 		{
 			System.out.print("Enter Promo Name: ");
 			dishname = sc.nextLine();
@@ -281,12 +281,18 @@ public class MenuItemController {
 			{
 				System.out.println("Item ID does not exist.");
 				System.out.print("Do you want to add other menu item?(Y/N).");
-				if(sc.nextLine().toLowerCase().equals("y"))
-				{
+				
+				String c = sc.next();
+				
+				if(c.toLowerCase().equals("y"))
 					continue;
-				}	
-				else
+				else if(c.toLowerCase().equals("n"))
 					return;
+				else
+				{
+					System.out.println("Invalid input...");
+					continue;
+				}
 			}
 			ailist.add(acC.getAllAlacarteItems().get(itemNo));
 			System.out.println("Item added.");
@@ -295,7 +301,7 @@ public class MenuItemController {
 				continue;
 			else
 				break;
-		}while(1==1);
+		}while(true);
 
 
 		System.out.println("=======================");
@@ -307,7 +313,7 @@ public class MenuItemController {
 	public void UpdatePromo() {
 		Scanner sc = new Scanner(System.in);
 		String olddishname;
-		while(1==1)
+		while(true)
 		{
 			ppC.printPromoMenu();
 			System.out.print("Enter Old Promo Name: ");
@@ -353,16 +359,23 @@ public class MenuItemController {
 			System.out.print("Add alacarte dish, Enter Item ID: ");
 			int itemNo = sc.nextInt();
 			sc.nextLine();
+			
 			if(itemNo < 1 || itemNo>acC.getAllAlacarteItems().size())
 			{
 				System.out.println("Item ID does not exist.");
 				System.out.print("Do you want to add other menu item?(Y/N).");
-				if(sc.nextLine().toLowerCase().equals("y"))
+				
+				String c = sc.next();
+				
+				if(c.toLowerCase().equals("y"))
+					continue;
+				else if(c.toLowerCase().equals("n"))
+					return;
+				else
 				{
+					System.out.println("Invalid input...");
 					continue;
 				}	
-				else
-					return;
 			}
 			ailist.add(acC.getAllAlacarteItems().get(itemNo-1));
 			System.out.println("Item added.");
@@ -371,7 +384,7 @@ public class MenuItemController {
 				continue;
 			else
 				break;
-		}while(1==1);
+		}while(true);
 
 		System.out.println("=======================");
 
@@ -383,7 +396,7 @@ public class MenuItemController {
 	public void RemovePromo() {
 		Scanner sc = new Scanner(System.in);
 		String promoname;
-		while(1==1)
+		while(true)
 		{
 			ppC.printPromoMenu();
 			System.out.print("Enter Promo Name to remove: ");

@@ -73,6 +73,7 @@ public class ReservationController {
 		}
 		else
 		{	
+			sc.nextLine();
 			System.out.print("Customer's Name: "); //name
 			String name = sc.nextLine();
 			
@@ -121,17 +122,27 @@ public class ReservationController {
 		}
 	}
 	
-	private void remove(int reservationID, boolean occupy)
+	private void remove(int reservationID)
 	{
 		for(int i = 0; i < reservation.size(); i++)
 		{
 			if(reservation.get(i).getReservationID() == reservationID)
 			{
 				reservation.get(i).getTableReserved().setReserved(false);
-				reservation.get(i).getTableReserved().setOccupied(occupy);
 				reservation.remove(i);
 			}
 		}
+	}
+	public int getReservationIndex(int reservationID) {
+		for(int i = 0; i < reservation.size(); i++)
+		{
+			if(reservation.get(i).getReservationID() == reservationID)
+			{
+				return i;
+			}
+		}
+		return -1;
+		
 	}
 	
 	private void removeReservation()
@@ -151,22 +162,8 @@ public class ReservationController {
 			System.out.print("Reservation ID not found.\n");
 			return;
 		}
-		
-		System.out.print("Are you sure you want to remove the reservation? (Y/N): ");
-		String c = sc.next();
-		
-		if(c.trim().toLowerCase().equals("y"))
-			remove(reservationID,false);//remove(tables,reservationID,true);
-		else if(c.trim().toLowerCase().endsWith("n"))
-		{
-			System.out.println("Reservation not removed.");
-			return;
-		}
-		else
-		{
-			System.out.println("Invalid input. Please try again.");
-			return;
-		}
+		remove(reservationID);
+
 		System.out.printf("ReservationID %d is removed.\n\n",reservationID);
 	}
 	
@@ -236,7 +233,7 @@ public class ReservationController {
 		{
 			if(current.isAfter(reservation.get(i).getExpiryTime())) 
 			{
-				remove(reservation.get(i).getReservationID(),false);
+				remove(reservation.get(i).getReservationID());
 			}
 		}
 		

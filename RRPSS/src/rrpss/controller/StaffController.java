@@ -25,10 +25,10 @@ public class StaffController {
 		}
 	}
 	public void GenerateStaff() {
-		Staff staff1 = new Staff("Staff 1", 1, "Server", 'M');
-		Staff staff2 = new Staff("Staff 2", 2, "Server", 'M');
-		Staff staff3 = new Staff("Staff 3", 3, "Server", 'M');
-		Staff staff4 = new Staff("Staff 4", 4, "Server", 'M');
+		Staff staff1 = new Staff("Steve", 1, "Server", 'M');
+		Staff staff2 = new Staff("Mandy", 2, "Server", 'F');
+		Staff staff3 = new Staff("Wu Sen", 3, "Server", 'M');
+		Staff staff4 = new Staff("Steven", 4, "Server", 'M');
 		
 		staffDictionary.put(1,staff1);
 		staffDictionary.put(2,staff2);

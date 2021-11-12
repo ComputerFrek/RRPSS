@@ -71,8 +71,6 @@ public class AlacarteController {
 			//System.out.printf("  %d \t%-15s \t%-10s \t%.2f\n",me.getCategory());
 			//System.out.printf("  %d \t%-15s \t%-10s \t%.-5s \t%.2f\n",count ,me.getItemName(),me.getDescription(),me.getCategory(),me.getPrice());
 			count++;
-			
-			
 		}
 	}
 	
@@ -123,7 +121,7 @@ public class AlacarteController {
 		{
 			boolean status = writeToFile(me.getItemName(), me.getDescription(), me.getCategory(), Double.toString(me.getPrice()));
 			//boolean status = writeToFile(me.getItemName(), me.getDescription(), me.getCategory(), me.getPrice());
-			if(status)
+			if(!status)
 			{
 				System.out.println("Error saving: " + me.getItemName());
 			}
@@ -146,16 +144,14 @@ public class AlacarteController {
 		alacarteitems.removeAll(alacartetoremove);
 		
 		alacartefile.delete();
-		
 		for(Alacarte me: alacarteitems)
 		{
 			boolean status = writeToFile(me.getItemName(), me.getDescription(), me.getCategory(), Double.toString(me.getPrice()));
-			if(status)
+			if(!status)
 			{
 				System.out.println("Error saving: " + me.getItemName());
 			}
 		}
-		
 		return true;
 	}
 	
@@ -168,9 +164,9 @@ public class AlacarteController {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return true;
+			return false;
 		}
-		return false;
+		return true;
 	}
 	
 }

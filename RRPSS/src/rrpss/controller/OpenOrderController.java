@@ -77,7 +77,8 @@ public class OpenOrderController implements iOpenOrder{
 			System.out.print("Reservation ID not found.\n");
 			return;
 		}
-		Reservation reservation = RRPSS_App.reservationController.getReservations().get(reservationID-1);
+		int index = RRPSS_App.reservationController.getReservationIndex(reservationID);
+		Reservation reservation = RRPSS_App.reservationController.getReservations().get(index);
 		staff = StaffSelection();
 		noOfPax = reservation.getNoOfPax();
 		table = reservation.getTableReserved();

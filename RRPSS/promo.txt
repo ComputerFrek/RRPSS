@@ -1,2 +1,2 @@
-Set Meal 1|Fish Soup with Fries |8.0|Salmon Fish Rice,Wanton Mee,
+Set Meal 1|Fish Soup with Sprite|6.0|Sliced Fish Soup,Sprite,
 Set Meal 2|Wanton Mee with Fries|8.0|Wanton Mee,Fries,
