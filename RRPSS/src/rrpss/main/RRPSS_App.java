@@ -90,8 +90,7 @@ public class RRPSS_App {
 				orderController.CloseOrder(taxList, membershipDiscount, couponDiscount);
 				break;
 			case 10:
-				saleRevenueController.generateNewSalesReport(sc, 
-						orderController, 
+				saleRevenueController.generateNewSalesReport(orderController, 
 						menuItemController.getAlaCarteController(), 
 						menuItemController.getPromoPackageController());
 				break;

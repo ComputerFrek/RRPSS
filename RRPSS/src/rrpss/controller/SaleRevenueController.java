@@ -12,31 +12,46 @@ import rrpss.service.iMenuItem;
 
 public class SaleRevenueController {
 	
-	public void generateNewSalesReport(Scanner sc, OrderController oC, AlacarteController acC, PromoPackageController ppC)
+	public void generateNewSalesReport(OrderController oC, AlacarteController acC, PromoPackageController ppC)
 	{
 		SaleRevenue newSalesReport = new SaleRevenue();
 		
-		
-		System.out.println("Enter Report ID: ");
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Enter Report ID: ");
 		newSalesReport.setReportID(sc.nextInt());
-		
-		System.out.println("Enter Report Name: ");
-		newSalesReport.setReportName(sc.next());
+		sc.nextLine();
+		System.out.print("Enter Report Name: ");
+		newSalesReport.setReportName(sc.nextLine());
 		
 		System.out.println("Generate report by day or month?");
-		System.out.println("D - Day, M - Month");
+		System.out.print("D - Day, M - Month:");
 		String dayormonth = sc.next();
 		
 		String inputdate = "";
 		
-		if(dayormonth.equalsIgnoreCase("D"))
+		while(true)
 		{
-			newSalesReport.setPeriodByDay(true);
-			System.out.println("Enter Date(E.g. 02-Dec): ");
-		} else {
-			newSalesReport.setPeriodByDay(false);
-			System.out.println("Enter Month(E.g. Dec): ");
+			if(dayormonth.equalsIgnoreCase("D"))
+			{
+				newSalesReport.setPeriodByDay(true);
+				System.out.println("Enter Date(E.g. 02-Dec): ");
+			} 
+			else if(dayormonth.equalsIgnoreCase("M"))
+			{
+				newSalesReport.setPeriodByDay(false);
+				System.out.println("Enter Month(E.g. Dec): ");
+			}
+			else
+			{
+				System.out.println("Invalid Input: ");
+				System.out.println("Generate report by day or month?");
+				System.out.print("D - Day, M - Month:");
+				dayormonth = sc.next();
+				continue;
+			}
+			break;
 		}
+
 		inputdate = sc.next();
 		
 		double totalrevenue = 0;

@@ -128,10 +128,9 @@ public class UpdateOrderController implements iUpdateOrderController{
 		System.out.println();
 		RRPSS_App.menuItemController.ppC.printPromoMenu();
 		
-		System.out.print("Select a Promo Package: ");
-		int menuIndex = sc.nextInt();
-		return RRPSS_App.menuItemController.ppC.getAllPromoItems().get(menuIndex-1);
-		
+		System.out.print("Enter a Promo Package: ");
+		String menuItem = sc.nextLine();
+		return RRPSS_App.menuItemController.ppC.getPromoPackage(menuItem);
 	}
 	
 	public void RemoveOrderItem(Order order) {
@@ -154,7 +153,7 @@ public class UpdateOrderController implements iUpdateOrderController{
 				oC.viewOC.ShowAllOrderItems(order);
 				System.out.println();
 				System.out.print("Enter Item Name: ");
-				itemInput = sc.next();
+				itemInput = sc.nextLine();
 				orderItem = order.getOrderItem(itemInput);
 				if(orderItem == null)
 				{
